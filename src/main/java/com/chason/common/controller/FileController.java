@@ -1,6 +1,5 @@
 package com.chason.common.controller;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import com.chason.common.domain.FileDO;
 import com.chason.common.service.FileService;
 import com.chason.common.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

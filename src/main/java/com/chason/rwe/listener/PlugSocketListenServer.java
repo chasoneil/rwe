@@ -14,19 +14,18 @@ public class PlugSocketListenServer implements ApplicationListener<ContextRefres
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        if (event.getApplicationContext().getParent() == null)
-        {
+        if (event.getApplicationContext().getParent() == null) {
             // 启动线程，防止阻塞主线程
-            new Thread()
-            {
-                public void run()
-                {
-                    //启动端口侦听
-                    System.out.println("ヾ启动端口侦听ヾ \n");
-                    SwitchDeviceReceive theListen = new SwitchDeviceReceive();
-                    theListen.run();
-                }
-            }.start();
-        } // end if
-    }// end func
+//            new Thread()
+//            {
+//                public void run()
+//                {
+//                    //启动端口侦听
+//                    System.out.println("ヾ启动端口侦听ヾ \n");
+//                    SwitchDeviceReceive theListen = new SwitchDeviceReceive();
+//                    theListen.run();
+//                }
+//            }.start();
+        }
+    }
 }
