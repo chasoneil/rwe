@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 @MapperScan("com.chason.*.dao")
 @SpringBootApplication
-public class ZmanagerApplication
+public class RweApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(ZmanagerApplication.class, args);
+        SpringApplication.run(RweApplication.class, args);
         System.out.println("ヾ(◍°∇°◍)ﾉﾞ   小乙网控管家启动成功      ヾ(◍°∇°◍)ﾉﾞ\n");
     }
 }
