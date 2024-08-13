@@ -14,12 +14,6 @@ import com.chason.common.utils.R;
 import java.util.List;
 import java.util.Map;
 
-/**
- *
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-26 20:53:48
- */
 @Controller
 @RequestMapping("/common/job")
 public class JobController extends BaseController{

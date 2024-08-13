@@ -19,10 +19,6 @@ import java.util.Map;
 
 /**
  * 文件上传
- *
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-19 16:02:20
  */
 @Controller
 @RequestMapping("/common/sysFile")
