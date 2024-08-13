@@ -8,7 +8,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/zmanager?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/rwe?useUnicode=true&characterEncoding=utf8
     username: 'root'
     password: ''
     initialSize: 1
@@ -35,7 +35,7 @@ spring:
       database: 0
       host: localhost
       port: 6379
-      password: xxxx
+      password: xxxxxxxx
       timeout: 10000
       pool:
         max-idle: 8

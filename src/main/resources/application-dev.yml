@@ -9,9 +9,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     # 测试配置数据库
-    url: jdbc:mysql://127.0.0.1:3306/zmanager?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/rwe?useUnicode=true&characterEncoding=utf8
     username: 'glue'
-    password: 'xxxx'
+    password: 'xxxxxx'
     initialSize: 1
     minIdle: 3
     maxActive: 20
