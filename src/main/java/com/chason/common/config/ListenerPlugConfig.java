@@ -3,7 +3,7 @@ package com.chason.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.chason.rtm.listener.PlugSocketListenServer;
+import com.chason.rwe.listener.PlugSocketListenServer;
 
 /**
  * 启动各类侦听服务

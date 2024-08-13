@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chason.common.annotation.Log;
-import com.chason.rtm.domain.DeviceDO;
-import com.chason.rtm.service.DeviceService;
-import com.chason.rtm.socket.SwitchDeviceMap;
+import com.chason.rwe.domain.DeviceDO;
+import com.chason.rwe.service.DeviceService;
+import com.chason.rwe.socket.SwitchDeviceMap;
 
 /**
  * 延时设置

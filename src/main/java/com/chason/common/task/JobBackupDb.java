@@ -23,7 +23,7 @@ import com.chason.common.config.RtmdoConfig;
 import com.chason.common.domain.LogDO;
 import com.chason.common.service.LogService;
 import com.chason.common.utils.CompressUtils;
-import com.chason.rtm.value.RandomFlagValue;
+import com.chason.rwe.value.RandomFlagValue;
 
 /**
  * 每日自动备份数据库
