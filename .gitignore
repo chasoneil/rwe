@@ -1,2 +1,4 @@
 target/*
 rwe.iml
+.idea/*
+.mvn/*

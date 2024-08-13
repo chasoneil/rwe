@@ -78,9 +78,9 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public void initSchedule() throws SchedulerException {
+	public void initSchedule() {
 		// 这里获取任务信息数据
-		List<TaskDO> jobList = taskScheduleJobMapper.list(new HashMap<String, Object>(16));
+		List<TaskDO> jobList = taskScheduleJobMapper.list(new HashMap<>(16));
 		for (TaskDO scheduleJob : jobList) {
 			if ("1".equals(scheduleJob.getJobStatus())) {
 				ScheduleJob job = ScheduleJobUtils.entityToData(scheduleJob);

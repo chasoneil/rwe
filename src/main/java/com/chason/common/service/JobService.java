@@ -30,7 +30,7 @@ public interface JobService {
 
 	int batchRemove(Long[] ids);
 
-	void initSchedule() throws SchedulerException;
+	void initSchedule();
 
 	void changeStatus(Long jobId, String cmd) throws SchedulerException;
 
