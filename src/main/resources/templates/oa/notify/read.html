@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+
+    <div class="wrapper wrapper-content animated fadeInRight article">
+    
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="pull-right">
+                            <button class="btn btn-white btn-xs" type="button" th:text="${notify.type}">类型</button>
+                            <button class="btn btn-white btn-xs" type="button" th:text="${notify.status}">发布状态</button>
+                            <button class="btn btn-white btn-xs" type="button" th:text="${notify.delFlag}">删除标记</button>
+                        </div>
+                        <div class="text-left article-title">
+                            <h2 th:text="${notify.title}">文章标题</h2>
+                            <span class="text-muted" th:text="${#calendars.format(notify.updateDate,'yyyy-MM-dd HH:mm')}"><i class="fa fa-clock-o"></i>发布时间</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="text-muted" th:text="${notify.updateBy}">发布人</span>
+                        </div>
+                        <hr>
+                        <p th:text="${notify.content}"></p>
+                        <p th:text="${notify.remarks}">备注：</p>
+                        
+		                <div class="mail-attachment">
+		                    <p>
+		                        <span><i class="fa fa-paperclip"></i> 附件 - </span>
+		                    </p>
+		
+		                    <div class="attachment" id="attachment">
+		                        <div class="clearfix"></div>
+		                    </div>
+		                </div>
+		                
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                                <h5>接收人:</h5>
+                                <button class="btn btn-white btn-xs" type="button" >Publishing</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+    </div>
+    
+    <script type="text/javascript" src="/js/appjs/oa/notify/read.js"></script>
+    
+    <script th:inline="javascript">
+        filesShow('attachment',  [[${notify.files}]]);
+    </script>
+</body>
+</html>

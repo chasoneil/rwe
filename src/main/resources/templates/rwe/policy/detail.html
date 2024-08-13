@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox">
+					    <div class="ibox-title">
+						    <h5>策略详情</h5>
+					    </div>
+					    <div class="ibox-content">
+					        <table class="table table-bordered">
+					            <tr>
+									<th style="text-align: center;">策略名</th>
+									<td th:text="${policy.policyName}">-</td>
+								</tr>
+								<tr>
+                                    <th style="text-align: center;">适用星期</th>
+                                    <td th:text="${policy.policyWeek}">-</td>
+                                </tr>
+								<tr>
+                                    <th style="text-align: center;">开机时间</th>
+                                    <td th:text="${policy.policyStartTime}">-</td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">持续时间(分钟)</th>
+                                    <td th:text="${policy.policyDur}">-</td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">作用分组</th>
+                                    <td th:text="${policy.policySpaceKeys}">-</td>
+                                </tr>
+					        </table>
+					    </div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+</body>
+</html>

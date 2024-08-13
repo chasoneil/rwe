@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="whId" name="whId" th:value="${whiteList.whId}" type="hidden">
+						<div class="form-group">
+                            <label class="col-sm-3 control-label">名称:<span style="color: red;">*</span></label>
+                            <div class="col-sm-8">
+                                <input id="whName" name="whName" th:value="${whiteList.whName}" class="form-control" type="text" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开始日期:<span style="color: red;">*</span></label>
+                            <div class="col-sm-8">
+                                <input class="laydate-icon form-control layer-date" id="whStartDate" name="whStartDate" th:value="${whiteList.whStartDate}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结束日期:<span style="color: red;">*</span></label>
+                            <div class="col-sm-8">
+                                <input class="laydate-icon form-control layer-date" id="whFinishDate" name="whFinishDate" th:value="${whiteList.whFinishDate}" required>
+                            </div>  
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/whitelist/edit.js"></script>
+</body>
+</html>

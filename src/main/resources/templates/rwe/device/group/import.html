@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <div class="ibox float-e-margins">
+	                <div class="ibox-content">
+	                    <form class="form-horizontal m-t" id="signupForm">
+	                    
+	                        <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-9">
+                                    <div class="alert alert-warning">
+                                        <ol>
+                                            <li>仅对设备进行分组</li>
+                                            <li>不创建新的设备信息</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+	                    
+	                        <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-8">
+                                    <div id="file-pretty">
+                                        <div class="form-group" style="width: 547px;">
+                                            <input type="file" class="form-control" id="filesd" name="filesd" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+	                        <div class="form-group">
+	                            <div class="col-sm-8 col-sm-offset-2">
+	                                <button type="submit" class="btn btn-primary">提交</button>
+                                    <a class="btn btn-default waves-effect waves-light" href="/rtm/device/exportDo">参考数据</a>
+	                                <a class="btn btn-default waves-effect waves-light" href="/docs/uploaddevice.xls">下载模板</a>
+	                            </div>
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div th:include="include::footer"></div>
+    <script type="text/javascript" src="/js/appjs/app-util.js"></script>
+	    
+    <script type="text/javascript" src="/js/appjs/rtm/device/group/import.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function () {
+	        $( '#file-pretty input[type="file"]' ).prettyFile();
+	    });
+    </script>
+</body>
+</html>

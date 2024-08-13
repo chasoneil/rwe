@@ -1,0 +1,35 @@
+<div class="col-sm-3" th:each="theDevice, page:${devices}">
+    <div class="ibox ibox-body">
+        <div class="ibox-title">
+            <span class="label label-primary pull-right" th:if="${theDevice.devFlag eq '11'}">联机中</span>
+            <span class="label label-warning pull-right" th:if="${theDevice.devFlag eq '01'}">已离线</span>
+            <span class="label label-danger pull-right" th:if="${theDevice.devFlag eq '00'}">新发现</span>
+            <span class="label label-danger pull-right" th:if="${theDevice.device.devSwitchMode eq '手动'}" title="手动模式">M</span>
+            <h5 th:text="${theDevice.device.devCode}">暂无IP</h5>
+        </div> 
+        <div class="ibox-content" align="center">
+            <button class="btn btn-primary btn-circle btn-xs" type="button" title="设备工作中" th:if="${theDevice.switchFlag eq '10'}">
+               <i class="fa fa-heartbeat" th:id="heartbeat + (${page.index} + 1)"></i>
+            </button>
+            <button class="btn btn-default btn-circle btn-xs" type="button" title="设备未工作" th:if="${theDevice.switchFlag eq '00'}">
+               <i class="fa fa-heartbeat"></i>
+            </button>
+            <button class="btn btn-primary btn-circle btn-xs" type="button" title="设备有负载" th:if="${theDevice.currentFlag eq '10'}">
+               <i class="fa fa-flash" th:id="flash + (${page.index} + 1)"></i>
+            </button>
+            <button class="btn btn-default btn-circle btn-xs" type="button" title="设备无负载" th:if="${theDevice.currentFlag eq '00'}">
+               <i class="fa fa-flash"></i>
+            </button>
+            <button class="btn btn-default btn-circle btn-xs" type="button" title="未启用设备定时" th:if="${theDevice.timer eq 'NOTIMER'}">
+               <strong>定</strong>
+            </button>
+            <button class="btn btn-primary btn-circle btn-xs" type="button" title="已启用设备定时" th:unless="${theDevice.timer eq 'NOTIMER'}">
+               <strong>定</strong>
+            </button>
+            <br><br>
+            <a class="btn btn-sm btn-rounded btn-success btn-outline" th:if="${theDevice.spaceAddress != ''}" th:text="${theDevice.spaceAddress}">男生宿舍021-025</a>
+            <a class="btn btn-sm btn-rounded btn-danger btn-outline" th:if="${theDevice.spaceAddress == ''}">未绑定位置</a>
+        </div>
+    </div>
+</div>
+<input id="spaceId" th:value="${spaceId}" type="hidden">

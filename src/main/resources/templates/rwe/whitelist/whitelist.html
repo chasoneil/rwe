@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	    <div class="row">
+			<div class="col-sm-12">
+				<div class="ibox ibox-content">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left">
+								<button shiro:hasPermission="rtm:policy:add" type="button" class="btn btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i> 添加白名单
+								</button>
+							</div>
+							<div class="columns pull-right">
+	                            <button title="刷新" class="btn btn-default btn-outline" type="button" onclick="refrashPage()">
+	                                <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+	                            </button>
+	                        </div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/whitelist/whitelist.js"></script>
+</body>
+</html>

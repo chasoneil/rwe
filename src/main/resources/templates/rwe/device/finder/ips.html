@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content ">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="well">
+                         如何设置设备:<br>
+                         1.请在列表中点击设备,登陆后需设置设备为【client】模式。<br>
+                         2.设置设备服务器IP地址为本系统服务器IP地址,设置端口号为【8280】<br>
+                         3.设置网络模式(NetMode)为以太网(ETH-SERIAL)
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>设备IP地址</th>
+                                <th>识别号</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="element,iterStat : ${ips}">
+                                <td th:text="${iterStat.index + 1}">1</td>
+                                <td ><a th:href="'http://' + ${element.key}" th:text="${element.key}" target="_blank">设备IP地址</a></td>
+                                <td th:text="${element.value}">识别号</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="hidden" th:value="${ips.size()}" id="size">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script>
+        var size = $('#size').val();
+        if(size == 0 || size == null || size == '')
+        {
+        	layer.msg('当前没有新发现设备,请先执行扫描设备');
+        }
+        
+    </script>
+</body>
+</html>

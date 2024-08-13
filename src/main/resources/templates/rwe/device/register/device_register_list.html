@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+       <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox ibox-content">
+                    <div class="ibox-body">
+                        <div class="fixed-table-toolbar">
+                            <div class="columns pull-left">
+                                <a class="btn btn-primary" onclick="finder()">
+                                    <i class="fa fa-search" aria-hidden="true"></i>&nbsp;扫描设备
+                                </a>
+                                <a class="btn btn-primary" onclick="finderList()">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;扫描结果
+                                </a>
+                                <!-- 
+                                <a class="btn  btn-primary" onclick="deviceImport()">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>&nbsp;导入
+                                </a>
+                                 -->
+                                <a class="btn  btn-danger" onclick="batchRemove()">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
+                                </a>
+                            </div>
+                            <div class="columns pull-right">
+                                <button class="btn btn-success" onclick="search()">查询</button>
+                            </div>
+                            <div class="columns pull-right col-md-2">
+                                <input id="searchDevIp" type="text" class="form-control" placeholder="请输入设备IP地址">
+                            </div>
+                            <div class="columns pull-right col-md-2 nopadding hidden">
+                                <input id="searchDevGroupCode" type="text" class="form-control" placeholder="设备分组号">
+                            </div>
+                            <div class="columns pull-right">
+                                <button title="刷新" class="btn btn-default btn-outline" type="button" onclick="reLoad()">
+                                    <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <table id="exampleTable" data-mobile-responsive="true">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/device/register/device_register_list.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	    <div class="row">
+		    <div class="col-sm-3">
+	            <div class="ibox ibox-body">
+	                <div class="ibox-title">
+	                    <h5>策略列表</h5>
+	                </div>
+	                <div class="ibox-content">
+	                    <div id="jstree"></div>
+	                </div>
+	            </div>
+	        </div>
+	
+			<div class="col-sm-9">
+				<div class="ibox ibox-content">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left">
+								<button shiro:hasPermission="rtm:policy:add" type="button" class="btn btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i> 添加策略
+								</button>
+								<button shiro:hasPermission="rtm:policy:add" type="button" class="btn btn-warning" onclick="addRandom()">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> 添加随机策略
+                                </button>
+							</div>
+							<div class="columns pull-right">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+							</div>
+							<div class="columns pull-right col-md-2 nopadding">
+								<input id="searchName" type="text" class="form-control" placeholder="请输入策略名">
+							</div>
+							<div class="columns pull-right">
+						        <div class="label label-default" style="margin-right:10px;" id="spaceName">全部策略</div>
+                                <button title="刷新" class="btn btn-default btn-outline" type="button" onclick="refrashPage()">
+                                    <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+                                </button>
+                            </div>
+                            <input id="spaceId" type="hidden">
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性-->
+	<div>
+		<script type="text/javascript">
+			var s_edit_h = 'hidden';
+			var s_remove_h = 'hidden';
+			var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:policy:update">
+		<script type="text/javascript">
+			s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:policy:remove">
+		<script type="text/javascript">
+			var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:space:resetPwd">
+		<script type="text/javascript">
+			var s_resetPwd_h = '';
+		</script>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/policy/policy.js"></script>
+</body>
+</html>

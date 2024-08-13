@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+       <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox ibox-body">
+                    <div class="ibox-title">
+                        <h5>设备列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="jstree"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-9">
+                <div class="ibox ibox-content">
+                    <div class="ibox-body">
+                        <div class="fixed-table-toolbar">
+                            <div class="columns pull-left">
+                                <button shiro:hasPermission="rtm:device:command" type="button" class="btn btn-success" onclick="batchSwitchOpen()">
+                                    <i class="fa fa-toggle-on" aria-hidden="true"></i>&nbsp;批量上电
+                                </button>
+                                <button shiro:hasPermission="rtm:device:command" type="button" class="btn btn-danger" onclick="batchSwitchClose()">
+                                    <i class="fa fa-toggle-on" aria-hidden="true"></i>&nbsp;批量断电
+                                </button>
+                                <button shiro:hasPermission="rtm:device:command" type="button" class="btn btn-primary" onclick="batchReboot()">
+                                    <i class="fa fa-spinner" aria-hidden="true"></i>&nbsp;批量重启
+                                </button>
+                                <!--
+                                <button shiro:hasPermission="rwe:device:command" type="button" class="btn btn-warning" onclick="batchSwitchModeChange()">
+                                    <i class="fa fa-exchange" aria-hidden="true"></i>&nbsp;批量切换
+                                </button>
+                                 -->
+                            </div>
+                            <div class="columns pull-right">
+                                <button class="btn btn-success" onclick="search()">查询</button>
+                            </div>
+                            <div class="columns pull-right col-md-2 nopadding">
+                                <input id="searchDevNumber" type="text" class="form-control" placeholder="设备号">
+                            </div>
+                            <input id="searchSpaceId" type="hidden" class="form-control">
+                            <div class="columns pull-right">
+                                <div class="label label-default" style="margin-right:10px;" id="spaceName">全部设备</div>
+                                <button title="刷新" class="btn btn-default btn-outline" type="button" onclick="refrashPage()">
+                                    <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <table id="exampleTable" data-mobile-responsive="true">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性  -->
+	<div>
+		<script type="text/javascript">
+			var s_edit_h = 'hidden';
+			var s_remove_h = 'hidden';
+			var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:device:command">
+		<script type="text/javascript">
+			s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:device:command">
+		<script type="text/javascript">
+			var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:device:resetPwd">
+		<script type="text/javascript">
+			var s_resetPwd_h = '';
+		</script>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/device/command/device.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox ibox-content">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="rtm:space:add" type="button" class="btn  btn-primary" onclick="add('root')">
+								<i class="fa fa-plus" aria-hidden="true"></i> 添加分组
+							</button>
+						</div>
+						<div class="columns pull-right">
+                            <button title="刷新" class="btn btn-default btn-outline" type="button" onclick="refrashPage()">
+                                <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+                            </button>
+                        </div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性-->
+	<div>
+		<script type="text/javascript">
+	        var s_add_h = 'hidden';
+			var s_edit_h = 'hidden';
+			var s_remove_h = 'hidden';
+			var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:space:add">
+        <script type="text/javascript">
+            s_add_h = '';
+        </script>
+    </div>
+	<div shiro:hasPermission="rtm:space:update">
+		<script type="text/javascript">
+			s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:space:delete">
+		<script type="text/javascript">
+			var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="rtm:space:resetPwd">
+		<script type="text/javascript">
+			var s_resetPwd_h = '';
+		</script>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/space/space.js"></script>
+</body>
+</html>
