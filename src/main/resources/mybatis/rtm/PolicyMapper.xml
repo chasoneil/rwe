@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.PolicyDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.PolicyDO">
+		select `policy_id`,`policy_name`,`policy_type`,`policy_week`,`policy_start_time`,`policy_dur`,`policy_space_keys` from tbl_policy where policy_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.PolicyDO">
+		select `policy_id`,`policy_name`,`policy_type`,`policy_week`,`policy_start_time`,`policy_dur`,`policy_space_keys` from tbl_policy
+        <where>
+			<if test="policyId != null and policyId != ''"> and policy_id = #{policyId} </if>
+			<if test="policyName != null and policyName != ''">
+                AND policy_name LIKE CONCAT(CONCAT('%',#{policyName},'%'))
+            </if>
+			<if test="policyType != null and policyType != ''"> and policy_type = #{policyType} </if>
+			<if test="policyWeek != null and policyWeek != ''"> and policy_week = #{policyWeek} </if>
+			<if test="policyStartTime != null and policyStartTime != ''"> and policy_start_time = #{policyStartTime} </if>
+			<if test="policyDur != null and policyDur != ''"> and policy_dur = #{policyDur} </if>
+			<if test="policySpaceKeys != null and policySpaceKeys != ''">
+                AND policy_space_keys LIKE CONCAT(CONCAT('%',#{policySpaceKeys},'%'))
+            </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by policy_start_time
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_policy
+		<where>
+		    <if test="policyId != null and policyId != ''"> and policy_id = #{policyId} </if>
+            <if test="policyName != null and policyName != ''"> and policy_name = #{policyName} </if>
+            <if test="policyType != null and policyType != ''"> and policy_type = #{policyType} </if>
+            <if test="policyWeek != null and policyWeek != ''"> and policy_week = #{policyWeek} </if>
+            <if test="policyStartTime != null and policyStartTime != ''"> and policy_start_time = #{policyStartTime} </if>
+            <if test="policyDur != null and policyDur != ''"> and policy_dur = #{policyDur} </if>
+            <if test="policySpaceKeys != null and policySpaceKeys != ''"> and policy_space_keys = #{policySpaceKeys} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.PolicyDO">
+		insert into tbl_policy
+		(
+			`policy_id`,
+			`policy_name`,
+			`policy_type`,
+			`policy_week`,
+			`policy_start_time`,
+			`policy_dur`,
+			`policy_space_keys`
+		)
+		values
+		(
+			#{policyId},
+			#{policyName},
+			#{policyType},
+			#{policyWeek},
+			#{policyStartTime},
+			#{policyDur},
+			#{policySpaceKeys}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.PolicyDO">
+		update tbl_policy
+		<set>
+			<if test="policyName != null">`policy_name` = #{policyName}, </if>
+			<if test="policyType != null">`policy_type` = #{policyType}, </if>
+			<if test="policyWeek != null">`policy_week` = #{policyWeek}, </if>
+			<if test="policyStartTime != null">`policy_start_time` = #{policyStartTime}, </if>
+			<if test="policyDur != null">`policy_dur` = #{policyDur}, </if>
+			<if test="policySpaceKeys != null">`policy_space_keys` = #{policySpaceKeys} </if>
+		</set>
+		where policy_id = #{policyId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_policy where policy_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_policy where policy_id in
+		<foreach item="policyId" collection="array" open="(" separator="," close=")">
+			#{policyId}
+		</foreach>
+	</delete>
+</mapper>

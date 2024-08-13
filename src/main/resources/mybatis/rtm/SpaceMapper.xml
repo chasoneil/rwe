@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.SpaceDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.SpaceDO">
+		select `space_id`,`space_parent_id`,`space_code`,`space_address`,`space_manager_by` from tbl_space where space_id = #{value}
+	</select>
+
+	<select id="findByCode" resultType="com.chason.rwe.domain.SpaceDO">
+        select `space_id`,`space_parent_id`,`space_code`,`space_address`,`space_manager_by` from tbl_space where space_code = #{value}
+    </select>
+
+	<select id="list" resultType="com.chason.rwe.domain.SpaceDO">
+		select `space_id`,`space_parent_id`,`space_code`,`space_address`,`space_manager_by` from tbl_space
+        <where>
+			<if test="spaceId != null and spaceId != ''"> and space_id = #{spaceId} </if>
+			<if test="spaceParentId != null and spaceParentId != ''"> and space_parent_id = #{spaceParentId} </if>
+			<if test="spaceCode != null and spaceCode != ''"> and space_code = #{spaceCode} </if>
+			<if test="spaceAddress != null and spaceAddress != ''"> and space_address = #{spaceAddress} </if>
+			<if test="spaceManagerBy != null and spaceManagerBy != ''"> and space_manager_by = #{spaceManagerBy} </if>
+		</where>
+        <choose>
+	        <when test="sort != null and sort.trim() != ''">
+	            order by ${sort} ${order}
+	        </when>
+			<otherwise>
+			    order by space_code
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_space
+		<where>
+			<if test="spaceId != null and spaceId != ''"> and space_id = #{spaceId} </if>
+			<if test="spaceParentId != null and spaceParentId != ''"> and space_parent_id = #{spaceParentId} </if>
+			<if test="spaceCode != null and spaceCode != ''"> and space_code = #{spaceCode} </if>
+			<if test="spaceAddress != null and spaceAddress != ''"> and space_address = #{spaceAddress} </if>
+			<if test="spaceManagerBy != null and spaceManagerBy != ''"> and space_manager_by = #{spaceManagerBy} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.SpaceDO">
+		insert into tbl_space
+		(
+			`space_id`,
+			`space_parent_id`,
+			`space_code`,
+			`space_address`,
+			`space_manager_by`
+		)
+		values
+		(
+			#{spaceId},
+			#{spaceParentId},
+			#{spaceCode},
+			#{spaceAddress},
+			#{spaceManagerBy}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.SpaceDO">
+		update tbl_space
+		<set>
+		    <if test="spaceParentId != null">`space_parent_id` = #{spaceParentId}, </if>
+			<if test="spaceCode != null">`space_code` = #{spaceCode}, </if>
+			<if test="spaceAddress != null">`space_address` = #{spaceAddress}, </if>
+			<if test="spaceManagerBy != null">`space_manager_by` = #{spaceManagerBy}</if>
+		</set>
+		where space_id = #{spaceId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_space where space_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_space where space_id in
+		<foreach item="spaceId" collection="array" open="(" separator="," close=")">
+			#{spaceId}
+		</foreach>
+	</delete>
+
+</mapper>

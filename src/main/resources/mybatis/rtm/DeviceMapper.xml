@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.DeviceDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.DeviceDO">
+		select `dev_id`,`dev_code`,`dev_number`,`dev_group_code`,`dev_type`,`dev_reg_by`,`dev_reg_time`,`dev_online_last_time`,`dev_status`,`dev_switch_mode`,`dev_switch_hand_time`,`dev_policy`,`dev_random` from tbl_device where dev_id = #{value}
+	</select>
+
+    <select id="findByNumber" resultType="com.chason.rwe.domain.DeviceDO">
+        select `dev_id`,`dev_code`,`dev_number`,`dev_group_code`,`dev_type`,`dev_reg_by`,`dev_reg_time`,`dev_online_last_time`,`dev_status`,`dev_switch_mode`,`dev_switch_hand_time`,`dev_policy`,`dev_random` from tbl_device where dev_number = #{value}
+    </select>
+
+    <select id="findByDevCode" resultType="com.chason.rwe.domain.DeviceDO">
+        select `dev_id`,`dev_code`,`dev_number`,`dev_group_code`,`dev_type`,`dev_reg_by`,`dev_reg_time`,`dev_online_last_time`,`dev_status`,`dev_switch_mode`,`dev_switch_hand_time`,`dev_policy`,`dev_random` from tbl_device where dev_code = #{value}
+    </select>
+
+	<select id="list" resultType="com.chason.rwe.domain.DeviceDO">
+		select `dev_id`,`dev_code`,`dev_number`,`dev_group_code`,`dev_type`,`dev_reg_by`,`dev_reg_time`,`dev_online_last_time`,`dev_status`,`dev_switch_mode`,`dev_switch_hand_time`,`dev_policy`,`dev_random` from tbl_device
+        <where>
+			<if test="devId != null and devId != ''"> and dev_id = #{devId} </if>
+			<if test="devCode != null and devCode != ''">
+                AND dev_code LIKE CONCAT(CONCAT('%',#{devCode},'%'))
+            </if>
+			<if test="devNumber != null and devNumber != ''"> and dev_number = #{devNumber} </if>
+			<if test="devGroupCode != null and devGroupCode != ''">
+	            AND dev_group_code LIKE CONCAT(CONCAT('%',#{devGroupCode},'%'))
+	        </if>
+			<if test="devType != null and devType != ''"> and dev_type = #{devType} </if>
+			<if test="devRegBy != null and devRegBy != ''"> and dev_reg_by = #{devRegBy} </if>
+			<if test="devRegTime != null and devRegTime != ''"> and dev_reg_time = #{devRegTime} </if>
+			<if test="devOnlineLastTime != null and devOnlineLastTime != ''"> and dev_online_last_time = #{devOnlineLastTime} </if>
+			<if test="devStatus != null and devStatus != ''"> and dev_status = #{devStatus} </if>
+            <if test="devPolicy != null and devPolicy != ''"> and dev_policy = #{devPolicy} </if>
+            <if test="devSwitchHandTime != null and devSwitchHandTime != ''"> and dev_switch_hand_time = #{devSwitchHandTime} </if>
+            <if test="devSwitchMode != null and devSwitchMode != ''"> and dev_switch_mode = #{devSwitchMode} </if>
+            <if test="devRandom != null and devRandom != ''"> and dev_random = #{devRandom} </if>
+		</where>
+        <choose>
+        <when test="sort != null and sort.trim() != ''">
+            order by ${sort} ${order}
+        </when>
+        <otherwise>
+             order by dev_group_code, dev_type, dev_code
+        </otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listValid" resultType="com.chason.rwe.domain.DeviceDO">
+        select `dev_id`,`dev_code`,`dev_number`,`dev_group_code`,`dev_type`,`dev_reg_by`,`dev_reg_time`,`dev_online_last_time`,`dev_status`,`dev_switch_mode`,`dev_switch_hand_time`,`dev_policy`,`dev_random` from tbl_device
+        <where>
+             <if test="devId != null and devId != ''"> and dev_id = #{devId} </if>
+             <if test="devCode != null and devCode != ''">
+	             AND dev_code LIKE CONCAT(CONCAT('%',#{devCode},'%'))
+	         </if>
+             <if test="devNumber != null and devNumber != ''"> and dev_number = #{devNumber} </if>
+             <if test="devGroupCode != null and devGroupCode != ''">
+                 AND dev_group_code LIKE CONCAT(CONCAT('%',#{devGroupCode},'%'))
+             </if>
+             <if test="devType != null and devType != ''"> and dev_type = #{devType} </if>
+             <if test="devRegBy != null and devRegBy != ''"> and dev_reg_by = #{devRegBy} </if>
+             <if test="devRegTime != null and devRegTime != ''"> and dev_reg_time = #{devRegTime} </if>
+             <if test="devOnlineLastTime != null and devOnlineLastTime != ''"> and dev_online_last_time = #{devOnlineLastTime} </if>
+             <if test="devStatus != null and devStatus != ''"> and dev_status != '00' </if>
+             <if test="devPolicy != null and devPolicy != ''"> and dev_policy = #{devPolicy} </if>
+             <if test="devSwitchMode != null and devSwitchMode != ''"> and dev_switch_mode = #{devSwitchMode} </if>
+             <if test="devSwitchHandTime != null and devSwitchHandTime != ''"> and dev_switch_hand_time = #{devSwitchHandTime} </if>
+             <if test="devRandom != null and devRandom != ''"> and dev_random = #{devRandom} </if>
+        </where>
+        <choose>
+        <when test="sort != null and sort.trim() != ''">
+            order by ${sort} ${order}
+        </when>
+        <otherwise>
+             order by dev_group_code, dev_type, dev_code
+        </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_device
+		  <where>
+		  		  <if test="devId != null and devId != ''"> and dev_id = #{devId} </if>
+		  		  <if test="devCode != null and devCode != ''"> and dev_code = #{devCode} </if>
+		  		  <if test="devNumber != null and devNumber != ''"> and dev_number = #{devNumber} </if>
+		  		  <if test="devGroupCode != null and devGroupCode != ''"> and dev_group_code = #{devGroupCode} </if>
+		  		  <if test="devType != null and devType != ''"> and dev_type = #{devType} </if>
+		  		  <if test="devRegBy != null and devRegBy != ''"> and dev_reg_by = #{devRegBy} </if>
+		  		  <if test="devRegTime != null and devRegTime != ''"> and dev_reg_time = #{devRegTime} </if>
+		  		  <if test="devOnlineLastTime != null and devOnlineLastTime != ''"> and dev_online_last_time = #{devOnlineLastTime} </if>
+		  		  <if test="devStatus != null and devStatus != ''"> and dev_status = #{devStatus} </if>
+                  <if test="devPolicy != null and devPolicy != ''"> and dev_policy = #{devPolicy} </if>
+                  <if test="devSwitchMode != null and devSwitchMode != ''"> and dev_switch_mode = #{devSwitchMode} </if>
+                  <if test="devSwitchHandTime != null and devSwitchHandTime != ''"> and dev_switch_hand_time = #{devSwitchHandTime} </if>
+                  <if test="devRandom != null and devRandom != ''"> and dev_random = #{devRandom} </if>
+		  </where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.DeviceDO">
+		insert into tbl_device
+		(
+			`dev_id`,
+			`dev_code`,
+			`dev_number`,
+			`dev_group_code`,
+			`dev_type`,
+			`dev_reg_by`,
+			`dev_reg_time`,
+			`dev_online_last_time`,
+			`dev_status`,
+            `dev_policy`,
+            `dev_switch_mode`,
+            `dev_switch_hand_time`,
+            `dev_random`
+		)
+		values
+		(
+			#{devId},
+			#{devCode},
+			#{devNumber},
+			#{devGroupCode},
+			#{devType},
+			#{devRegBy},
+			#{devRegTime},
+			#{devOnlineLastTime},
+			#{devStatus},
+            #{devPolicy},
+            #{devSwitchMode},
+            #{devSwitchHandTime},
+            #{devRandom}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.DeviceDO">
+		update tbl_device
+		<set>
+			<if test="devCode != null">`dev_code` = #{devCode}, </if>
+			<if test="devNumber != null">`dev_number` = #{devNumber}, </if>
+			<if test="devGroupCode != null">`dev_group_code` = #{devGroupCode}, </if>
+			<if test="devType != null">`dev_type` = #{devType}, </if>
+			<if test="devRegBy != null">`dev_reg_by` = #{devRegBy}, </if>
+			<if test="devRegTime != null">`dev_reg_time` = #{devRegTime}, </if>
+			<if test="devOnlineLastTime != null">`dev_online_last_time` = #{devOnlineLastTime}, </if>
+            <if test="devSwitchMode != null">`dev_switch_mode` = #{devSwitchMode}, </if>
+            <if test="devSwitchHandTime != null">`dev_switch_hand_time` = #{devSwitchHandTime}, </if>
+            <if test="devPolicy != null">`dev_policy` = #{devPolicy}, </if>
+			<if test="devStatus != null">`dev_status` = #{devStatus}, </if>
+			<if test="devRandom != null">`dev_random` = #{devRandom} </if>
+		</set>
+		where dev_id = #{devId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_device where dev_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_device where dev_id in
+		<foreach item="devId" collection="array" open="(" separator="," close=")">
+			#{devId}
+		</foreach>
+	</delete>
+
+	<select id="getDevTypeByGroupCode" resultType="String">
+        select distinct `dev_type` from tbl_device where `dev_group_code` = #{value} and `dev_status` = 1
+    </select>
+
+</mapper>
