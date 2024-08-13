@@ -1,9 +1,9 @@
-zmanager:
+rwe:
   uploadPath: /var/uploaded_files/
   dbRepoPath: /var/db_files/
 logging:
   level:
-    com.rtmdo: error
+    com.chason: error
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -35,7 +35,7 @@ spring:
       database: 0
       host: localhost
       port: 6379
-      password: 54363751
+      password: xxxx
       timeout: 10000
       pool:
         max-idle: 8

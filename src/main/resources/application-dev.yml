@@ -11,7 +11,7 @@ spring:
     # 测试配置数据库
     url: jdbc:mysql://127.0.0.1:3306/zmanager?useUnicode=true&characterEncoding=utf8
     username: 'glue'
-    password: 'Glue01_glue'
+    password: 'xxxx'
     initialSize: 1
     minIdle: 3
     maxActive: 20
