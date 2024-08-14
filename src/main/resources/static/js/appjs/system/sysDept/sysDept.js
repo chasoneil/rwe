@@ -1,5 +1,6 @@
 
-var prefix = "/system/sysDept"
+var prefix = "/system/sysDept";
+
 $(function() {
 	load();
 });
@@ -8,44 +9,39 @@ function load() {
 	$('#exampleTable')
 		.bootstrapTreeTable(
 			{
+				method : 'get',
+				url : prefix + '/list',
 				id : 'deptId',
 				code : 'deptId',
-                parentCode : 'parentId',
-				type : "GET", // 请求数据的ajax类型
-				url : prefix + '/list', // 请求数据的ajax的url
+				parentCode : 'parentId',
+				singleSelect : false,
+				dataType: "json",
 				ajaxParams : {}, // 请求数据的ajax的data属性
 				expandColumn : '1', // 在哪一列上面显示展开按钮
-				striped : true, // 是否各行渐变色
-				bordered : true, // 是否显示边框
-				expandAll : false, // 是否全部展开
-				// toolbar : '#exampleToolbar',
+				striped : true,
+				bordered : true,  // show border
+				expandAll : false,
+				toolbar : '#exampleToolbar',
 				columns : [
 					{
-						title : '编号',
 						field : 'deptId',
-						visible : false,
-						align : 'center',
-						valign : 'center',
-						width : '50px',
-						checkbox : true
+						title : '编号',
+						visible : false
 					},
 					{
 						field : 'name',
 						title : '部门名称',
-                        valign : 'center',
-						witth :20
+						width :20
 					},
 					{
 						field : 'orderNum',
 						title : '排序',
-                        align : 'center',
-                        valign : 'center',
+                        align : 'center'
 					},
 					{
 						field : 'delFlag',
 						title : '状态',
 						align : 'center',
-                        valign : 'center',
 						formatter : function(item, index) {
 							if (item.delFlag == '0') {
 								return '<span class="label label-danger">禁用</span>';
@@ -58,48 +54,46 @@ function load() {
 						title : '操作',
 						field : 'id',
 						align : 'center',
-                        valign : 'center',
 						formatter : function(item, index) {
 							var e = '<a class="btn btn-primary btn-sm ' + s_edit_h + '" href="#" mce_href="#" title="编辑" onclick="edit(\''
 								+ item.deptId
-								+ '\')"><i class="fa fa-edit"></i></a> ';
-							var a = '<a class="btn btn-primary btn-sm ' + s_add_h + '" href="#" title="增加下級"  mce_href="#" onclick="add(\''
+								+ '\')"><i class="fa fa-edit"></i> 编辑</a>';
+							var a = '<a style="margin-left:5px" class="btn btn-primary btn-sm ' + s_add_h + '" href="#" title="增加下級"  mce_href="#" onclick="add(\''
 								+ item.deptId
-								+ '\')"><i class="fa fa-plus"></i></a> ';
-							var d = '<a class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="singleRemove(\''
+								+ '\')"><i class="fa fa-plus"></i> 增加下级</a>';
+							var d = '<a style="margin-left:5px" class="btn btn-warning btn-sm ' + s_remove_h + '" href="#" title="删除"  mce_href="#" onclick="singleRemove(\''
 								+ item.deptId
-								+ '\')"><i class="fa fa-remove"></i></a> ';
-							var f = '<a class="btn btn-success btn-sm＂ href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
-								+ item.deptId
-								+ '\')"><i class="fa fa-key"></i></a> ';
+								+ '\')"><i class="fa fa-remove"></i> 删除</a>';
 							return e + a + d;
 						}
 					} ]
 			});
 }
+
 function reLoad() {
 	load();
 }
 
+// add dialog
 function add(pId) {
 	layer.open({
 		type : 2,
-		title : '增加1',
+		title : '新增部门',
 		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		shadeClose : false,
+		area : [ '800px', '420px' ],
 		content : prefix + '/add/' + pId
 	});
 }
 
-function edit(id) {	
+function edit(id) {
 	layer.open({
 		type : 2,
-		title : '编辑',
+		title : '编辑部门信息',
 		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
-		content : prefix + '/edit/' + id // iframe的url
+		shadeClose : false,
+		area : [ '800px', '420px' ],
+		content : prefix + '/edit/' + id
 	});
 }
 
@@ -125,8 +119,6 @@ function singleRemove(id) {
 	})
 }
 
-function resetPwd(id) {
-}
 function batchRemove() {
 	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
 	if (rows.length == 0) {

@@ -7,12 +7,13 @@ $.validator.setDefaults({
 		update();
 	}
 });
+
 function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/system/sysDept/update",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");

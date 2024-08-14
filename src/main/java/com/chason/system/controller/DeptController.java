@@ -1,7 +1,9 @@
 package com.chason.system.controller;
 
 import io.swagger.annotations.ApiOperation;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,27 +21,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 部门管理
- *
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-27 14:40:36
+ * dept management
  */
 
 @Controller
 @RequestMapping("/system/sysDept")
 public class DeptController extends BaseController {
-	private String prefix = "system/dept";
+
+	private final String PREFIX = "system/dept";
+
 	@Autowired
 	private DeptService sysDeptService;
 
 	@GetMapping()
 	@RequiresPermissions("system:sysDept:sysDept")
 	String dept() {
-		return prefix + "/dept";
+		return PREFIX + "/dept";
 	}
 
-	@ApiOperation(value="获取部门列表", notes="")
+	@ApiOperation(value="获取部门列表")
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("system:sysDept:sysDept")
@@ -60,7 +60,7 @@ public class DeptController extends BaseController {
 		} else {
 			model.addAttribute("pName", sysDeptService.get(pId).getName());
 		}
-		return  prefix + "/add";
+		return  PREFIX + "/add";
 	}
 
 	@GetMapping("/edit/{deptId}")
@@ -74,68 +74,37 @@ public class DeptController extends BaseController {
 			DeptDO parDept = sysDeptService.get(sysDept.getParentId());
 			model.addAttribute("parentDeptName", parDept.getName());
 		}
-		return  prefix + "/edit";
+		return  PREFIX + "/edit";
 	}
 
-	/**
-	 * 保存
-	 */
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("system:sysDept:add")
 	public R save(DeptDO sysDept) {
-
-	    try
-        {
-	        String strInt = sysDept.getDelFlag() + "";
-            int delFlag = Integer.parseInt(strInt);
-            if(delFlag != 1 && delFlag != 0)
-            {
-                return R.error("状态只能是0或者1哦~");
-            }
-        }
-        catch (Exception e)
-        {
-            return R.error("状态只能是数字0或者1哦~");
-        }
-
-		if (sysDeptService.save(sysDept) > 0) {
-			return R.ok();
+		try {
+			if (sysDeptService.save(sysDept) > 0) {
+				return R.ok();
+			}
+		} catch (Exception e) {
+			return R.error(e.getMessage());
 		}
-		return R.error();
+		return R.error("新增部门失败");
 	}
 
-	/**
-	 * 修改
-	 */
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("system:sysDept:edit")
 	public R update(DeptDO sysDept) {
-
-	    try
-        {
-            String strInt = sysDept.getDelFlag() + "";
-            int delFlag = Integer.parseInt(strInt);
-            if(delFlag != 1 || delFlag != 0)
-            {
-                return R.error("状态只能是0或者1哦~");
-            }
-        }
-        catch (Exception e)
-        {
-            return R.error("状态只能是数字0或者1哦~");
-        }
-
-		if (sysDeptService.update(sysDept) > 0) {
-			return R.ok();
+		try {
+			if (sysDeptService.update(sysDept) > 0) {
+				return R.ok();
+			}
+		} catch (Exception e) {
+			return R.error(e.getMessage());
 		}
-		return R.error();
+		return R.error("修改部门信息失败");
 	}
 
-	/**
-	 * 删除
-	 */
 	@PostMapping("/remove")
 	@ResponseBody
 	@RequiresPermissions("system:sysDept:remove")
@@ -143,21 +112,18 @@ public class DeptController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("parentId", deptId);
 		if(sysDeptService.count(map)>0) {
-			return R.error(1, "包含下级部门,不允许修改");
+			return R.error(1, "包含下级部门,不允许删除");
 		}
 		if(sysDeptService.checkDeptHasUser(deptId)) {
 			if (sysDeptService.remove(deptId) > 0) {
 				return R.ok();
 			}
 		}else {
-			return R.error(1, "部门包含用户,不允许修改");
+			return R.error(1, "部门包含用户,不允许删除");
 		}
 		return R.error();
 	}
 
-	/**
-	 * 删除
-	 */
 	@PostMapping("/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("system:sysDept:batchRemove")
@@ -176,7 +142,7 @@ public class DeptController extends BaseController {
 
 	@GetMapping("/treeView")
 	String treeView() {
-		return  prefix + "/deptTree";
+		return  PREFIX + "/deptTree";
 	}
 
 }

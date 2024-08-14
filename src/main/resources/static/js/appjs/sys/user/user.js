@@ -1,4 +1,5 @@
-var prefix = "/sys/user"
+var prefix = "/sys/user";
+
 $(function() {
 	var deptId = '';
 	getTreeData();
@@ -9,8 +10,8 @@ function load(deptId) {
 	$('#exampleTable')
 		.bootstrapTable(
 			{
-				method : 'get', // 服务器数据的请求方式 get or post
-				url : prefix + "/list", // 服务器数据的加载地址
+				method : 'get',
+				url : prefix + "/list",
 				showRefresh : true,
 				// showToggle : true,
 				// showColumns : true,
@@ -23,7 +24,6 @@ function load(deptId) {
 				// //设置为limit则会发送符合RESTFull格式的参数
 				singleSelect : false, // 设置为true将禁止多选
 				// contentType : "application/x-www-form-urlencoded",
-				// //发送到服务器的数据编码类型
 				pageSize : 10, // 如果设置了分页，每页数据条数
 				pageNumber : 1, // 如果设置了分布，首页页码
 				// search : true, // 是否显示搜索框
@@ -49,8 +49,8 @@ function load(deptId) {
 						checkbox : true
 					},
 					{
-						field : 'userId', // 列字段名
-						title : '序号' // 列标题
+						field : 'userId',
+						title : '序号'
 					},
 					{
 						field : 'name',
@@ -99,9 +99,11 @@ function load(deptId) {
 					} ]
 			});
 }
+
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
+
 function add() {
 	// iframe层
 	layer.open({
