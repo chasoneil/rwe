@@ -23,25 +23,23 @@
 								<button shiro:hasPermission="sys:user:add" type="button" class="btn  btn-primary" onclick="add()">
 									<i class="fa fa-plus" aria-hidden="true"></i> 添加
 								</button>
-								<button shiro:hasPermission="sys:user:batchRemove" type="button" class="btn btn-danger" onclick="batchRemove()">
+								<button shiro:hasPermission="sys:user:remove" type="button" class="btn btn-danger" onclick="batchRemove()">
 									<i class="fa fa-trash" aria-hidden="true"></i> 删除
 								</button>
 							</div>
 							<div class="columns pull-right">
-								<button class="btn btn-success" onclick="reLoad()"><i class="fa fa-search" aria-hidden="true"></i> 查询</button>
+								<button class="btn btn-success" onclick="reload()"><i class="fa fa-search" aria-hidden="true"></i> 查询</button>
 							</div>
 
 							<div class="columns pull-right col-md-2 nopadding">
 								<input id="searchName" type="text" class="form-control" placeholder="姓名">
 							</div>
 						</div>
-						<table id="exampleTable" data-mobile-responsive="true">
-						</table>
+						<table id="exampleTable" data-mobile-responsive="true"></table>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--shiro控制bootstraptable行内按钮看见性  -->
 		<div>
 			<script type="text/javascript">
 				var s_edit_h = 'hidden';

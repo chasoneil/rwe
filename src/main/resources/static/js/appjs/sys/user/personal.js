@@ -4,6 +4,7 @@ $(function () {
         elem : '#birth'
     });
 });
+
 /**
  * 基本信息提交
  */
@@ -31,6 +32,7 @@ $("#base_save").click(function () {
         }
 
 });
+
 $("#pwd_save").click(function () {
     if($("#modifyPwd").valid()){
         $.ajax({
@@ -53,6 +55,7 @@ $("#pwd_save").click(function () {
         });
     }
 });
+
 function getHobbyStr(){
     var hobbyStr ="";
     $(".hobby").each(function () {
