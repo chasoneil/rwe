@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="col-sm-3">
                 <!-- ibox ibox-body 可以给周围加上间距 -->
                 <div class="ibox ibox-body">
@@ -23,7 +23,7 @@
                         <div id="jstree"></div>
                     </div>
                 </div>
-                
+
                 <div class="ibox ibox-body">
                     <div class="ibox-title">
                         <h5>设备情况</h5>
@@ -33,17 +33,16 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div th:include="include :: footer"></div>
     <script type="text/javascript" src="/js/appjs/rtm/main/main.js"></script>
     <script>
-    
+
     self.setInterval("loadDevice();", 10000);
-    
     self.setInterval("twinkle()", 1000);
-    
+
     /*
      * js实现闪烁效果
      */

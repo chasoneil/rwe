@@ -53,7 +53,7 @@ public class PolicyController extends BaseController
     private DictService dictService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:policy:policy")
+    @RequiresPermissions("rtm:policy:policy")
     String policy()
     {
         return "rwe/policy/policy";
@@ -119,7 +119,7 @@ public class PolicyController extends BaseController
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("rwe:policy:add")
+    @RequiresPermissions("rtm:policy:add")
     String add(Model model)
     {
         Map<String, Object> param = new HashMap<>();
@@ -132,7 +132,7 @@ public class PolicyController extends BaseController
     }
 
     @GetMapping("/addRandom")
-    @RequiresPermissions("rwe:policy:add")
+    @RequiresPermissions("rtm:policy:add")
     String addRandom(Model model)
     {
         return "rwe/policy/addRandom";
@@ -244,7 +244,7 @@ public class PolicyController extends BaseController
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("rwe:policy:add")
+    @RequiresPermissions("rtm:policy:add")
     public R save(PolicyDO policy)
     {
         try
@@ -292,7 +292,7 @@ public class PolicyController extends BaseController
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("rwe:space:update")
+    @RequiresPermissions("rtm:space:update")
     public R update(PolicyDO policy)
     {
         try
@@ -340,7 +340,7 @@ public class PolicyController extends BaseController
      */
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rwe:policy:remove")
+    @RequiresPermissions("rtm:policy:remove")
     public R remove(String policyId)
     {
         PolicyDO thePolicy = policyService.get(policyId);
@@ -376,7 +376,7 @@ public class PolicyController extends BaseController
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("rwe:policy:remove")
+    @RequiresPermissions("rtm:policy:remove")
     public R remove(@RequestParam("ids[]") String[] policyIds)
     {
         int count = policyService.batchRemove(policyIds);

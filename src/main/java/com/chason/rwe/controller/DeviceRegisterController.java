@@ -43,7 +43,7 @@ public class DeviceRegisterController extends BaseController
     private DeviceService deviceService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String RegisterList()
     {
         return "rwe/device/register/device_register_list";
@@ -54,7 +54,7 @@ public class DeviceRegisterController extends BaseController
      * @return
      */
     @GetMapping("/deviceCheckList")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String checkList()
     {
         return "rwe/device/register/device_check_list";
@@ -83,7 +83,7 @@ public class DeviceRegisterController extends BaseController
      */
     @Log("新增设备")
     @GetMapping("/add")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String add()
     {
         return "rwe/device/register/add";
@@ -134,7 +134,7 @@ public class DeviceRegisterController extends BaseController
      */
     @Log("修改设备")
     @GetMapping("/edit/{devId}")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String edit(@PathVariable("devId") String devId, Model model)
     {
         DeviceDO device = deviceService.get(devId);
@@ -147,7 +147,7 @@ public class DeviceRegisterController extends BaseController
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     public R update(DeviceDO device)
     {
         if(!StringUtils.isNotNull(device.getDevGroupCode()))
@@ -182,7 +182,7 @@ public class DeviceRegisterController extends BaseController
      */
     @Log("删除设备")
     @PostMapping("/remove")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     @ResponseBody
     public R remove(String devId)
     {
@@ -199,7 +199,7 @@ public class DeviceRegisterController extends BaseController
     @Log("批量删除设备信息")
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     public R remove(@RequestParam("ids[]") String[] devIds)
     {
         deviceService.batchRemove(devIds);
@@ -211,7 +211,7 @@ public class DeviceRegisterController extends BaseController
      */
     @Log("批量导入设备")
     @GetMapping("/devImport")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String devImport()
     {
         return "rwe/device/register/import";
@@ -223,7 +223,7 @@ public class DeviceRegisterController extends BaseController
      * */
     @ResponseBody
     @PostMapping(value = "/importDo")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     public R importDo(@RequestPart("filesd") MultipartFile file)
     {
         String fileName = file.getOriginalFilename();
@@ -320,7 +320,7 @@ public class DeviceRegisterController extends BaseController
      * @return
      */
     @GetMapping("/checkBatch/{ids}")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     String checkBatch(@PathVariable("ids") String[] devIds, Model model)
     {
         String strDevIds = "";
@@ -337,7 +337,7 @@ public class DeviceRegisterController extends BaseController
      */
     @Log("批量审核设备")
     @PostMapping("/checkBatchDo")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     @ResponseBody
     public R checkBatchDo(@RequestParam Map<String, Object> params) {
 

@@ -1,4 +1,4 @@
-<div class="col-sm-3" th:each="theDevice, page:${devices}">
+<div class="col-sm-3" th:each="theDevice, page:${devices}" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="ibox ibox-body">
         <div class="ibox-title">
             <span class="label label-primary pull-right" th:if="${theDevice.devFlag eq '11'}">联机中</span>
@@ -6,7 +6,7 @@
             <span class="label label-danger pull-right" th:if="${theDevice.devFlag eq '00'}">新发现</span>
             <span class="label label-danger pull-right" th:if="${theDevice.device.devSwitchMode eq '手动'}" title="手动模式">M</span>
             <h5 th:text="${theDevice.device.devCode}">暂无IP</h5>
-        </div> 
+        </div>
         <div class="ibox-content" align="center">
             <button class="btn btn-primary btn-circle btn-xs" type="button" title="设备工作中" th:if="${theDevice.switchFlag eq '10'}">
                <i class="fa fa-heartbeat" th:id="heartbeat + (${page.index} + 1)"></i>

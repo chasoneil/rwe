@@ -35,7 +35,7 @@ public class WhiteListController extends BaseController
     private WhiteListService whiteListService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     String whitelist()
     {
         return "rwe/whitelist/whitelist";
@@ -43,7 +43,7 @@ public class WhiteListController extends BaseController
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     public PageUtils list(@RequestParam Map<String, Object> params)
     {
         // 查询列表数据
@@ -55,7 +55,7 @@ public class WhiteListController extends BaseController
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     String add(Model model)
     {
         return "rwe/whitelist/add";
@@ -63,7 +63,7 @@ public class WhiteListController extends BaseController
 
 
     @GetMapping("/edit/{whId}")
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     String edit(@PathVariable("whId") String whId, Model model)
     {
         WhiteListDO whiteList = whiteListService.get(whId);
@@ -76,7 +76,7 @@ public class WhiteListController extends BaseController
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     public R save(WhiteListDO whiteList)
     {
         if(whiteList.getWhFinishDate().before(whiteList.getWhStartDate()))
@@ -98,7 +98,7 @@ public class WhiteListController extends BaseController
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     public R update(WhiteListDO whiteList)
     {
         if(whiteList.getWhFinishDate().before(whiteList.getWhStartDate()))
@@ -118,7 +118,7 @@ public class WhiteListController extends BaseController
      */
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rwe:whitelist:whitelist")
+    @RequiresPermissions("rtm:whitelist:whitelist")
     public R remove(String whId)
     {
         if(whiteListService.remove(whId) > 0)
@@ -133,7 +133,7 @@ public class WhiteListController extends BaseController
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("rwe:policy:remove")
+    @RequiresPermissions("rtm:policy:remove")
     public R remove(@RequestParam("ids[]") String[] policyIds)
     {
         return R.error();

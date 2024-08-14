@@ -53,7 +53,7 @@ public class SpaceController extends BaseController
     private PolicyService policyService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:space:space")
+    @RequiresPermissions("rtm:space:space")
     String Space()
     {
         return "rwe/space/space";
@@ -61,7 +61,7 @@ public class SpaceController extends BaseController
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rwe:space:space")
+    @RequiresPermissions("rtm:space:space")
     public List<SpaceDO> list()
     {
         Map<String, Object> query = new HashMap<>(16);
@@ -103,7 +103,7 @@ public class SpaceController extends BaseController
     }
 
     @GetMapping("/add/{id}")
-    @RequiresPermissions("rwe:space:add")
+    @RequiresPermissions("rtm:space:add")
     String add(@PathVariable("id") String id, Model model)
     {
         if ("root".equals(id))
@@ -132,7 +132,7 @@ public class SpaceController extends BaseController
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("rwe:space:update")
+    @RequiresPermissions("rtm:space:update")
     public R save(SpaceDO space)
     {
         String key = GUIDUtils.generateGUID(space);
@@ -155,7 +155,7 @@ public class SpaceController extends BaseController
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("rwe:space:update")
+    @RequiresPermissions("rtm:space:update")
     public R update(SpaceDO space)
     {
         SpaceDO theSpace = spaceService.get(space.getSpaceId());
@@ -172,7 +172,7 @@ public class SpaceController extends BaseController
      */
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rwe:space:delete")
+    @RequiresPermissions("rtm:space:delete")
     public R remove(String spaceId)
     {
         SpaceDO theSpace = spaceService.get(spaceId);
@@ -206,7 +206,7 @@ public class SpaceController extends BaseController
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("rwe:space:delete")
+    @RequiresPermissions("rtm:space:delete")
     public R remove(@RequestParam("ids[]") String[] spaceIds)
     {
         spaceService.batchRemove(spaceIds);

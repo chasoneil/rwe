@@ -39,7 +39,7 @@ public class DeviceCommandController extends BaseController
     private SpaceService spaceService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     String Device()
     {
         return "rwe/device/command/device";
@@ -48,7 +48,7 @@ public class DeviceCommandController extends BaseController
     @Log("查看设备信息")
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     public PageUtils list(@RequestParam Map<String, Object> params)
     {
         String spaceId = (String)params.get("spaceId");
@@ -93,7 +93,7 @@ public class DeviceCommandController extends BaseController
     @Log("设备通电")
     @PostMapping("/switchOpen")
     @ResponseBody
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     public R switchOpen(@RequestParam Map<String, Object> params)
     {
         String devIds = (String) params.get("devIds");
@@ -124,7 +124,7 @@ public class DeviceCommandController extends BaseController
     @Log("设备断电")
     @PostMapping("/switchClose")
     @ResponseBody
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     public R switchClose(@RequestParam Map<String, Object> params)
     {
         String devIds = (String) params.get("devIds");
@@ -154,7 +154,7 @@ public class DeviceCommandController extends BaseController
     @Log("设备重启")
     @PostMapping("/reboot")
     @ResponseBody
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     public R reboot(@RequestParam Map<String, Object> params)
     {
         String devIds = (String) params.get("devIds");
@@ -185,7 +185,7 @@ public class DeviceCommandController extends BaseController
     @Log("设备通电方式切换")
     @PostMapping("/switchModeChange")
     @ResponseBody
-    @RequiresPermissions("rwe:device:command")
+    @RequiresPermissions("rtm:device:command")
     public R switchModeChange(@RequestParam Map<String, Object> params)
     {
         String devIds = (String) params.get("devIds");

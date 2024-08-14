@@ -43,7 +43,7 @@ public class DeviceGroupController extends BaseController
     private SpaceService spaceService;
 
     @GetMapping()
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     String Device()
     {
         return "rwe/device/group/device";
@@ -52,7 +52,7 @@ public class DeviceGroupController extends BaseController
     @Log("查看设备信息")
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     public PageUtils list(@RequestParam Map<String, Object> params)
     {
         String spaceId = (String) params.get("spaceId");
@@ -96,7 +96,7 @@ public class DeviceGroupController extends BaseController
      * 个别分组-页面（合用一个提交）
      * */
     @GetMapping("/edit/{devId}")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     String edit(@PathVariable("devId") String devId, Model model)
     {
         DeviceDO device = deviceService.get(devId);
@@ -114,7 +114,7 @@ public class DeviceGroupController extends BaseController
      * @return
      */
     @GetMapping("/groupEdit/{ids}")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     String groupEdit(@PathVariable("ids") String[] devIds, Model model)
     {
         String strDevIds = "";
@@ -135,7 +135,7 @@ public class DeviceGroupController extends BaseController
      */
     @Log("修改设备分组信息")
     @PostMapping("/groupDo")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     @ResponseBody
     public R groupDo(@RequestParam Map<String, Object> params)
     {
@@ -183,7 +183,7 @@ public class DeviceGroupController extends BaseController
      */
     @Log("导入设备分组文件")
     @GetMapping("/groupFileImp")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     String groupImp()
     {
         return "rwe/device/group/import";
@@ -195,7 +195,7 @@ public class DeviceGroupController extends BaseController
      * */
     @ResponseBody
     @PostMapping(value = "/importDo")
-    @RequiresPermissions("rwe:device:group")
+    @RequiresPermissions("rtm:device:group")
     public R importDo(@RequestPart("filesd") MultipartFile file)
     {
         String fileName = file.getOriginalFilename();

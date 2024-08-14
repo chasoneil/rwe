@@ -39,7 +39,7 @@ public class DeviceFinderController extends BaseController
     @Log("发现设备")
     @GetMapping()
     @ResponseBody
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     public R finder()
     {
         System.out.println("##### 查找小乙网控设备 #####");
@@ -77,7 +77,7 @@ public class DeviceFinderController extends BaseController
 
     @Log("查看设备信息")
     @GetMapping("/list")
-    @RequiresPermissions("rwe:device:register")
+    @RequiresPermissions("rtm:device:register")
     public String list(Model model)
     {
         Map<String, String> mIPs = IpInfoInstance.INSTANCE.getAll();
