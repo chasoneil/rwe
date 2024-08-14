@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/system/sysDept")
 public class DeptController extends BaseController {
 
-	private final String PREFIX = "system/dept";
+	private static final String PREFIX = "system/dept";
 
 	@Autowired
 	private DeptService sysDeptService;

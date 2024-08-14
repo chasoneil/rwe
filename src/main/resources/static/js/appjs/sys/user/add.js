@@ -18,13 +18,14 @@ function getCheckedRoles() {
 	});
 	return adIds;
 }
+
 function save() {
 	$("#roleIds").val(getCheckedRoles());
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/sys/user/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
@@ -39,7 +40,6 @@ function save() {
 			} else {
 				parent.layer.msg(data.msg)
 			}
-
 		}
 	});
 

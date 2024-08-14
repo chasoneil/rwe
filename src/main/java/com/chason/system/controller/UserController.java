@@ -2,6 +2,7 @@ package com.chason.system.controller;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +30,8 @@ import java.util.Map;
 @Controller
 public class UserController extends BaseController
 {
-    private String prefix = "system/user";
+    private static final String PREFIX = "system/user";
+
     @Autowired
     UserService    userService;
     @Autowired
@@ -41,7 +43,7 @@ public class UserController extends BaseController
     @GetMapping("")
     String user(Model model)
     {
-        return prefix + "/user";
+        return PREFIX + "/user";
     }
 
     @GetMapping("/list")
@@ -63,7 +65,7 @@ public class UserController extends BaseController
     {
         List<RoleDO> roles = roleService.list();
         model.addAttribute("roles", roles);
-        return prefix + "/add";
+        return PREFIX + "/add";
     }
 
     @RequiresPermissions("sys:user:edit")
@@ -75,7 +77,7 @@ public class UserController extends BaseController
         model.addAttribute("user", userDO);
         List<RoleDO> roles = roleService.list(id);
         model.addAttribute("roles", roles);
-        return prefix + "/edit";
+        return PREFIX + "/edit";
     }
 
     @RequiresPermissions("sys:user:add")
@@ -162,7 +164,7 @@ public class UserController extends BaseController
         UserDO userDO = new UserDO();
         userDO.setUserId(userId);
         model.addAttribute("user", userDO);
-        return prefix + "/reset_pwd";
+        return PREFIX + "/reset_pwd";
     }
 
     @Log("提交更改用户密码")
@@ -260,7 +262,7 @@ public class UserController extends BaseController
     @GetMapping("/treeView")
     String treeView()
     {
-        return prefix + "/userTree";
+        return PREFIX + "/userTree";
     }
 
     @GetMapping("/personal")
@@ -270,7 +272,7 @@ public class UserController extends BaseController
         model.addAttribute("user", userDO);
         model.addAttribute("hobbyList", dictService.getHobbyList(userDO));
         model.addAttribute("sexList", dictService.getSexList());
-        return prefix + "/personal";
+        return PREFIX + "/personal";
     }
 
     @ResponseBody
