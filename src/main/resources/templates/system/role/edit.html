@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <head th:include="include::header"></head>
 <body class="gray-bg">
@@ -14,8 +14,15 @@
 								name="menuIds" type="hidden">
 							<div class="form-group">
 								<label class="col-sm-3 control-label">角色名：<span style="color: red;">*</span></label>
-								<div class="col-sm-8">
+								<div class="col-sm-3">
 									<input id="roleName" name="roleName" class="form-control" type="text" th:value="${role.roleName}" required>
+								</div>
+								<label class="col-sm-2 control-label">角色标识：</label>
+								<div class="col-sm-3">
+									<select data-placeholder="--选择分组--" name="roleSign" id="roleSign"
+											class="form-control chosen-select-role-type" tabindex="1" required>
+										<option value="">--选择分组--</option>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -44,6 +51,12 @@
 		</div>
 	</div>
 	<div th:include="include::footer"></div>
+
+	<script type="text/javascript" src="/js/appjs/app-util.js"></script>
+	<script th:inline="javascript">
+		loadDictType('role_type',  [[${role.roleSign}]], 'chosen-select-role-type');
+	</script>
+
 	<script src="/js/appjs/sys/role/edit.js"></script>
 </body>
 

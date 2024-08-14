@@ -46,7 +46,7 @@ function load() {
 									title : '备注'
 								},
 								{
-									field : '',
+									field : 'roleSign',
 									title : '权限'
 								},
 								{

@@ -1,4 +1,5 @@
-var prefix = "/common/job"
+var prefix = "/common/job";
+
 $(function () {
     load();
 });
@@ -7,27 +8,21 @@ function load() {
     $('#exampleTable')
         .bootstrapTable(
             {
-                method: 'get', // 服务器数据的请求方式 get or post
-                url: prefix + "/list", // 服务器数据的加载地址
+                method: 'get',
+                url: prefix + "/list",
                 showRefresh : false,
                 // showToggle : true,
                 // showColumns : true,
                 iconSize: 'outline',
                 toolbar: '#exampleToolbar',
-                striped: true, // 设置为true会有隔行变色效果
-                dataType: "json", // 服务器返回的数据类型
-                pagination: true, // 设置为true会在底部显示分页条
-                // queryParamsType : "limit",
-                // //设置为limit则会发送符合RESTFull格式的参数
-                singleSelect: false, // 设置为true将禁止多选
-                // contentType : "application/x-www-form-urlencoded",
-                // //发送到服务器的数据编码类型
-                pageSize: 10, // 如果设置了分页，每页数据条数
-                pageNumber: 1, // 如果设置了分布，首页页码
-                // search : true, // 是否显示搜索框
-                showColumns: false, // 是否显示内容下拉框（选择显示的列）
-                sidePagination: "server", // 设置在哪里进行分页，可选值为"client" 或者
-                // "server"
+                striped: true,
+                dataType: "json",
+                pagination: true,
+                singleSelect: false,
+                pageSize: 10,
+                pageNumber: 1,
+                showColumns: false,
+                sidePagination: "server",
                 queryParams: function (params) {
                     return {
                         // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
@@ -138,16 +133,13 @@ function load() {
                             var d = '<a class="btn btn-warning btn-sm" href="#" title="删除"  mce_href="#" onclick="singleRemove(\''
                                 + row.id
                                 + '\')"><i class="fa fa-remove"></i></a> ';
-                            var f = '<a class="btn btn-success btn-sm" href="#" title="开启"  mce_href="#" onclick="resetPwd(\''
-                                + row.id
-                                + '\')"><i class="fa fa-key"></i></a> ';
                             return e + d;
                         }
                     }]
             });
 }
 
-function reLoad() {
+function reload() {
     $('#exampleTable').bootstrapTable('refresh');
 }
 
@@ -171,9 +163,9 @@ function edit(id, status) {
         type: 2,
         title: '编辑',
         maxmin: true,
-        shadeClose: false, // 点击遮罩关闭层
+        shadeClose: false,
         area: ['800px', '520px'],
-        content: prefix + '/edit/' + id // iframe的url
+        content: prefix + '/edit/' + id
     });
 }
 
@@ -190,7 +182,7 @@ function singleRemove(id) {
             success: function (r) {
                 if (r.code == 0) {
                     layer.msg(r.msg);
-                    reLoad();
+                    reload();
                 } else {
                     layer.msg(r.msg);
                 }
@@ -222,7 +214,7 @@ function changeStatus(id, status) {
             success: function (r) {
                 if (r.code == 0) {
                     layer.msg(r.msg);
-                    reLoad();
+                    reload();
                 } else {
                     layer.msg(r.msg);
                 }
@@ -255,7 +247,7 @@ function batchRemove() {
             success: function (r) {
                 if (r.code == 0) {
                     layer.msg(r.msg);
-                    reLoad();
+                    reload();
                 } else {
                     layer.msg(r.msg);
                 }

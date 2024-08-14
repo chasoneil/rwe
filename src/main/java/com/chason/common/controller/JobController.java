@@ -17,12 +17,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/common/job")
 public class JobController extends BaseController{
+
+	private static final String PREFIX = "common/job";
+
 	@Autowired
 	private JobService taskScheduleJobService;
 
 	@GetMapping()
 	String taskScheduleJob() {
-		return "common/job/job";
+		return PREFIX + "/job";
 	}
 
 	@ResponseBody
@@ -38,14 +41,14 @@ public class JobController extends BaseController{
 
 	@GetMapping("/add")
 	String add() {
-		return "common/job/add";
+		return PREFIX + "/add";
 	}
 
 	@GetMapping("/edit/{id}")
 	String edit(@PathVariable("id") Long id, Model model) {
 		TaskDO job = taskScheduleJobService.get(id);
 		model.addAttribute("job", job);
-		return "common/job/edit";
+		return PREFIX + "/edit";
 	}
 
 	/**
@@ -98,7 +101,6 @@ public class JobController extends BaseController{
 	@ResponseBody
 	public R remove(@RequestParam("ids[]") Long[] ids) {
 		taskScheduleJobService.batchRemove(ids);
-
 		return R.ok();
 	}
 

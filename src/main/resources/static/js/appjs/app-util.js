@@ -1,12 +1,6 @@
 /**
- * Created by huzq@biaokaow.com on 2018/5/31.
- *
  * 针对系统各模块使用的一些帮助类
- */
-
-/**
  * 根据数据字典的分类得到下拉列表
- *
  * @param dictType : 数据字典里的分类
  * @param selectedValue ：选中的值
  * @param chosen_select ：回写的css标志
@@ -19,7 +13,6 @@ function loadDictType(dictType, selectedValue, chosen_select){
 	$.ajax({
 		url : '/common/sysDict/list/' + dictType,
 		success : function(data) {
-			//加载数据
 			for (var i = 0; i < data.length; i++)
 			{
 				if (data[i].value == selectedValue)
@@ -54,7 +47,6 @@ function loadDictType(dictType, selectedValue, chosen_select){
  * 得到所有空间的下拉列表
  * @param selectedValue ：选中的值
  * @param chosen_select ：回写的css标志
- *
  * @return 把内容回写至chosen_select中
  *
  * */
