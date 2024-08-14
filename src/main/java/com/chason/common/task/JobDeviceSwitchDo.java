@@ -20,9 +20,9 @@ import com.chason.common.annotation.Log;
 import com.chason.common.utils.StringUtils;
 import com.chason.common.utils.TimeUtils;
 import com.chason.rwe.domain.DeviceDO;
-import com.chason.rwe.domain.WhiteListDO;
+
 import com.chason.rwe.service.DeviceService;
-import com.chason.rwe.service.WhiteListService;
+
 import com.chason.rwe.socket.SwitchDeviceMap;
 import com.chason.rwe.utils.PolicyTimeUtils;
 
@@ -36,8 +36,7 @@ public class JobDeviceSwitchDo implements Job
     @Autowired
     private DeviceService deviceService;
 
-    @Autowired
-    private WhiteListService whiteListService;
+
 
     @Log("设备任务")
     @Override
@@ -73,46 +72,35 @@ public class JobDeviceSwitchDo implements Job
                 }
             }
 
-            if (!"自动".equals(theDevice.getDevSwitchMode()))
-            {
+            if (!"自动".equals(theDevice.getDevSwitchMode())) {
                 continue;
             }
 
             SwitchDeviceMap theSwitchDeviceMap = SwitchDeviceMap.getInstance();
 
             //在白名单时间中
-            try
-            {
-                if(isBetweenWhiteList())
-                {
-                    theSwitchDeviceMap.putCommandMap(theDevice.getDevNumber(), "SWITCHCLOSE"); //默认关
-                    continue;
-                }
-            }
-            catch (ParseException e)
-            {
-                e.printStackTrace();
+
+            if(isBetweenWhiteList()) {
+                theSwitchDeviceMap.putCommandMap(theDevice.getDevNumber(), "SWITCHCLOSE"); //默认关
+                continue;
             }
 
-            if (theDevice.getDevPolicy() == null || "-".equals(theDevice.getDevPolicy()))
-            {
+
+            if (theDevice.getDevPolicy() == null || "-".equals(theDevice.getDevPolicy())) {
                 theSwitchDeviceMap.putCommandMap(theDevice.getDevNumber(), "SWITCHCLOSE"); //默认关
                 continue;
             }
 
             List<String> arrPolicy = JSON.parseArray(theDevice.getDevPolicy(), String.class);
-            if (PolicyTimeUtils.isPolicyOpen(arrPolicy))
-            {
+            if (PolicyTimeUtils.isPolicyOpen(arrPolicy)) {
                 //应用于随机策略的过滤掉
-                if(StringUtils.isNotNull(theDevice.getDevRandom()))
-                {
+                if(StringUtils.isNotNull(theDevice.getDevRandom())) {
                     continue;
                 }
 
                 theSwitchDeviceMap.putCommandMap(theDevice.getDevNumber(), "SWITCHOPEN");
             }
-            else
-            {
+            else {
                 theSwitchDeviceMap.putCommandMap(theDevice.getDevNumber(), "SWITCHCLOSE");
             }//end if
 
@@ -124,28 +112,7 @@ public class JobDeviceSwitchDo implements Job
      * @return
      * @throws ParseException
      */
-    private boolean isBetweenWhiteList() throws ParseException
-    {
-        boolean flag = false;
-        Map<String, Object> param = new HashMap<>();
-        List<WhiteListDO> whites = whiteListService.list(param);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (WhiteListDO whiteList : whites)
-        {
-            String strStart = sdfDate.format(whiteList.getWhStartDate());
-            strStart += " 00:00:00";
-            Date startTime = sdfFull.parse(strStart);
-
-            String strFinish = sdfDate.format(whiteList.getWhFinishDate());
-            strFinish += " 23:59:59";
-            Date finishTime = sdfFull.parse(strFinish);
-
-            if(TimeUtils.isBetweenDate(startTime, finishTime))
-            {
-                flag = true;
-            }
-        }
-        return flag;
+    private boolean isBetweenWhiteList() {
+        return false;
     }
 }

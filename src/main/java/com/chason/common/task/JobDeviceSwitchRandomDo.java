@@ -22,10 +22,8 @@ import com.chason.common.utils.StringUtils;
 import com.chason.common.utils.TimeUtils;
 import com.chason.rwe.domain.DeviceDO;
 import com.chason.rwe.domain.PolicyDO;
-import com.chason.rwe.domain.WhiteListDO;
 import com.chason.rwe.service.DeviceService;
 import com.chason.rwe.service.PolicyService;
-import com.chason.rwe.service.WhiteListService;
 import com.chason.rwe.socket.SwitchDeviceMap;
 import com.chason.rwe.utils.PolicyTimeUtils;
 import com.chason.rwe.value.RandomFlagValue;
@@ -41,9 +39,6 @@ public class JobDeviceSwitchRandomDo implements Job
 
     @Autowired
     private PolicyService policyService;
-
-    @Autowired
-    private WhiteListService whiteListService;
 
     @Log("随机策略的设备开机")
     @Override
@@ -210,26 +205,7 @@ public class JobDeviceSwitchRandomDo implements Job
      */
     private boolean isBetweenWhiteList() throws ParseException
     {
-        boolean flag = false;
-        Map<String, Object> param = new HashMap<>();
-        List<WhiteListDO> whites = whiteListService.list(param);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (WhiteListDO whiteList : whites)
-        {
-            String strStart = sdfDate.format(whiteList.getWhStartDate());
-            strStart += " 00:00:00";
-            Date startTime = sdfFull.parse(strStart);
 
-            String strFinish = sdfDate.format(whiteList.getWhFinishDate());
-            strFinish += " 23:59:59";
-            Date finishTime = sdfFull.parse(strFinish);
-
-            if(TimeUtils.isBetweenDate(startTime, finishTime))
-            {
-                flag = true;
-            }
-        }
-        return flag;
+        return false;
     }
 }
