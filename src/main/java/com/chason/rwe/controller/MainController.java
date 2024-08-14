@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSON;
+
 import com.chason.common.annotation.Log;
 import com.chason.common.controller.BaseController;
 import com.chason.common.utils.StringUtils;
+
 import com.chason.rwe.domain.DeviceDO;
 import com.chason.rwe.domain.SpaceDO;
 import com.chason.rwe.service.DeviceService;
@@ -26,11 +28,9 @@ import com.chason.rwe.socket.SwitchDeviceValue;
 import com.chason.rwe.value.DevicePolicyValue;
 
 
-
 /**
  * 获取主页信息的controller
  * @author chason
- *
  */
 @Controller
 @RequestMapping("/main")
@@ -44,7 +44,7 @@ public class MainController extends BaseController
 
     @Log("访问主页")
     @GetMapping("/index")
-    String main()
+    public String main()
     {
         return "rwe/main/main";
     }
@@ -54,7 +54,7 @@ public class MainController extends BaseController
      * @return
      */
     @GetMapping("/device")
-    String deviceList(@RequestParam Map<String, Object> param, Model model)
+    public String deviceList(@RequestParam Map<String, Object> param, Model model)
     {
         String spaceId = (String) param.get("spaceId");
         if(!"root".equals(spaceId))
@@ -66,6 +66,7 @@ public class MainController extends BaseController
         //获取所有的有效设备
         List<DeviceDO> devices = deviceService.listValid(param);
         List<DeviceStat> devStats = new ArrayList<>();
+
         //获取所有设备状态的单例map
         SwitchDeviceMap theSwitchMap = SwitchDeviceMap.getInstance();
         Map<String, SwitchDeviceValue> switchDeviceValueMap = theSwitchMap.getSwitchDeviceValueMap();
