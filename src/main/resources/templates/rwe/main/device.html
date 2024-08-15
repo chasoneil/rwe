@@ -1,4 +1,5 @@
-<div class="col-sm-3" th:each="theDevice, page:${devices}" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="col-sm-3" th:each="theDevice, page:${devices}" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="ibox ibox-body">
         <div class="ibox-title">
             <span class="label label-primary pull-right" th:if="${theDevice.devFlag eq '11'}">联机中</span>

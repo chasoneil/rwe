@@ -28,7 +28,7 @@ public class LessonController {
     @GetMapping("/lesson")
     public String lessons(Model model) {
         List<LessonDO> lessons = lesssonService.list(new HashMap<>());
-
+        model.addAttribute("lessons", lessons);
         return PREFIX + "/lesson";
     }
 

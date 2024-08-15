@@ -1,0 +1,24 @@
+<div class="col-sm-3" th:each="lesson, page:${lessons}" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="ibox ibox-body">
+
+        <div class="ibox-title">
+            <span class="label label-primary pull-right" th:if="${lesson.learned eq 1}">已学习</span>
+            <span class="label label-warning pull-right" th:if="${lesson.learned eq 0}">未学习</span>
+            <h5 th:text="${lesson.lesson}">课程名</h5>
+        </div>
+
+        <div class="ibox-content" align="center">
+            <p><i class="fa fa-send-o"></i> 博客：<a href="http://www.zi-han.net" target="_blank">http://www.zi-han.net</a>
+            </p>
+            <p><i class="fa fa-qq"></i> QQ：<a href="http://wpa.qq.com/msgrd?v=3&uin=516477188&site=qq&menu=yes" target="_blank">516477188</a>
+            </p>
+            <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">zheng-zihan</a>
+            </p>
+            <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">zheng-zihan@qq.com / *子涵</a>
+            </p>
+            <br><br>
+            <a class="btn btn-sm btn-rounded btn-success">点击学习</a>
+        </div>
+    </div>
+</div>
