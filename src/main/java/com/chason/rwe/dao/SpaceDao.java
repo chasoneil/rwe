@@ -8,10 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- *
- * @author huzq
- * @email huzq@biaokaow.com
- * @date 2018-11-22 15:43:51
+ * @author chason
  */
 @Mapper
 public interface SpaceDao {

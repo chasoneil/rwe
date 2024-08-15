@@ -3,15 +3,15 @@ zmanager:
   dbRepoPath: D:\var\db_files\
 logging:
   level:
-    com.zmanager: debug
+    com.chason: debug
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     # 测试配置数据库
-    url: jdbc:mysql://127.0.0.1:3306/rwe?useUnicode=true&characterEncoding=utf8
-    username: 'glue'
-    password: 'xxxxxx'
+    url: jdbc:mysql://127.0.0.1:3306/rwe?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: 'root'
+    password: 'xxxxx'
     initialSize: 1
     minIdle: 3
     maxActive: 20
@@ -37,7 +37,7 @@ spring:
   redis:
       host: localhost
       port: 6379
-      password: 54363751
+      password: xxxxx
       # 连接超时时间（毫秒）
       timeout: 10000
       pool:

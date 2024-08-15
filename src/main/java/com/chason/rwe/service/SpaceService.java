@@ -7,11 +7,6 @@ import com.chason.system.domain.UserDO;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author huzq
- * @email huzq@biaokaow.com
- * @date 2018-11-22 15:43:51
- */
 public interface SpaceService {
 
 	SpaceDO get(String spaceId);

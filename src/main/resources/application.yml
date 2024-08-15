@@ -1,10 +1,15 @@
 server:
-    # context-path: /zmanager
+    # context-path: /rwe
     session-timeout: 1800
     tomcat:
         max-threads: 1000
         min-spare-threads: 30
     port: 8081
+#    ssl:
+#      key-store: classpath:keystore.p12
+#      key-store-password: 123456
+#      key-store-type: PKCS12
+#      key-alias: my-ssl-key
     uri-encoding: utf-8
 security:
   basic:
@@ -32,4 +37,4 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mybatis/**/*Mapper.xml
-  typeAliasesPackage: com.zmanager.**.domain
+  typeAliasesPackage: com.chason.**.domain

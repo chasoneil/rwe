@@ -5,13 +5,6 @@ import java.util.Map;
 
 import com.chason.rwe.domain.DeviceDO;
 
-/**
- *
- *
- * @author huzq
- * @email huzq@biaokaow.com
- * @date 2018-05-29 10:09:59
- */
 public interface DeviceService {
 
 	DeviceDO get(String devId);

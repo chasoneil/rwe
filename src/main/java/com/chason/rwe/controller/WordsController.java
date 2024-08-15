@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/rwe/words")
+@RequestMapping("/rwe/word")
 public class WordsController extends BaseController {
 
-    private static final String PREFIX = "rwe/words";
+    private static final String PREFIX = "rwe/word";
 
     @GetMapping("/index")
-    @RequiresPermissions("rwe:words")
+    @RequiresPermissions("rwe:word")
     public String index() {
         return PREFIX + "/index";
     }

@@ -37,7 +37,7 @@ import com.chason.common.utils.StringUtils;
  */
 
 @Controller
-@RequestMapping("/rtm/policy")
+@RequestMapping("/rwe/policy")
 public class PolicyController extends BaseController
 {
     @Autowired
@@ -53,7 +53,7 @@ public class PolicyController extends BaseController
     private DictService dictService;
 
     @GetMapping()
-    @RequiresPermissions("rtm:policy:policy")
+    @RequiresPermissions("rwe:policy:policy")
     String policy()
     {
         return "rwe/policy/policy";
@@ -119,7 +119,7 @@ public class PolicyController extends BaseController
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("rtm:policy:add")
+    @RequiresPermissions("rwe:policy:add")
     String add(Model model)
     {
         Map<String, Object> param = new HashMap<>();
@@ -132,7 +132,7 @@ public class PolicyController extends BaseController
     }
 
     @GetMapping("/addRandom")
-    @RequiresPermissions("rtm:policy:add")
+    @RequiresPermissions("rwe:policy:add")
     String addRandom(Model model)
     {
         return "rwe/policy/addRandom";
@@ -244,7 +244,7 @@ public class PolicyController extends BaseController
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("rtm:policy:add")
+    @RequiresPermissions("rwe:policy:add")
     public R save(PolicyDO policy)
     {
         try
@@ -292,7 +292,7 @@ public class PolicyController extends BaseController
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("rtm:space:update")
+    @RequiresPermissions("rwe:space:update")
     public R update(PolicyDO policy)
     {
         try
@@ -340,7 +340,7 @@ public class PolicyController extends BaseController
      */
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rtm:policy:remove")
+    @RequiresPermissions("rwe:policy:remove")
     public R remove(String policyId)
     {
         PolicyDO thePolicy = policyService.get(policyId);
@@ -376,7 +376,7 @@ public class PolicyController extends BaseController
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("rtm:policy:remove")
+    @RequiresPermissions("rwe:policy:remove")
     public R remove(@RequestParam("ids[]") String[] policyIds)
     {
         int count = policyService.batchRemove(policyIds);

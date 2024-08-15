@@ -7,12 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.chason.rwe.domain.DeviceDO;
 
-/**
- *
- * @author huzq
- * @email zzb@zzb.com
- * @date 2018-05-29 10:09:59
- */
 @Mapper
 public interface DeviceDao {
 

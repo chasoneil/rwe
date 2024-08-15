@@ -1,11 +1,14 @@
 package com.chason.rwe.domain;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 策略信息
  * @author chason
  */
+@Data
 public class PolicyDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,62 +26,4 @@ public class PolicyDO implements Serializable {
 	private String policyDur;
 	//策略对应的设备key
 	private String policySpaceKeys;
-
-
-    public String getPolicyId()
-    {
-        return policyId;
-    }
-    public void setPolicyId(String policyId)
-    {
-        this.policyId = policyId;
-    }
-    public String getPolicyName()
-    {
-        return policyName;
-    }
-    public void setPolicyName(String policyName)
-    {
-        this.policyName = policyName;
-    }
-    public String getPolicyType()
-    {
-        return policyType;
-    }
-    public void setPolicyType(String policyType)
-    {
-        this.policyType = policyType;
-    }
-    public String getPolicyWeek()
-    {
-        return policyWeek;
-    }
-    public void setPolicyWeek(String policyWeek)
-    {
-        this.policyWeek = policyWeek;
-    }
-    public String getPolicyStartTime()
-    {
-        return policyStartTime;
-    }
-    public void setPolicyStartTime(String policyStartTime)
-    {
-        this.policyStartTime = policyStartTime;
-    }
-    public String getPolicyDur()
-    {
-        return policyDur;
-    }
-    public void setPolicyDur(String policyDur)
-    {
-        this.policyDur = policyDur;
-    }
-    public String getPolicySpaceKeys()
-    {
-        return policySpaceKeys;
-    }
-    public void setPolicySpaceKeys(String policySpaceKeys)
-    {
-        this.policySpaceKeys = policySpaceKeys;
-    }
 }

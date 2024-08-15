@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.LessonDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.LessonDO">
+		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time` from tbl_lesson where lesson_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.LessonDO">
+		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time` from tbl_lesson
+        <where>
+			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+		</where>
+        <choose>
+	        <when test="sort != null and sort.trim() != ''">
+	            order by ${sort} ${order}
+	        </when>
+			<otherwise>
+			    order by lesson_id
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_lesson
+		<where>
+			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.LessonDO">
+		insert into tbl_lesson
+		(
+			`lesson_id`,
+			`lesson`,
+			`count`,
+			`learned`,
+			`learned_time`,
+			`passed`,
+			`pass_time`
+		)
+		values
+		(
+			#{lessonId},
+			#{lesson},
+			#{count},
+			#{learned},
+			#{learnedTime},
+			#{passed},
+			#{passTime}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.LessonDO">
+		update tbl_lesson
+		<set>
+		    <if test="count != null">`count` = #{count}, </if>
+			<if test="learned != null">`learned` = #{learned}, </if>
+			<if test="learnedTime != null">`learned_time` = #{learnedTime}, </if>
+			<if test="passed != null">`passed` = #{passed}</if>
+			<if test="passTime != null">`pass_time` = #{passTime}</if>
+		</set>
+		where lesson_id = #{lessonId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_lesson where lesson_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_lesson where lesson_id in
+		<foreach item="lessonId" collection="array" open="(" separator="," close=")">
+			#{lessonId}
+		</foreach>
+	</delete>
+</mapper>
