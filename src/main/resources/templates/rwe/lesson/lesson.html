@@ -9,16 +9,21 @@
         </div>
 
         <div class="ibox-content" align="center">
-            <p><i class="fa fa-send-o"></i> 博客：<a href="http://www.zi-han.net" target="_blank">http://www.zi-han.net</a>
+            <p><i class="fa fa-calendar"></i> 课程单词数：<a th:text="${lesson.count}">0</a>
             </p>
-            <p><i class="fa fa-qq"></i> QQ：<a href="http://wpa.qq.com/msgrd?v=3&uin=516477188&site=qq&menu=yes" target="_blank">516477188</a>
+            <p><i class="fa fa-check-square-o"></i> 已学习单词：<a th:text="${lesson.learned}">0</a>
             </p>
-            <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">zheng-zihan</a>
+            <p><i class="fa fa-check-square"></i> 已掌握单词：<a th:text="${lesson.passed}"></a>
             </p>
-            <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">zheng-zihan@qq.com / *子涵</a>
+            <p><i class="fa fa-clock-o"></i> 上次学习时间：
+                <a th:if="${lesson.lastLearnTime != ''}" th:text="${lesson.lastLearnTime}"></a>
+                <a th:if="${lesson.lastLearnTime == ''}" th:text="暂未学习">暂未学习</a>
             </p>
             <br><br>
             <a class="btn btn-sm btn-rounded btn-success">点击学习</a>
         </div>
     </div>
 </div>
+
+
+

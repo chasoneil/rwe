@@ -4,11 +4,15 @@
 <mapper namespace="com.chason.rwe.dao.LessonDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.LessonDO">
-		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time` from tbl_lesson where lesson_id = #{value}
+		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time`,`last_learn_time` from tbl_lesson where lesson_id = #{value}
+	</select>
+
+	<select id="findByName" resultType="com.chason.rwe.domain.LessonDO">
+		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time`,`last_learn_time` from tbl_lesson where lesson = #{value}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.LessonDO">
-		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time` from tbl_lesson
+		select `lesson_id`,`lesson`,`count`,`learned`,`learned_time`,`passed`,`pass_time`,`last_learn_time` from tbl_lesson
         <where>
 			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
 			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
@@ -18,7 +22,7 @@
 	            order by ${sort} ${order}
 	        </when>
 			<otherwise>
-			    order by lesson_id
+			    order by last_learn_time
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -43,7 +47,8 @@
 			`learned`,
 			`learned_time`,
 			`passed`,
-			`pass_time`
+			`pass_time`,
+			`last_learn_time`
 		)
 		values
 		(
@@ -53,7 +58,8 @@
 			#{learned},
 			#{learnedTime},
 			#{passed},
-			#{passTime}
+			#{passTime},
+			#{lastLearnTime}
 		)
 	</insert>
 
@@ -65,6 +71,7 @@
 			<if test="learnedTime != null">`learned_time` = #{learnedTime}, </if>
 			<if test="passed != null">`passed` = #{passed}</if>
 			<if test="passTime != null">`pass_time` = #{passTime}</if>
+			<if test="lastLearnTime != null">`last_learn_time` = #{lastLearnTime}</if>
 		</set>
 		where lesson_id = #{lessonId}
 	</update>

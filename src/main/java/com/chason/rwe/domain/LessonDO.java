@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 public class LessonDO {
 
-    private int lessonId;
+    private String lessonId;
 
     private String lesson;
 
@@ -20,5 +20,7 @@ public class LessonDO {
     private int passed;
 
     private Date passTime;
+
+    private Date lastLearnTime;
 
 }

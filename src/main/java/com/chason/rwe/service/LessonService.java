@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface LessonService {
 
-    LessonDO get(int lessonId);
+    LessonDO get(String lessonId);
 
     List<LessonDO> list(Map<String, Object> map);
 
@@ -17,8 +17,8 @@ public interface LessonService {
 
     int update(LessonDO lesson);
 
-    int remove(int lessonId);
+    int remove(String lessonId);
 
-    int batchRemove(int[] lessonIds);
+    int batchRemove(String[] lessonIds);
 
 }

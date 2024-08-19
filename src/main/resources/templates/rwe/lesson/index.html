@@ -1,17 +1,37 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 
 <body class="gray-bg">
-
     <div class="wrapper wrapper-content ">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="row">
-                        <div id="lesson"></div>
+        <div class="col-sm-12">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button shiro:hasPermission="rwe:lesson:add" type="button" class="btn btn-primary" onclick="add()">
+                            <i class="fa fa-plus"></i> 添加课程
+                        </button>
+                        <button shiro:hasPermission="rwe:lesson:delete" type="button" class="btn btn-danger" onclick="batchRemove()">
+                            <i class="fa fa-trash"></i> 删除课程
+                        </button>
                     </div>
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reload()"><i class="fa fa-search"></i> 刷新</button>
+                    </div>
+
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchName" type="text" class="form-control" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="row">
+                    <div id="lesson"></div>
                 </div>
             </div>
         </div>
@@ -19,10 +39,5 @@
 
     <div th:include="include :: footer"></div>
     <script type="text/javascript" src="/js/appjs/rtm/lesson/lesson.js"></script>
-    <script>
-
-    //self.setInterval("loadDevice();", 10000);
-    //self.setInterval("twinkle()", 1000);
-    </script>
     </body>
 </html>

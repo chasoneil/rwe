@@ -1,5 +1,6 @@
 package com.chason.rwe.service.impl;
 
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.dao.LessonDao;
 import com.chason.rwe.domain.LessonDO;
 import com.chason.rwe.service.LessonService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -16,7 +18,7 @@ public class LessonServiceImpl implements LessonService {
     private LessonDao lessonDao;
 
     @Override
-    public LessonDO get(int lessonId) {
+    public LessonDO get(String lessonId) {
         return lessonDao.get(lessonId);
     }
 
@@ -32,6 +34,21 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public int save(LessonDO lesson) {
+
+        if (!StringUtils.isNotNull(lesson.getLesson())) {
+            throw new RuntimeException("课程名称不能为空");
+        }
+
+        LessonDO lessonDO = lessonDao.findByName(lesson.getLesson());
+        if (lessonDO != null) {
+            throw new RuntimeException("课程：" + lesson.getLesson() + "已经存在");
+        }
+
+        lesson.setCount(0);
+        lesson.setLearned(0);
+        lesson.setPassed(0);
+        lesson.setLearnedTime(0);
+        lesson.setLessonId(UUID.randomUUID().toString());
         return lessonDao.save(lesson);
     }
 
@@ -41,12 +58,12 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public int remove(int lessonId) {
+    public int remove(String lessonId) {
         return lessonDao.remove(lessonId);
     }
 
     @Override
-    public int batchRemove(int[] lessonIds) {
+    public int batchRemove(String[] lessonIds) {
         return lessonDao.batchRemove(lessonIds);
     }
 }

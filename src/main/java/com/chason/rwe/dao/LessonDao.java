@@ -9,9 +9,11 @@ import java.util.Map;
 @Mapper
 public interface LessonDao {
 
-    LessonDO get(int lessonId);
+    LessonDO get(String lessonId);
 
     List<LessonDO> list(Map<String,Object> map);
+
+    LessonDO findByName(String lesson);
 
     int count(Map<String,Object> map);
 
@@ -19,8 +21,8 @@ public interface LessonDao {
 
     int update(LessonDO lesson);
 
-    int remove(int lessonId);
+    int remove(String lessonId);
 
-    int batchRemove(int[] lessonIds);
+    int batchRemove(String[] lessonIds);
 
 }

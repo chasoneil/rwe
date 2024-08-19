@@ -15,6 +15,17 @@ function edit(id) {
 	});
 }
 
+function add() {
+	layer.open({
+		type : 2,
+		title : '增加课程',
+		maxmin : true,
+		shadeClose : false,
+		area : [ '500px', '270px' ],
+		content : prefix + '/add'
+	});
+}
+
 function loadLesson()
 {
 	$.ajax({
