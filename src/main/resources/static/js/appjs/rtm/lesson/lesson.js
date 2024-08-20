@@ -39,3 +39,15 @@ function loadLesson()
 	});
 }
 
+function addWord(lessonId) {
+
+	layer.open({
+		type : 2,
+		title : '添加单词',
+		maxmin : true,
+		shadeClose : false,
+		area : [ '800px', '420px' ],
+		content : '/rwe/word/add' + '/' + lessonId
+	});
+}
+

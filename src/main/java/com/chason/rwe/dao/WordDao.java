@@ -9,7 +9,9 @@ import java.util.Map;
 @Mapper
 public interface WordDao {
 
-    WordDO get(int id);
+    WordDO get(String id);
+
+    WordDO findWord(String word, String wordType);
 
     List<WordDO> list(Map<String,Object> map);
 
@@ -19,7 +21,7 @@ public interface WordDao {
 
     int update(WordDO word);
 
-    int remove(int id);
+    int remove(String id);
 
-    int batchRemove(int[] ids);
+    int batchRemove(String[] ids);
 }

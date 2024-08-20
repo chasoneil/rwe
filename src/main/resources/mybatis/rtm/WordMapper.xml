@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.WordDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.WordDO">
+		select `word`,`word_type`,`lesson`,`learned`,`zh_mean`,`learn_time`,`last_review_time`,`create_time` from tbl_word where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.WordDO">
+		select `word`,`word_type`,`lesson`,`learned`,`zh_mean`,`learn_time`,`last_review_time`,`create_time` from tbl_word
+		<where>
+			<if test="word != null and word != ''"> and word = #{word} </if>
+			<if test="word_type != null and word_type != ''"> and wordType = #{wordType} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+			<if test="learned != null and learned != ''"> and learned = #{learned} </if>
+			<if test="learn_time != null and learn_time != ''"> and learnTime = #{learnTime} </if>
+			<if test="last_review_time != null and last_review_time != ''"> and lastReviewTime = #{lastReviewTime} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by create_time
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from tbl_word
+		<where>
+			<if test="word != null and word != ''"> and word = #{word} </if>
+			<if test="word_type != null and word_type != ''"> and wordType = #{wordType} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+			<if test="learned != null and learned != ''"> and learned = #{learned} </if>
+			<if test="learn_time != null and learn_time != ''"> and learnTime = #{learnTime} </if>
+			<if test="last_review_time != null and last_review_time != ''"> and lastReviewTime = #{lastReviewTime} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.WordDO">
+		insert into tbl_word
+		(
+			`id`,
+			`word`,
+			`word_type`,
+			`lesson`,
+			`learned`,
+			`learn_time`,
+			`zh_mean`,
+			`last_review_time`,
+			`create_time`
+		)
+		values
+		(
+			#{id},
+			#{word},
+			#{wordType},
+			#{lesson},
+			#{learned},
+			#{learnTime},
+			#{zhMean},
+			#{lastReviewTime},
+			#{createTime}
+		)
+	</insert>
+
+</mapper>

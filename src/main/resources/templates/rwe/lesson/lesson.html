@@ -3,9 +3,13 @@
     <div class="ibox ibox-body">
 
         <div class="ibox-title">
-            <span class="label label-primary pull-right" th:if="${lesson.learned eq 1}">已学习</span>
-            <span class="label label-warning pull-right" th:if="${lesson.learned eq 0}">未学习</span>
+            <a class="btn btn-xs btn-rounded btn-success pull-right" th:onclick="'javascript:addWord(\''+ ${lesson.lessonId} +'\');'">
+                <i class="fa fa-plus"></i> 添加单词
+            </a>
             <h5 th:text="${lesson.lesson}">课程名</h5>
+            <span style="margin-left: 10px;" class="label label-primary" th:if="${lesson.learned eq 1}">已学习</span>
+            <span style="margin-left: 10px;" class="label label-warning" th:if="${lesson.learned eq 0}">未学习</span>
+
         </div>
 
         <div class="ibox-content" align="center">
