@@ -7,10 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +53,21 @@ public class LessonController {
             return R.error(e.getMessage());
         }
         return R.ok();
+    }
+
+    @ResponseBody
+    @PostMapping("/remove")
+    @RequiresPermissions("rwe:lesson:delete")
+    public R remove(String lessonId) {
+        try {
+            int result = lesssonService.remove(lessonId);
+            if (result > 0) {
+                return R.ok();
+            }
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.error();
     }
 
 }

@@ -39,6 +39,31 @@ function loadLesson()
 	});
 }
 
+function remove(lessonId) {
+
+	layer.confirm('删除课程会导致该课程下所有单词被删除？', {
+		btn : [ '确定', '取消' ]
+	}, function() {
+		$.ajax({
+			url : "/rwe/lesson/remove",
+			type : "post",
+			data : {
+				'lessonId' : lessonId
+			},
+			success : function(r) {
+				if (r.code == 0) {
+					layer.msg(r.msg);
+					loadLesson();
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	})
+}
+
+
+
 function addWord(lessonId) {
 
 	layer.open({

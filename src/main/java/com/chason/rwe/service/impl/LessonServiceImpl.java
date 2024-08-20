@@ -2,6 +2,7 @@ package com.chason.rwe.service.impl;
 
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.dao.LessonDao;
+import com.chason.rwe.dao.WordDao;
 import com.chason.rwe.domain.LessonDO;
 import com.chason.rwe.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class LessonServiceImpl implements LessonService {
 
     @Autowired
     private LessonDao lessonDao;
+
+    @Autowired
+    private WordDao wordDao;
 
     @Override
     public LessonDO get(String lessonId) {
@@ -59,7 +63,24 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public int remove(String lessonId) {
+
+        LessonDO lessonDO = lessonDao.get(lessonId);
+        if (lessonDO == null) {
+            throw new RuntimeException("课程不存在");
+        }
+        wordDao.removeByLesson(lessonId);
         return lessonDao.remove(lessonId);
+    }
+
+    @Override
+    public int delete(String lesson) {
+        LessonDO lessonDO = lessonDao.findByName(lesson);
+        if (lessonDO == null) {
+            throw new RuntimeException("课程:" + lesson + "不存在");
+        }
+
+        wordDao.removeByLesson(lessonDO.getLessonId());
+        return lessonDao.remove(lessonDO.getLessonId());
     }
 
     @Override

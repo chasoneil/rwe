@@ -27,12 +27,6 @@ public class WordsController extends BaseController {
         return PREFIX + "/index";
     }
 
-    @GetMapping("/classes")
-    public String classes(Model model) {
-
-        return "";
-    }
-
     @GetMapping("/add/{lessonId}")
     public String add(@PathVariable("lessonId") String lessonId, Model model) {
         model.addAttribute("lessonId", lessonId);
@@ -42,9 +36,15 @@ public class WordsController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(WordDO word) {
-        if (wordService.save(word) > 0) {
-            return R.ok();
+
+        try {
+            if (wordService.save(word) > 0) {
+                return R.ok();
+            }
+        } catch (Exception e) {
+            return R.error(e.getMessage());
         }
+
         return R.error();
     }
 

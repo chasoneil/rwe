@@ -23,5 +23,7 @@ public interface WordDao {
 
     int remove(String id);
 
+    int removeByLesson(String lessonId);
+
     int batchRemove(String[] ids);
 }

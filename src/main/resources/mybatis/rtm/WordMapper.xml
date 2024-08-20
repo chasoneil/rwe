@@ -69,4 +69,12 @@
 		)
 	</insert>
 
+	<delete id="removeByLesson">
+		delete from tbl_word where `lesson` = #{lessonId}
+	</delete>
+
+	<delete id="remove">
+		delete from tbl_word where `id` = #{value}
+	</delete>
+
 </mapper>

@@ -19,6 +19,8 @@ public interface LessonService {
 
     int remove(String lessonId);
 
+    int delete(String lesson);
+
     int batchRemove(String[] lessonIds);
 
 }
