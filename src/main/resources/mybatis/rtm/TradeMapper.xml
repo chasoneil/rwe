@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.TradeDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment` from tbl_account where order_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment` from tbl_account
+        <where>
+			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
+			<if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
+			<if test="product != null and product != ''"> and product = #{product} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="amount != null and amount != ''"> and amount = #{amount} </if>
+            <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+            <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+            <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
+		</where>
+		order by trade_time, order_id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from tbl_account
+		  <where>
+			  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			  <if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			  <if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			  <if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
+			  <if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
+			  <if test="product != null and product != ''"> and product = #{product} </if>
+			  <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			  <if test="amount != null and amount != ''"> and amount = #{amount} </if>
+			  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+			  <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			  <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
+		  </where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.TradeDO">
+		insert into tbl_account
+		(
+			`order_id`,
+			`trade_time`,
+			`trade_type`,
+			`trade_obj`,
+			`obj_account`,
+			`product`,
+			`in_out`,
+			`amount`,
+			`pay_type`,
+            `trade_status`,
+            `seller_order_id`,
+            `trade_comment`
+		)
+		values
+		(
+			#{orderId},
+			#{tradeTime},
+			#{tradeType},
+			#{tradeObj},
+			#{objAccount},
+			#{product},
+			#{inOut},
+			#{amount},
+			#{payType},
+            #{tradeStatus},
+            #{sellerOrderId},
+            #{tradeComment}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.TradeDO">
+		update tbl_account
+		<set>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="tradeTime != null">`trade_time` = #{tradeTime}, </if>
+			<if test="tradeType != null">`trade_type` = #{tradeType}, </if>
+			<if test="tradeObj != null">`trade_obj` = #{tradeObj}, </if>
+			<if test="objAccount != null">`obj_account` = #{objAccount}, </if>
+			<if test="product != null">`product` = #{product}, </if>
+			<if test="inOut != null">`in_out` = #{inOut}, </if>
+            <if test="amount != null">`amount` = #{amount}, </if>
+            <if test="payType != null">`pay_type` = #{payType}, </if>
+            <if test="tradeStatus != null">`trad_status` = #{tradeStatus}, </if>
+			<if test="sellerOrderId != null">`seller_order_id` = #{sellerOrderId}, </if>
+			<if test="tradeComment != null">`trad_comment` = #{tradeComment} </if>
+		</set>
+		where order_id = #{orderId}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_account where order_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_account where order_id in
+		<foreach item="orderId" collection="array" open="(" separator="," close=")">
+			#{orderId}
+		</foreach>
+	</delete>
+
+</mapper>

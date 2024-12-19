@@ -44,9 +44,8 @@ public class MainController extends BaseController
 
     @Log("访问主页")
     @GetMapping("/index")
-    public String main()
-    {
-        return "rwe/main/main";
+    public String index() {
+        return "rwe/main/index";
     }
 
     /**

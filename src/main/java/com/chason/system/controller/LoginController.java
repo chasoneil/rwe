@@ -48,19 +48,14 @@ public class LoginController extends BaseController
         model.addAttribute("menus", menus);
         model.addAttribute("name", getUser().getName());
         FileDO fileDO = fileService.get(getUser().getPicId());
-        if (fileDO != null && fileDO.getUrl() != null)
-        {
-            if (fileService.isExist(fileDO.getUrl()))
-            {
+        if (fileDO != null && fileDO.getUrl() != null) {
+            if (fileService.isExist(fileDO.getUrl())) {
                 model.addAttribute("picUrl", fileDO.getUrl());
-            }
-            else
-            {
+            } else {
                 model.addAttribute("picUrl", "/img/photo_s.jpg");
             }
         }
-        else
-        {
+        else {
             model.addAttribute("picUrl", "/img/photo_s.jpg");
         }
         model.addAttribute("username", getUser().getUsername());
