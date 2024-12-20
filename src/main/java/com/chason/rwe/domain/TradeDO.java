@@ -34,6 +34,8 @@ public class TradeDO {
 
     private String sellerOrderId;
 
+    private String platform;
+
     private String tradeComment;
 
 }

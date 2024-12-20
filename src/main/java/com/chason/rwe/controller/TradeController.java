@@ -5,6 +5,7 @@ import com.chason.common.domain.TaskDO;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradeDataSourceEnum;
 import com.chason.rwe.service.TradeService;
@@ -78,7 +79,8 @@ public class TradeController {
 
         if (file.getOriginalFilename().endsWith(".xls") || file.getOriginalFilename().endsWith(".xlsx")
         || file.getOriginalFilename().endsWith(".XLSX") || file.getOriginalFilename().endsWith(".XLS")) {
-            result = doExcelImport(file);
+            return R.ok("暂不支持Excel导入！");
+            //result = doExcelImport(file);
         }
 
         if (file.getOriginalFilename().endsWith(".csv") || file.getOriginalFilename().endsWith(".txt") ||
@@ -99,17 +101,21 @@ public class TradeController {
 
         String delimiter = ",";
         int rowCount = 0; // 用于记录导入的行数
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "GBK"))) {
-            String line;
+
+        String encoding = "UTF-8";
+        if (file.getOriginalFilename().contains("alipay")) {
+            encoding = "GBK";
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
 
             TradeDataSourceEnum dataSource = TradeDataSourceEnum.UNKNOWN;
-
             boolean typeFound = false;
             List<TradeDO> trades = new ArrayList<>();
+
+            String line;
             while ((line = br.readLine()) != null) {
-
                 String[] columns = line.split(delimiter);
-
                 // 解析账单类型
                 if (columns.length == 1) {
                     if (!typeFound) {
@@ -126,22 +132,48 @@ public class TradeController {
                     }
                     continue;
                 }
-                switch (dataSource) {
-                    case ALIPAY:
-                        // 解析支付宝账单
-                        if (rowCount != 0) {
-                            TradeDO tradeDO = doAlipayImport(columns);
-                            trades.add(tradeDO);
+
+                if (columns.length > 1 ) {
+
+                    // 解析数据 有效数据行
+                    if (StringUtils.isNotNull(columns[1])) {
+                        switch (dataSource) {
+                            case ALIPAY:
+                                // 解析支付宝账单
+                                if (rowCount != 0) {
+                                    TradeDO tradeDO = doAlipayImport(columns);
+                                    trades.add(tradeDO);
+                                }
+                                break;
+                            case WECHAT:
+                                // 解析微信账单
+                                if (rowCount != 0) {
+                                    TradeDO tradeDO = doWechatImport(columns);
+                                    trades.add(tradeDO);
+                                }
+                                break;
+                            default:
+                                // 未知数据源
+                                break;
                         }
-                        break;
-                    case WECHAT:
-                        // 解析微信账单
-                        break;
-                    default:
-                        // 未知数据源
-                        break;
+                        rowCount++; // 增加导入的行数
+                    } else {
+                        // 信息行
+                        if (!typeFound) {
+
+                            if (columns[0].contains("支付宝")) {
+                                dataSource = TradeDataSourceEnum.ALIPAY;
+                                typeFound = true;
+                            }
+
+                            if (columns[0].contains("微信")) {
+                                dataSource = TradeDataSourceEnum.WECHAT;
+                                typeFound = true;
+                            }
+                        }
+                        continue;
+                    }
                 }
-                rowCount++; // 增加导入的行数
             }
 
             rowCount = trades.size();
@@ -171,11 +203,35 @@ public class TradeController {
             tradeDO.setTradeStatus(columns[8]);
             tradeDO.setOrderId(columns[9]);
             tradeDO.setSellerOrderId(columns[10]);
+            tradeDO.setPlatform("支付宝");
             if (columns.length == 12) {
                 tradeDO.setTradeComment(columns[11]);
             }
         }
 
+        return tradeDO;
+    }
+
+    private TradeDO doWechatImport(String[] columns) throws ParseException {
+        // 解析数据
+        TradeDO tradeDO = new TradeDO();
+        for (int i = 0; i < columns.length; i++) {
+            tradeDO.setTradeTime(sdf.parse(columns[0]));
+            tradeDO.setTradeType(columns[1]);
+            tradeDO.setTradeObj(columns[2]);
+            tradeDO.setProduct(columns[3]);
+            tradeDO.setInOut(columns[4]);
+            String amount = columns[5].replaceAll("¥", "");
+            tradeDO.setAmount(Double.parseDouble(amount));
+            tradeDO.setPayType(columns[6]);
+            tradeDO.setTradeStatus(columns[7]);
+            tradeDO.setOrderId(columns[8]);
+            tradeDO.setSellerOrderId(columns[9]);
+            tradeDO.setPlatform("微信");
+            if (columns.length > 10) {
+                tradeDO.setTradeComment(columns[10]);
+            }
+        }
         return tradeDO;
     }
 }

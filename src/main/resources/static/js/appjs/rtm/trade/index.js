@@ -47,6 +47,11 @@ function load() {
                         title: '交易时间'
                     },
                     {
+                        field: 'platform',
+                        title: '交易平台',
+                        align : 'center'
+                    },
+                    {
                         field: 'tradeType',
                         title: '交易类型',
 						align : 'center'
@@ -69,12 +74,12 @@ function load() {
                         title: '交易状态',
 						align : 'center',
                         formatter: function (value, row, index) {
-                            var e = '<a class="btn btn-danger btn-xs" href="#" mce_href="#">已关闭</a> ';
-                            var f = '<a class="btn btn-success btn-xs" href="#" mce_href="#">开启中</a> ';
-                            if (row.tradeStatus == 0) {
-                                return e;
-                            } else {
-                                return f;
+                            if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
+                                return '<a class="btn btn-primary btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a>';
+                            } else if(row.tradeStatus === '已关闭' || row.tradeStatus === '已转账') {
+                                return '<a class="btn btn-default btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a>';
+                            } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
+                                return '<a class="btn btn-primary btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
                             }
                         }
                     },
