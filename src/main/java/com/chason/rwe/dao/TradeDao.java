@@ -17,6 +17,8 @@ public interface TradeDao {
 
     int save(TradeDO tradeDO);
 
+    int batchSave(List<TradeDO> tradeDOList);
+
     int update(TradeDO tradeDO);
 
     int remove(String orderId);

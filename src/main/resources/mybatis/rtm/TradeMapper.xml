@@ -78,6 +78,41 @@
 		)
 	</insert>
 
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into tbl_account
+		(
+			`order_id`,
+			`trade_time`,
+			`trade_type`,
+			`trade_obj`,
+			`obj_account`,
+			`product`,
+			`in_out`,
+			`amount`,
+			`pay_type`,
+            `trade_status`,
+            `seller_order_id`,
+            `trade_comment`
+		)
+		values
+		<foreach collection="list" item="trade" separator=",">
+			(
+				#{trade.orderId},
+				#{trade.tradeTime},
+				#{trade.tradeType},
+				#{trade.tradeObj},
+				#{trade.objAccount},
+				#{trade.product},
+				#{trade.inOut},
+				#{trade.amount},
+				#{trade.payType},
+				#{trade.tradeStatus},
+				#{trade.sellerOrderId},
+				#{trade.tradeComment}
+			)
+		</foreach>
+	</insert>
+
 	<update id="update" parameterType="com.chason.rwe.domain.TradeDO">
 		update tbl_account
 		<set>
@@ -109,3 +144,4 @@
 	</delete>
 
 </mapper>
+

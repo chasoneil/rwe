@@ -36,6 +36,11 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
+    public int batchSave(List<TradeDO> tradeDOList) {
+        return tradeDao.batchSave(tradeDOList);
+    }
+
+    @Override
     public int update(TradeDO tradeDO) {
         return tradeDao.update(tradeDO);
     }

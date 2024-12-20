@@ -30,7 +30,7 @@ create table tbl_account (
     in_out varchar(4),
     amount double,
     pay_type varchar(32),
-    trade_status varchar(4),
+    trade_status varchar(16),
     seller_order_id varchar(128),
     trade_comment text,
     index (trade_time),
