@@ -44,6 +44,29 @@ public class LoginController extends BaseController
     @GetMapping({ "/index" })
     String index(Model model)
     {
+//        List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
+//        model.addAttribute("menus", menus);
+//        model.addAttribute("name", getUser().getName());
+//        FileDO fileDO = fileService.get(getUser().getPicId());
+//        if (fileDO != null && fileDO.getUrl() != null) {
+//            if (fileService.isExist(fileDO.getUrl())) {
+//                model.addAttribute("picUrl", fileDO.getUrl());
+//            } else {
+//                model.addAttribute("picUrl", "/img/photo_s.jpg");
+//            }
+//        }
+//        else {
+//            model.addAttribute("picUrl", "/img/photo_s.jpg");
+//        }
+//        model.addAttribute("username", getUser().getUsername());
+//        model.addAttribute("role", this.getUser().getName());
+        return "index_v2";
+    }
+
+    @Log("请求访问后台主页")
+    @GetMapping({ "/index_v1" })
+    String indexV1(Model model)
+    {
         List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
         model.addAttribute("menus", menus);
         model.addAttribute("name", getUser().getName());

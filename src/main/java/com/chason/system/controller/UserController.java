@@ -28,8 +28,7 @@ import java.util.Map;
 
 @RequestMapping("/sys/user")
 @Controller
-public class UserController extends BaseController
-{
+public class UserController extends BaseController {
     private static final String PREFIX = "system/user";
 
     @Autowired
@@ -48,8 +47,7 @@ public class UserController extends BaseController
 
     @GetMapping("/list")
     @ResponseBody
-    PageUtils list(@RequestParam Map<String, Object> params)
-    {
+    PageUtils list(@RequestParam Map<String, Object> params) {
         // 查询列表数据
         Query query = new Query(params);
         List<UserDO> sysUserList = userService.list(query);
@@ -61,8 +59,7 @@ public class UserController extends BaseController
     @RequiresPermissions("sys:user:add")
     @Log("添加用户")
     @GetMapping("/add")
-    String add(Model model)
-    {
+    String add(Model model) {
         List<RoleDO> roles = roleService.list();
         model.addAttribute("roles", roles);
         return PREFIX + "/add";
@@ -71,8 +68,7 @@ public class UserController extends BaseController
     @RequiresPermissions("sys:user:edit")
     @Log("编辑用户")
     @GetMapping("/edit/{id}")
-    String edit(Model model, @PathVariable("id") Long id)
-    {
+    String edit(Model model, @PathVariable("id") Long id) {
         UserDO userDO = userService.get(id);
         model.addAttribute("user", userDO);
         List<RoleDO> roles = roleService.list(id);
@@ -84,12 +80,10 @@ public class UserController extends BaseController
     @Log("保存用户")
     @PostMapping("/save")
     @ResponseBody
-    R save(UserDO user)
-    {
+    R save(UserDO user) {
         user.setPassword(
                 MD5Utils.encrypt(user.getUsername(), user.getPassword()));
-        if (userService.save(user) > 0)
-        {
+        if (userService.save(user) > 0) {
             return R.ok();
         }
         return R.error();
@@ -99,10 +93,8 @@ public class UserController extends BaseController
     @Log("更新用户")
     @PostMapping("/update")
     @ResponseBody
-    R update(UserDO user)
-    {
-        if (userService.update(user) > 0)
-        {
+    R update(UserDO user) {
+        if (userService.update(user) > 0) {
             return R.ok();
         }
         return R.error();
@@ -112,10 +104,8 @@ public class UserController extends BaseController
     @Log("更新用户")
     @PostMapping("/updatePeronal")
     @ResponseBody
-    R updatePeronal(UserDO user)
-    {
-        if (userService.updatePersonal(user) > 0)
-        {
+    R updatePeronal(UserDO user) {
+        if (userService.updatePersonal(user) > 0) {
             return R.ok();
         }
         return R.error();
@@ -125,10 +115,8 @@ public class UserController extends BaseController
     @Log("删除用户")
     @PostMapping("/remove")
     @ResponseBody
-    R remove(Long id)
-    {
-        if (userService.remove(id) > 0)
-        {
+    R remove(Long id) {
+        if (userService.remove(id) > 0) {
             return R.ok();
         }
         return R.error();
@@ -138,11 +126,9 @@ public class UserController extends BaseController
     @Log("批量删除用户")
     @PostMapping("/batchRemove")
     @ResponseBody
-    R batchRemove(@RequestParam("ids[]") Long[] userIds)
-    {
+    R batchRemove(@RequestParam("ids[]") Long[] userIds) {
         int r = userService.batchremove(userIds);
-        if (r > 0)
-        {
+        if (r > 0) {
             return R.ok();
         }
         return R.error();
@@ -150,8 +136,7 @@ public class UserController extends BaseController
 
     @PostMapping("/exit")
     @ResponseBody
-    boolean exit(@RequestParam Map<String, Object> params)
-    {
+    boolean exit(@RequestParam Map<String, Object> params) {
         // 存在，不通过，false
         return !userService.exit(params);
     }
@@ -159,8 +144,7 @@ public class UserController extends BaseController
     @RequiresPermissions("sys:user:resetPwd")
     @Log("请求更改用户密码")
     @GetMapping("/resetPwd/{id}")
-    String resetPwd(@PathVariable("id") Long userId, Model model)
-    {
+    String resetPwd(@PathVariable("id") Long userId, Model model) {
         UserDO userDO = new UserDO();
         userDO.setUserId(userId);
         model.addAttribute("user", userDO);
@@ -170,15 +154,12 @@ public class UserController extends BaseController
     @Log("提交更改用户密码")
     @PostMapping("/resetPwd")
     @ResponseBody
-    R resetPwd(UserVO userVO)
-    {
-        try
-        {
+    R resetPwd(UserVO userVO) {
+        try {
             userService.resetPwd(userVO, getUser());
-            return R.ok();
+            return R.ok("密码修改成功！");
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             return R.error(1, e.getMessage());
         }
 
@@ -188,15 +169,12 @@ public class UserController extends BaseController
     @Log("admin提交更改用户密码")
     @PostMapping("/adminResetPwd")
     @ResponseBody
-    R adminResetPwd(UserVO userVO)
-    {
-        try
-        {
+    R adminResetPwd(UserVO userVO) {
+        try {
             userService.adminResetPwd(userVO);
-            return R.ok();
+            return R.ok("重置密码成功！");
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             return R.error(1, e.getMessage());
         }
 
@@ -204,8 +182,7 @@ public class UserController extends BaseController
 
     @GetMapping("/tree")
     @ResponseBody
-    public Tree<DeptDO> tree()
-    {
+    public Tree<DeptDO> tree() {
         Tree<DeptDO> tree = new Tree<DeptDO>();
         tree = userService.getTree();
         return tree;
@@ -213,21 +190,15 @@ public class UserController extends BaseController
 
     @GetMapping("/spaceManagerTree/{managerIds}")
     @ResponseBody
-    public Tree<DeptDO> spaceManagerTree(@PathVariable("managerIds") String managerIds)
-    {
-        if(managerIds == "" || managerIds == null)
-        {
+    public Tree<DeptDO> spaceManagerTree(@PathVariable("managerIds") String managerIds) {
+        if(managerIds == "" || managerIds == null) {
             return this.tree();
-        }
-        else
-        {
+        } else {
             String[] strIds = managerIds.split(",");
             List<String> ids = new ArrayList<>();
-            for (String theStr : strIds)
-            {
+            for (String theStr : strIds) {
                 UserDO user = userService.get(Long.parseLong(theStr));
-                if(user != null)
-                {
+                if(user != null) {
                     ids.add(theStr);
                 }
             }
@@ -241,18 +212,14 @@ public class UserController extends BaseController
     /*
      * 递归调用，设置tree中的选中项
      */
-    private Tree<DeptDO> setCheckTree(Tree<DeptDO> tree,List<String> ids)
-    {
+    private Tree<DeptDO> setCheckTree(Tree<DeptDO> tree,List<String> ids) {
 
-        if(ids.contains(tree.getId()))
-        {
+        if(ids.contains(tree.getId())) {
             tree.getState().put("selected", true);
         }
-        if(tree.isHasChildren())
-        {
+        if(tree.isHasChildren()) {
             List<Tree<DeptDO>> childrenTree = tree.getChildren();
-            for (Tree<DeptDO> theChildren : childrenTree)
-            {
+            for (Tree<DeptDO> theChildren : childrenTree) {
                 setCheckTree(theChildren,ids);
             }
         }
@@ -266,8 +233,7 @@ public class UserController extends BaseController
     }
 
     @GetMapping("/personal")
-    String personal(Model model)
-    {
+    String personal(Model model) {
         UserDO userDO = userService.get(getUserId());
         model.addAttribute("user", userDO);
         model.addAttribute("hobbyList", dictService.getHobbyList(userDO));
@@ -278,24 +244,18 @@ public class UserController extends BaseController
     @ResponseBody
     @PostMapping("/uploadImg")
     R uploadImg(@RequestParam("avatar_file") MultipartFile file,
-            String avatar_data, HttpServletRequest request)
-    {
+            String avatar_data, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
-        try
-        {
+        try {
             result = userService.updatePersonalImg(file, avatar_data,
                     getUserId());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return R.error("更新图像失败！");
         }
-        if (result != null && result.size() > 0)
-        {
+
+        if (result != null && result.size() > 0) {
             return R.ok(result);
-        }
-        else
-        {
+        } else {
             return R.error("更新图像失败！");
         }
     }
@@ -304,15 +264,12 @@ public class UserController extends BaseController
      * 前台翻译的包装类
      * @author 12831
      */
-    class UserDetail
-    {
+    class UserDetail {
         private String name;
-
         public void setName(String name)
         {
             this.name = name;
         }
-
         public String getName()
         {
             return name;
