@@ -1,12 +1,11 @@
 package com.chason.rwe.controller;
 
-import com.chason.common.utils.PageUtils;
-import com.chason.common.utils.Query;
-import com.chason.common.utils.R;
-import com.chason.common.utils.StringUtils;
+import com.chason.common.controller.BaseController;
+import com.chason.common.utils.*;
 import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradeDataSourceEnum;
 import com.chason.rwe.service.TradeService;
+import com.chason.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/rwe/trade")
-public class TradeController {
+public class AccountController extends BaseController {
 
     private static final String PREFIX = "rwe/trade";
 
@@ -38,6 +37,9 @@ public class TradeController {
 
     @Autowired
     private TradeService tradeService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/index")
     public String index() {
@@ -47,9 +49,17 @@ public class TradeController {
     @ResponseBody
     @GetMapping("/list")
     public PageUtils list(@RequestParam Map<String, Object> params) {
+
+        // 获取当前的用户信息
+        int roleLevel = roleService.getRoleLevel(getUserId());
+        if (roleLevel == 20) { // 普通用户
+            params.put("createUserId", getUserId());
+        }
+
         Query query = new Query(params);
         List<TradeDO> tradeLists = tradeService.list(query);
         int total = tradeService.count(query);
+
         return new PageUtils(tradeLists, total);
     }
 
@@ -202,6 +212,7 @@ public class TradeController {
             tradeDO.setOrderId(columns[9]);
             tradeDO.setSellerOrderId(columns[10]);
             tradeDO.setPlatform("支付宝");
+            tradeDO.setCreateUserId(getUserId());
             if (columns.length == 12) {
                 tradeDO.setTradeComment(columns[11]);
             }
@@ -226,6 +237,7 @@ public class TradeController {
             tradeDO.setOrderId(columns[8]);
             tradeDO.setSellerOrderId(columns[9]);
             tradeDO.setPlatform("微信");
+            tradeDO.setCreateUserId(getUserId());
             if (columns.length > 10) {
                 tradeDO.setTradeComment(columns[10]);
             }

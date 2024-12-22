@@ -4,11 +4,11 @@
 <mapper namespace="com.chason.rwe.dao.TradeDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.TradeDO">
-		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform` from tbl_account where order_id = #{value}
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform`,`create_user_id` from tbl_account where order_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.TradeDO">
-		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform` from tbl_account
+		select `order_id`,`trade_time`,`trade_type`,`trade_obj`,`obj_account`,`product`,`in_out`,`amount`,`pay_type`,`trade_status`,`seller_order_id`,`trade_comment`,`platform`,`create_user_id` from tbl_account
         <where>
 			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
@@ -22,6 +22,7 @@
             <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
             <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
 			<if test="platform != null and platform != ''"> and platform = #{platform} </if>
+			<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
 		</where>
 		order by trade_time, order_id
 		<if test="offset != null and limit != null">
@@ -44,6 +45,7 @@
 			  <if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
 			  <if test="sellerOrderId != null and sellerOrderId != ''"> and seller_order_id = #{sellerOrderId} </if>
 			  <if test="platform != null and platform != ''"> and platform = #{platform} </if>
+			  <if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
 		  </where>
 	</select>
 
@@ -62,7 +64,8 @@
             `trade_status`,
             `seller_order_id`,
             `trade_comment`,
-		 	`platform`
+		 	`platform`,
+		 	`create_user_id`
 		)
 		values
 		(
@@ -78,7 +81,8 @@
             #{tradeStatus},
             #{sellerOrderId},
             #{tradeComment},
-		 	#{platform}
+		 	#{platform},
+		 	#{createUserId}
 		)
 	</insert>
 
@@ -97,7 +101,8 @@
             `trade_status`,
             `seller_order_id`,
             `trade_comment`,
-			`platform`
+			`platform`,
+		  `create_user_id`
 		)
 		values
 		<foreach collection="list" item="trade" separator=",">
@@ -114,7 +119,8 @@
 				#{trade.tradeStatus},
 				#{trade.sellerOrderId},
 				#{trade.tradeComment},
-				#{trade.platform}
+				#{trade.platform},
+			 	#{trade.createUserId}
 			)
 		</foreach>
 	</insert>
@@ -135,6 +141,7 @@
 			<if test="sellerOrderId != null">`seller_order_id` = #{sellerOrderId}, </if>
 			<if test="tradeComment != null">`trad_comment` = #{tradeComment} </if>
 			<if test="platform != null">`platform` = #{platform} </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId} </if>
 		</set>
 		where order_id = #{orderId}
 	</update>

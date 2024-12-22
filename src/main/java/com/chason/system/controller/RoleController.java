@@ -22,7 +22,7 @@ public class RoleController extends BaseController {
 	private static final String PREFIX = "system/role";
 
 	@Autowired
-	RoleService roleService;
+	private RoleService roleService;
 
 	@RequiresPermissions("sys:role:role")
 	@GetMapping()

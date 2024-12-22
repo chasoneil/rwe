@@ -38,4 +38,6 @@ public class TradeDO {
 
     private String tradeComment;
 
+    private Long createUserId;
+
 }

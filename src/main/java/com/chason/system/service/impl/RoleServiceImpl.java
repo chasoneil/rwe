@@ -118,4 +118,21 @@ public class RoleServiceImpl implements RoleService {
         return r;
     }
 
+    @Override
+    public int getRoleLevel(Long userId) {
+        int roleLevel = 20;
+        List<RoleDO> roles = list(userId);
+        for (RoleDO role : roles) {
+            if (role.getRoleSign().equals("true")) {
+                if (role.getRoleId() == 1) {
+                    roleLevel = 0;
+                } else if (role.getRoleId() == 49) {
+                    roleLevel = 10;
+                }
+                break;
+            }
+        }
+        return roleLevel;
+    }
+
 }
