@@ -6,6 +6,7 @@ import com.chason.rwe.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,5 +54,69 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public int batchRemove(String[] orderIds) {
         return tradeDao.batchRemove(orderIds);
+    }
+
+    /**
+     * 计算一年的支出情况
+     * @param year 年份
+     * @return 当年的支出
+     */
+    @Override
+    public Double getSpentByYear(String year) {
+
+        double sum = 0.0;
+        String start = year + "-01-01";
+        String end = year + "-12-31";
+        Map<String, Object> map = new HashMap<>();
+        map.put("startTime", start);
+        map.put("endTime", end);
+        List<TradeDO> trades = tradeDao.getYearTrade(map);
+
+        if (trades == null || trades.isEmpty()) {
+            return sum;
+        }
+
+        for (TradeDO trade : trades) {
+            if (trade.getInOut().equals("支出")) {
+                if (trade.getTradeStatus().equals("交易成功") || trade.getTradeStatus().equals("支付成功") ||
+                        trade.getTradeStatus().equals("对方已收钱") || trade.getTradeStatus().equals("已转账") ||
+                        trade.getTradeStatus().contains("还款成功")) {
+                    sum += trade.getAmount();
+                }
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 计算一年的收入情况
+     * @param year 年份
+     * @return 当年的收入
+     */
+    @Override
+    public Double getEarnByYear(String year) {
+
+        double sum = 0.0;
+        String start = year + "-01-01";
+        String end = year + "-12-31";
+        Map<String, Object> map = new HashMap<>();
+        map.put("startTime", start);
+        map.put("endTime", end);
+        List<TradeDO> trades = tradeDao.getYearTrade(map);
+
+        if (trades == null || trades.isEmpty()) {
+            return sum;
+        }
+
+        for (TradeDO trade : trades) {
+            if (trade.getInOut().equals("收入")) {
+                if (trade.getTradeStatus().equals("交易成功") || trade.getTradeStatus().equals("已到账") ||
+                        trade.getTradeStatus().equals("支付成功") || trade.getTradeStatus().equals("已存入零钱") ||
+                        trade.getTradeStatus().contains("已退款")) {
+                    sum += trade.getAmount();
+                }
+            }
+        }
+        return sum;
     }
 }

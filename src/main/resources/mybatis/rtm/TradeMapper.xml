@@ -30,6 +30,23 @@
 		</if>
 	</select>
 
+	<select id="getYearTrade" resultType="com.chason.rwe.domain.TradeDO">
+		select `order_id`,`trade_time`,`trade_type`,`in_out`,`amount`,`trade_status`,`create_user_id` from tbl_account
+		<where>
+			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
+			<if test="product != null and product != ''"> and product = #{product} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="amount != null and amount != ''"> and amount = #{amount} </if>
+			<if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+			<if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			<if test="createUserId != null and createUserId != ''"> and create_user_id = #{createUserId} </if>
+		    AND `trade_time` between #{startTime} AND #{endTime}
+		</where>
+		order by trade_time, order_id
+	</select>
+
+
  	<select id="count" resultType="int">
 		select count(*) from tbl_account
 		  <where>

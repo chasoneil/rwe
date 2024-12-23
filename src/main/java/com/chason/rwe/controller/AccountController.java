@@ -56,9 +56,20 @@ public class AccountController extends BaseController {
             params.put("createUserId", getUserId());
         }
 
+        params.putIfAbsent("offset", 0);
+        params.putIfAbsent("limit", 10);
+
         Query query = new Query(params);
         List<TradeDO> tradeLists = tradeService.list(query);
         int total = tradeService.count(query);
+
+        Double spentByYear = tradeService.getSpentByYear("2024");
+        Double earnByYear = tradeService.getEarnByYear("2024");
+
+        System.out.printf("spentByYear: %.02f",spentByYear);
+        System.out.println("earnByYear: " + earnByYear);
+
+        System.out.println("spentToEarn: " + (spentByYear - earnByYear));
 
         return new PageUtils(tradeLists, total);
     }

@@ -25,8 +25,7 @@ import com.chason.system.service.MenuService;
 import java.util.List;
 
 @Controller
-public class LoginController extends BaseController
-{
+public class LoginController extends BaseController {
 
     @Autowired
     private MenuService menuService;
@@ -35,15 +34,13 @@ public class LoginController extends BaseController
     private FileService fileService;
 
     @GetMapping({ "/", "" })
-    String welcome(Model model)
-    {
+    String welcome(Model model) {
         return "redirect:/login";
     }
 
     @Log("请求访问主页")
     @GetMapping({ "/index" })
-    String index(Model model)
-    {
+    String index(Model model) {
 //        List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
 //        model.addAttribute("menus", menus);
 //        model.addAttribute("name", getUser().getName());
@@ -65,8 +62,7 @@ public class LoginController extends BaseController
 
     @Log("请求访问后台主页")
     @GetMapping({ "/index_v1" })
-    String indexV1(Model model)
-    {
+    String indexV1(Model model) {
         List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
         model.addAttribute("menus", menus);
         model.addAttribute("name", getUser().getName());
@@ -87,46 +83,38 @@ public class LoginController extends BaseController
     }
 
     @GetMapping("/login")
-    String login()
-    {
+    String login() {
         return "login";
     }
 
     @Log("登录")
     @PostMapping("/login")
     @ResponseBody
-    R ajaxLogin(String username, String password)
-    {
+    R ajaxLogin(String username, String password) {
         password = MD5Utils.encrypt(username, password);
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
-        try
-        {
+        try {
             subject.login(token);
             return R.ok();
-        }
-        catch (AuthenticationException e)
-        {
+        } catch (AuthenticationException e) {
             return R.error("用户或密码错误");
         }
     }
 
     @GetMapping("/logout")
-    String logout()
-    {
+    String logout() {
         ShiroUtils.logout();
         return "redirect:/login";
     }
 
     @GetMapping("/main")
-    String main()
-    {
+    String mainPage() {
         return "main";
     }
 
     @GetMapping("/403")
-    String error403()
-    {
+    String error403() {
         return "403";
     }
 }

@@ -23,4 +23,17 @@ public interface TradeService {
 
     int batchRemove(String[] orderIds);
 
+    /**
+     * 获取一年内的总花费
+     * @param year
+     * @return
+     */
+    Double getSpentByYear(String year);
+
+    /**
+     * 获取一年内的总收益
+     * @param year
+     * @return
+     */
+    Double getEarnByYear(String year);
 }

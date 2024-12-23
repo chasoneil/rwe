@@ -16,9 +16,11 @@
     * amount double index '金额'
     * pay_type varchar(32) '收付款方式'
     * trade_status varchar(4) '交易状态'
-    * order_id varchar(128) primary key '交易订单号'
+    * order_id varchar(128) '交易订单号'
     * seller_order_id varchar(128) '商家订单号'
-    * trade_comment text '备注'
+    * trade_comment text '备注',
+    * create_user_id bigint(20),
+    * primary key (order_id, creat_user_id)
 ```mysql
 create table tbl_account (
     order_id varchar(128) primary key,
