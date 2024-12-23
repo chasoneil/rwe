@@ -1,6 +1,25 @@
 var prefix = "/rwe/trade";
 
 $(function () {
+    let config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': {
+            allow_single_deselect: true
+        },
+        '.chosen-select-no-single': {
+            disable_search_threshold: 10
+        },
+        '.chosen-select-no-results': {
+            no_results_text: 'Oops, nothing found!'
+        },
+        '.chosen-select-width': {
+            width: "40%"
+        }
+    }
+    for (let selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
     load();
 });
 
@@ -27,8 +46,9 @@ function load() {
                     return {
                         // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
-                        offset: params.offset
-                        // jobName:$('#searchJobName').val()
+                        offset: params.offset,
+                        platform: $('#platform').val(),
+                        tradeType: $('#tradeType').val()
                         // username:$('#searchName').val()
                     };
                 },
@@ -62,7 +82,7 @@ function load() {
                     },
                     {
                         field: 'amount',
-                        title: '金额'
+                        title: '金额(元)'
                     },
                     {
                         visible: false,
@@ -75,26 +95,23 @@ function load() {
 						align : 'center',
                         formatter: function (value, row, index) {
                             if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
-                                return '<a class="btn btn-primary btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a>';
+                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
                             } else if(row.tradeStatus === '已关闭' || row.tradeStatus === '已转账') {
-                                return '<a class="btn btn-default btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a>';
+                                return '<a class="btn btn-default btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
                             } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
-                                return '<a class="btn btn-primary btn-xs" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
+                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
                             }
                         }
                     },
                     {
                         title: '操作',
-                        field: 'orderId',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + row.orderId
-                                + '\')"><i class="fa fa-edit"></i></a> ';
-                            var d = '<a class="btn btn-warning btn-sm" href="#" title="删除"  mce_href="#" onclick="singleRemove(\''
-                                + row.orderId
-                                + '\')"><i class="fa fa-remove"></i></a> ';
-                            return e + d;
+                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
+                                + row.orderId + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
+                            let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
+                                + row.orderId + '\')"><i class="fa fa-remove"></i> 删除</a>';
+                            return d;
                         }
                     }]
             });
@@ -135,7 +152,7 @@ function singleRemove(orderId) {
             url: prefix + "/remove",
             type: "post",
             data: {
-                'id': orderId
+                'orderId': orderId
             },
             success: function (r) {
                 if (r.code === 0) {
@@ -150,16 +167,16 @@ function singleRemove(orderId) {
 }
 
 function batchRemove() {
-    var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+    const rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
     if (rows.length === 0) {
         layer.msg("请选择要删除的数据");
         return;
     }
+
     layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
         btn: ['确定', '取消']
-        // 按钮
     }, function () {
-        var ids = new Array();
+        const ids = new Array();
         // 遍历所有选择的行数据，取每条数据对应的ID
         $.each(rows, function (i, row) {
             ids[i] = row['orderId'];

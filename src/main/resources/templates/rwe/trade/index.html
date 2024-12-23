@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
+<link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
@@ -12,12 +13,12 @@
 							<button type="button" class="btn btn-success" onclick="importTrade()" data-placeholder="支持导入xls/xlsx/csv/txt格式文件">
 								<i class="fa fa-upload" aria-hidden="true"></i> 导入账单
 							</button>
-							<button class="btn btn-success" onclick="exportTrade()">
-								<i class="fa fa-download" aria-hidden="true"></i> 导出账单
-							</button>
-							<button type="button" class="btn btn-primary" onclick="add()">
-								<i class="fa fa-pencil" aria-hidden="true"></i> 记一笔
-							</button>
+<!--							<button class="btn btn-success" onclick="exportTrade()">-->
+<!--								<i class="fa fa-download" aria-hidden="true"></i> 导出账单-->
+<!--							</button>-->
+<!--							<button type="button" class="btn btn-primary" onclick="add()">-->
+<!--								<i class="fa fa-pencil" aria-hidden="true"></i> 记一笔-->
+<!--							</button>-->
 							<button type="button" class="btn  btn-danger"
 								onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i> 批量删除
@@ -26,8 +27,23 @@
 						<div class="columns pull-right" style="margin-left: 5px;">
 							<button class="btn btn-success" onclick="reload()"> 查询</button>
 						</div>
-						<div class="columns pull-right">
-							<input id="searchTradeName" type="text" class="form-control" placeholder="订单号/客户名称/产品名称">
+						<div class="columns pull-right" style="margin-left: 5px;">
+							<input id="tradeType" type="text" class="form-control" placeholder="交易类型">
+						</div>
+
+						<div class="columns pull-right input-group">
+							<select data-placeholder="选择交易平台..." id="platform" class="chosen-select" style="width:150px;" tabindex="2">
+								<option value="">选择交易平台</option>
+								<option value="alipay" hassubinfo="true">支付宝</option>
+								<option value="wechat" hassubinfo="true">微信</option>
+								<option value="icbc" hassubinfo="true">工商银行</option>
+								<option value="cmb" hassubinfo="true">招商银行</option>
+								<option value="bc" hassubinfo="true">中国银行</option>
+								<option value="abc" hassubinfo="true">农业银行</option>
+								<option value="ccb" hassubinfo="true">建设银行</option>
+								<option value="psbc" hassubinfo="true">交通银行</option>
+								<option value="pingan" hassubinfo="true">平安银行</option>
+							</select>
 						</div>
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true"></table>
@@ -36,7 +52,8 @@
 		</div>
 	</div>
 	<div th:include="include :: footer"></div>
-	<script type="text/javascript"
-		src="/js/appjs/rtm/trade/index.js"></script>
+	<script type="text/javascript" src="/js/appjs/rtm/trade/index.js"></script>
+	<!-- Chosen -->
+	<script src="/js/plugins/chosen/chosen.jquery.js"></script>
 </body>
 </html>

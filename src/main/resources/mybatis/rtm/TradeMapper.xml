@@ -12,7 +12,9 @@
         <where>
 			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
-			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="tradeType != null and tradeType != ''">
+				AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
+			</if>
 			<if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
 			<if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
 			<if test="product != null and product != ''"> and product = #{product} </if>
@@ -52,7 +54,9 @@
 		  <where>
 			  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 			  <if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
-			  <if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			  <if test="tradeType != null and tradeType != ''">
+				  AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
+			  </if>
 			  <if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
 			  <if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
 			  <if test="product != null and product != ''"> and product = #{product} </if>

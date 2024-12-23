@@ -3,9 +3,10 @@ package com.chason.rwe.controller;
 import com.chason.common.controller.BaseController;
 import com.chason.common.utils.*;
 import com.chason.rwe.domain.TradeDO;
-import com.chason.rwe.enums.TradeDataSourceEnum;
+import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -59,18 +60,14 @@ public class AccountController extends BaseController {
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
 
+        if (!StringUtils.isEmpty(params.get("platform"))) {
+            String transfer = TradePlatform.getNameByCode((String) params.get("platform"));
+            params.put("platform", transfer);
+        }
+
         Query query = new Query(params);
         List<TradeDO> tradeLists = tradeService.list(query);
         int total = tradeService.count(query);
-
-        Double spentByYear = tradeService.getSpentByYear("2024");
-        Double earnByYear = tradeService.getEarnByYear("2024");
-
-        System.out.printf("spentByYear: %.02f",spentByYear);
-        System.out.println("earnByYear: " + earnByYear);
-
-        System.out.println("spentToEarn: " + (spentByYear - earnByYear));
-
         return new PageUtils(tradeLists, total);
     }
 
@@ -110,6 +107,19 @@ public class AccountController extends BaseController {
         return R.ok("导入成功，共导入" + result + "条数据！");
     }
 
+    @PostMapping("/remove")
+    @ResponseBody
+    public R remove(String orderId) {
+        return tradeService.remove(orderId) > 0 ? R.ok("删除成功") : R.error("删除失败");
+    }
+
+    @PostMapping("/batchRemove")
+    @ResponseBody
+    public R remove(@RequestParam("ids[]") String[] orderIds) {
+        int row = tradeService.batchRemove(orderIds);
+        return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
+    }
+
     // 解析并导入Excel文件
     private int doExcelImport(MultipartFile file) {
         return 0;
@@ -126,26 +136,32 @@ public class AccountController extends BaseController {
             encoding = "GBK";
         }
 
+        TradePlatform dataSource = TradePlatform.UNKNOWN;
+        boolean typeFound = false;
+        if (file.getOriginalFilename().contains("alipay") || file.getOriginalFilename().contains("支付宝")) {
+            dataSource = TradePlatform.ALIPAY;
+            typeFound = true;
+        } else if (file.getOriginalFilename().contains("wechat") || file.getOriginalFilename().contains("微信")) {
+            dataSource = TradePlatform.WECHAT;
+            typeFound = true;
+        }
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
 
-            TradeDataSourceEnum dataSource = TradeDataSourceEnum.UNKNOWN;
-            boolean typeFound = false;
             List<TradeDO> trades = new ArrayList<>();
-
             String line;
             while ((line = br.readLine()) != null) {
                 String[] columns = line.split(delimiter);
                 // 解析账单类型
-                if (columns.length == 1) {
+                if (columns.length == 1) {  // 综合数据
                     if (!typeFound) {
-
                         if (columns[0].contains("支付宝")) {
-                            dataSource = TradeDataSourceEnum.ALIPAY;
+                            dataSource = TradePlatform.ALIPAY;
                             typeFound = true;
                         }
 
                         if (columns[0].contains("微信")) {
-                            dataSource = TradeDataSourceEnum.WECHAT;
+                            dataSource = TradePlatform.WECHAT;
                             typeFound = true;
                         }
                     }
@@ -153,23 +169,25 @@ public class AccountController extends BaseController {
                 }
 
                 if (columns.length > 1 ) {
-
                     // 解析数据 有效数据行
                     if (StringUtils.isNotNull(columns[1])) {
+                        TradeDO tradeDO = null;
                         switch (dataSource) {
                             case ALIPAY:
                                 // 解析支付宝账单
-                                if (rowCount != 0) {
-                                    TradeDO tradeDO = doAlipayImport(columns);
-                                    trades.add(tradeDO);
+                                if ("金额".equals(columns[6])) {  // title
+                                    continue;
                                 }
+                                tradeDO = doAlipayImport(columns);
+                                trades.add(tradeDO);
                                 break;
                             case WECHAT:
                                 // 解析微信账单
-                                if (rowCount != 0) {
-                                    TradeDO tradeDO = doWechatImport(columns);
-                                    trades.add(tradeDO);
+                                if (columns[5].contains("金额")) {
+                                    continue;
                                 }
+                                tradeDO = doWechatImport(columns);
+                                trades.add(tradeDO);
                                 break;
                             default:
                                 // 未知数据源
@@ -179,14 +197,12 @@ public class AccountController extends BaseController {
                     } else {
                         // 信息行
                         if (!typeFound) {
-
                             if (columns[0].contains("支付宝")) {
-                                dataSource = TradeDataSourceEnum.ALIPAY;
+                                dataSource = TradePlatform.ALIPAY;
                                 typeFound = true;
                             }
-
                             if (columns[0].contains("微信")) {
-                                dataSource = TradeDataSourceEnum.WECHAT;
+                                dataSource = TradePlatform.WECHAT;
                                 typeFound = true;
                             }
                         }

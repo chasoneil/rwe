@@ -27,6 +27,26 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
 		return true;
 	}
 
+    public static boolean isEmpty (Object object) {
+
+        if (object == null) {
+            return true;
+        }
+
+        try {
+            String str = (String) object;
+            if (isNotNull(str)) {
+                return false;
+            }
+        } catch (Exception e) {
+            // parse exception, not a string
+            System.err.println("object is not a string");
+            return false;
+        }
+
+        return true;
+    }
+
 	/**
 	 *
 	 * */
