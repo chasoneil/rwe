@@ -65,6 +65,12 @@ public class AccountController extends BaseController {
             params.put("platform", transfer);
         }
 
+        if (!StringUtils.isEmpty(params.get("searchText"))) {
+            String searchText = (String) params.get("searchText");
+            params.put("tradeObj", searchText);
+            params.put("product", searchText);
+        }
+
         Query query = new Query(params);
         List<TradeDO> tradeLists = tradeService.list(query);
         int total = tradeService.count(query);

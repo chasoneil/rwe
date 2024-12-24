@@ -15,9 +15,13 @@
 			<if test="tradeType != null and tradeType != ''">
 				AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
 			</if>
-			<if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
+			<if test="tradeObj != null and tradeObj != ''">
+				OR trade_obj LIKE CONCAT(CONCAT('%',#{tradeObj},'%'))
+			</if>
 			<if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
-			<if test="product != null and product != ''"> and product = #{product} </if>
+			<if test="product != null and product != ''">
+		        OR product LIKE CONCAT(CONCAT('%',#{product},'%'))
+			</if>
 			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			<if test="amount != null and amount != ''"> and amount = #{amount} </if>
             <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
@@ -57,9 +61,13 @@
 			  <if test="tradeType != null and tradeType != ''">
 				  AND trade_type LIKE CONCAT(CONCAT('%',#{tradeType},'%'))
 			  </if>
-			  <if test="tradeObj != null and tradeObj != ''"> and trade_obj = #{tradeObj} </if>
+			  <if test="tradeObj != null and tradeObj != ''">
+				  OR trade_obj LIKE CONCAT(CONCAT('%',#{tradeObj},'%'))
+			  </if>
 			  <if test="objAccount != null and objAccount != ''"> and obj_account = #{objAccount} </if>
-			  <if test="product != null and product != ''"> and product = #{product} </if>
+			  <if test="product != null and product != ''">
+				  OR product LIKE CONCAT(CONCAT('%',#{product},'%'))
+			  </if>
 			  <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			  <if test="amount != null and amount != ''"> and amount = #{amount} </if>
 			  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>

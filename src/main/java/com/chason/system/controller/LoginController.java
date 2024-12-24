@@ -57,7 +57,7 @@ public class LoginController extends BaseController {
 //        }
 //        model.addAttribute("username", getUser().getUsername());
 //        model.addAttribute("role", this.getUser().getName());
-        return "index_v2";
+        return "index_v5";
     }
 
     @Log("请求访问后台主页")

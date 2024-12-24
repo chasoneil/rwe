@@ -48,7 +48,7 @@ function load() {
                         limit: params.limit,
                         offset: params.offset,
                         platform: $('#platform').val(),
-                        tradeType: $('#tradeType').val()
+                        searchText: $('#searchText').val()
                         // username:$('#searchName').val()
                     };
                 },
@@ -115,6 +115,13 @@ function load() {
                         }
                     }]
             });
+}
+
+function refreshPage() {
+    $('#platform').val('');
+    $('#searchText').val('');
+    reload();
+    layer.msg("刷新成功");
 }
 
 function reload() {
