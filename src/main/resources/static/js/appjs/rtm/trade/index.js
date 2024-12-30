@@ -1,4 +1,4 @@
-var prefix = "/rwe/trade";
+const prefix = "/rwe/trade";
 
 $(function () {
     let config = {
@@ -64,7 +64,18 @@ function load() {
                     },
                     {
                         field: 'tradeTime',
-                        title: '交易时间'
+                        title: '交易时间',
+                        align: 'center',
+                        formatter: function (value) {
+                            if (value) {
+                                const date = new Date(value);
+                                const year = date.getFullYear();
+                                const month = String(date.getMonth() + 1).padStart(2, '0');
+                                const day = String(date.getDate()).padStart(2, '0');
+                                return `${year}-${month}-${day}`;
+                            }
+                            return value;
+                        }
                     },
                     {
                         field: 'platform',

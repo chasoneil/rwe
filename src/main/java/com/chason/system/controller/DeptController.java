@@ -47,8 +47,7 @@ public class DeptController extends BaseController {
 		Map<String, Object> query = new HashMap<>(16);
 		query.put("sort", "order_num");
         query.put("order", "asc");
-		List<DeptDO> sysDeptList = sysDeptService.list(query);
-		return sysDeptList;
+		return sysDeptService.list(query);
 	}
 
 	@GetMapping("/add/{pId}")
@@ -82,13 +81,19 @@ public class DeptController extends BaseController {
 	@RequiresPermissions("system:sysDept:add")
 	public R save(DeptDO sysDept) {
 		try {
+
+			if (sysDept.getOrderNum() == null) {
+				sysDept.setOrderNum((int)(Math.random() * 100) + 1);
+			}
+
 			if (sysDeptService.save(sysDept) > 0) {
 				return R.ok();
 			}
+
 		} catch (Exception e) {
-			return R.error(e.getMessage());
+			return R.error("新增部门失败:" +e.getMessage());
 		}
-		return R.error("新增部门失败");
+		return R.ok();
 	}
 
 	@ResponseBody
@@ -100,9 +105,9 @@ public class DeptController extends BaseController {
 				return R.ok();
 			}
 		} catch (Exception e) {
-			return R.error(e.getMessage());
+			return R.error("修改部门信息失败:" + e.getMessage());
 		}
-		return R.error("修改部门信息失败");
+		return R.ok();
 	}
 
 	@PostMapping("/remove")

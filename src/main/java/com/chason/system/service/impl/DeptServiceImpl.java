@@ -1,6 +1,5 @@
 package com.chason.system.service.impl;
 
-import com.chason.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +38,13 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public int save(DeptDO sysDept){
-		checkDept(sysDept);
+		checkDept(sysDept, "add");
 		return sysDeptMapper.save(sysDept);
 	}
 
 	@Override
 	public int update(DeptDO sysDept){
-		checkDept(sysDept);
+		checkDept(sysDept, "update");
 		return sysDeptMapper.update(sysDept);
 	}
 
@@ -83,10 +82,10 @@ public class DeptServiceImpl implements DeptService {
 		// TODO Auto-generated method stub
 		//查询部门以及此部门的下级部门
 		int result = sysDeptMapper.getDeptUserNumber(deptId);
-		return result==0?true:false;
+		return result == 0;
 	}
 
-	private void checkDept(DeptDO deptDO) {
+	private void checkDept(DeptDO deptDO, String action) {
 
 		if(deptDO.getDelFlag() != 1 && deptDO.getDelFlag() != 0) {
 			throw new RuntimeException("状态只能是0或者1");
@@ -96,12 +95,15 @@ public class DeptServiceImpl implements DeptService {
 			throw new RuntimeException("排序只能是大于0的正整数");
 		}
 
-		List<DeptDO> depts = sysDeptMapper.list(new HashMap<>());
-		for (DeptDO dept : depts) {
-			if (dept.getName().equals(deptDO.getName())) {
-				throw new RuntimeException("部门:<" + dept.getName() + ">已经存在");
+		if ("add".equals(action)) {
+			List<DeptDO> depts = sysDeptMapper.list(new HashMap<>());
+			for (DeptDO dept : depts) {
+				if (dept.getName().equals(deptDO.getName())) {
+					throw new RuntimeException("部门:<" + dept.getName() + ">已经存在");
+				}
 			}
 		}
+
 	}
 
 }

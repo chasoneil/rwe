@@ -5,7 +5,8 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 账单信息
+ * 交易信息
+ * 交易账单 该账单是标准账单，从各大交易平台导入的信息
  */
 @Data
 public class TradeDO {
@@ -81,5 +82,7 @@ public class TradeDO {
      * 创建用户ID
      */
     private Long createUserId;
+
+    private int checked;
 
 }

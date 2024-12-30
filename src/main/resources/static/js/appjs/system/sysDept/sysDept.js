@@ -1,5 +1,5 @@
 
-var prefix = "/system/sysDept";
+const prefix = "/system/sysDept";
 
 $(function() {
 	load();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
@@ -16,13 +16,12 @@
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </div>
-                    <div class="columns pull-right">
-                        <button class="btn btn-success" onclick="reLoad()"><i class="fa fa-search"></i> 查询</button>
-                    </div>
-
-                    <div class="columns pull-right col-md-2 nopadding">
-                        <input id="searchName" type="text" class="form-control" placeholder="">
-                    </div>
+<!--                    <div class="columns pull-right">-->
+<!--                        <button class="btn btn-success" onclick="reLoad()"><i class="fa fa-search"></i> 查询</button>-->
+<!--                    </div>-->
+<!--                    <div class="columns pull-right col-md-2 nopadding">-->
+<!--                        <input id="searchName" type="text" class="form-control" placeholder="部门名称">-->
+<!--                    </div>-->
                 </div>
                 <!-- table -->
                 <table id="exampleTable" data-mobile-responsive="true"></table>
@@ -34,10 +33,10 @@
 <!--shiro控制bootstraptable行内按钮看见性  -->
 <div>
     <script type="text/javascript">
-        var s_add_h = 'hidden';
-        var s_edit_h = 'hidden';
-        var s_remove_h = 'hidden';
-        var s_resetPwd_h = 'hidden';
+        let s_add_h = 'hidden';
+        let s_edit_h = 'hidden';
+        let s_remove_h = 'hidden';
+        let s_resetPwd_h = 'hidden';
     </script>
 </div>
 
@@ -53,13 +52,13 @@
 </div>
 <div shiro:hasPermission="system:sysDept:remove">
     <script type="text/javascript">
-        var s_remove_h = '';
+        let s_remove_h = '';
     </script>
 </div>
 
 <div shiro:hasPermission="system:sysDept:resetPwd">
     <script type="text/javascript">
-        var s_resetPwd_h = '';
+        let s_resetPwd_h = '';
     </script>
 </div>
 

@@ -6,7 +6,6 @@ import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/rwe/trade")
-public class AccountController extends BaseController {
+public class TradeController extends BaseController {
 
     private static final String PREFIX = "rwe/trade";
 
@@ -246,6 +245,7 @@ public class AccountController extends BaseController {
             tradeDO.setSellerOrderId(columns[10]);
             tradeDO.setPlatform("支付宝");
             tradeDO.setCreateUserId(getUserId());
+            tradeDO.setChecked(0);
             if (columns.length == 12) {
                 tradeDO.setTradeComment(columns[11]);
             }
@@ -271,6 +271,7 @@ public class AccountController extends BaseController {
             tradeDO.setSellerOrderId(columns[9]);
             tradeDO.setPlatform("微信");
             tradeDO.setCreateUserId(getUserId());
+            tradeDO.setChecked(0);
             if (columns.length > 10) {
                 tradeDO.setTradeComment(columns[10]);
             }

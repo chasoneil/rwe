@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.KeepAccountDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.KeepAccountDO">
+		select `id`, `user_id`, `amount`, `trade_time`, `trade_variety`, `trade_type`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
+		from tbl_keep_account
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.KeepAccountDO">
+		select `id`, `user_id`, `amount`, `trade_time`, `trade_variety`, `trade_type`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
+		from tbl_keep_account
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
+			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="payFor != null and payFor != ''"> and pay_for = #{payFor} </if>
+			<if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			<if test="checked != null"> and checked = #{checked} </if>
+		</where>
+		order by trade_time, id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from tbl_keep_account
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
+			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="payFor != null and payFor != ''"> and pay_for = #{payFor} </if>
+			<if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			<if test="checked != null"> and checked = #{checked} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.KeepAccountDO">
+		insert into tbl_keep_account
+		(
+			`user_id`,
+			`amount`,
+			`trade_time`,
+			`trade_variety`,
+			`trade_type`,
+			`trade_statistics`,
+			`pay_for`,
+			`trade_status`,
+			`trade_comment`,
+			`checked`
+		)
+		values
+			(
+				#{userId},
+				#{amount},
+				#{tradeTime},
+				#{tradeVariety},
+				#{tradeType},
+				#{tradeStatistics},
+				#{payFor},
+				#{tradeStatus},
+				#{tradeComment},
+				#{checked}
+			)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.KeepAccountDO">
+		update tbl_keep_account
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="amount != null">`amount` = #{amount}, </if>
+			<if test="tradeTime != null">`trade_time` = #{tradeTime}, </if>
+			<if test="tradeVariety != null">`trade_variety` = #{tradeVariety}, </if>
+			<if test="tradeType != null">`trade_type` = #{tradeType}, </if>
+			<if test="tradeStatistics != null">`trade_statistics` = #{tradeStatistics}, </if>
+			<if test="payFor != null">`pay_for` = #{payFor}, </if>
+			<if test="tradeStatus != null">`trade_status` = #{tradeStatus}, </if>
+			<if test="tradeComment != null">`trade_comment` = #{tradeComment}, </if>
+			<if test="checked != null">`checked` = #{checked} </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_keep_account where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_keep_account where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
