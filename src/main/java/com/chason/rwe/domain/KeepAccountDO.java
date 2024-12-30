@@ -20,7 +20,7 @@ public class KeepAccountDO {
     pay_for varchar(32) not null comment '为谁付款',
     trade_status varchar(16) not null comment '交易状态',
     trade_comment text not null comment '交易备注',
-    checked int default 0 comment '是否已确认',
+    checked int default 0 comment '是否已检查',
      */
 
     private int id;

@@ -6,14 +6,6 @@ package com.chason.rwe.enums;
  * @author Chason
  */
 public enum ConsumeEnum {
-
-    /**
-     *
-     *
-     *
-     *
-     */
-
     /**
      * 菜单分级 （分为1 2级）
      * 食品支出（包含双人的所有食品相关的支出）：
@@ -41,50 +33,44 @@ public enum ConsumeEnum {
      *
      */
 
-    TAKEAWAY("外卖"),
-    DAILY_USE("日用采购"),
-    FOOD_FOR_MEAL("食品采购"),
-    FLAT("房租/房贷"),
-    TRANSPORTATION("交通费"),
-    COMMUNICATION("通讯费"),
-    FOR_FUN("娱乐支出"),
-    SNACKS("零食"),
-    RESTAURANT("外食"),
-    PARENTS("父母日常"),
-    CAR_PARKING("停车费"),
-    CLOTHES("衣服"),
-    SHOES("鞋子"),
-    BAG("包包"),
-    GIFT_FOR_FAMILY("家人礼物"),
-    HAIRCUT("美发"),
-    JEWELRY("首饰"),
-    HEALTH_PRODUCT("保健品"),
-    INSURANCE("保费"),
-    SKIN_CARE("护肤品"),
-    TRAVEL("旅行"),
-    SOCIETY_EXPENSE("人情往来"),
-    WUYE("物业费"),
-    YILIAO("医疗"),
-    DIANZIYONGPIN("电子用品"),
-    JIASHEN("健身"),
-    XUEXI("学习"),
-    CHONGWU("宠物"),
-    CHELIANGYANGHU("车辆养护"),
-    SHUIDIANMEI("水电煤网"),
-    JIAJU("家居用品"),
-    DAIFU("代付"),
-    KUAIDI("快递费"),
-    SERVICE("服务费");
+    TAKEAWAY("食品支出","外卖", "日常支出"),
+    SNACKS("食品支出","零食", "日常支出"),
+    RESTAURANT("食品支出","外食", "日常支出"),
 
+    DAILY_BUY("日用支出", "日用采购", "日常支出"),
+    BEAUTIFUL("日用支出", "化妆品", "日常支出"),
 
+    CAR_PARKING("交通支出", "停车费", "日常支出"),
+    TRANSPORTATION("交通支出", "交通费", "日常支出"),
 
-    private String type;
+    RENT("房屋支出", "租金", "月支出"),
+    BUY_HOUSE("房屋支出", "房屋买卖", "一次性支出"),
+    PROPERTY_FEE("房屋支出", "物业费", "年支出"),
 
-    ConsumeEnum(String type) {
-        this.type = type;
+    ELECTRONIC("娱乐支出", "电子产品", "一次性支出"),
+    MOVIE("娱乐支出", "电影", "一次性支出");
+
+    private String firstLevelType;
+
+    private String detailType;
+
+    private String statisticalType;
+
+    ConsumeEnum(String firstLevelType, String detailType, String statisticalType) {
+        this.firstLevelType = firstLevelType;
+        this.detailType = detailType;
+        this.statisticalType = statisticalType;
     }
 
-    public String getType() {
-        return type;
+    public String getFirstLevelType() {
+        return firstLevelType;
+    }
+
+    public String getDetailType() {
+        return detailType;
+    }
+
+    public String getStatisticalType() {
+        return statisticalType;
     }
 }

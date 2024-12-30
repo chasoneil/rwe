@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易时间：<span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input id="tradeTime" name="tradeTime" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">金额：<span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input id="amount" name="amount" class="form-control" placeholder="请输入大于0的金额" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易类型：<span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<select data-placeholder="选择交易类型..." id="tradeType" class="chosen-select" style="width:150px;" tabindex="2">
+										<option value="">选择交易类型</option>
+										<option value="TAKEAWAY" hassubinfo="true">外卖</option>
+										<option value="SNACKS" hassubinfo="true">零食</option>
+										<option value="RESTAURANT" hassubinfo="true">外食</option>
+										<option value="DAILY_BUY" hassubinfo="true">日用采购</option>
+										<option value="BEAUTIFUL" hassubinfo="true">化妆品</option>
+										<option value="CAR_PARKING" hassubinfo="true">停车费</option>
+										<option value="TRANSPORTATION" hassubinfo="true">交通费</option>
+										<option value="RENT" hassubinfo="true">租金</option>
+										<option value="BUY_HOUSE" hassubinfo="true">房屋买卖</option>
+										<option value="PROPERTY_FEE" hassubinfo="true">物业费</option>
+										<option value="ELECTRONIC" hassubinfo="true">电子产品</option>
+										<option value="MOVIE" hassubinfo="true">电影</option>
+									</select>
+								</div>
+
+								<label class="col-sm-2 control-label">消费人：</label>
+								<div class="col-sm-4">
+									<select data-placeholder="选择为谁消费..." id="payFor" class="chosen-select" style="width:150px;" tabindex="2">
+										<option value="">选择消费人</option>
+										<option value="myself" hassubinfo="true">本人</option>
+										<option value="wife" hassubinfo="true">老婆</option>
+										<option value="husband" hassubinfo="true">老公</option>
+										<option value="wife_home" hassubinfo="true">老婆家</option>
+										<option value="myself_home" hassubinfo="true">本人家</option>
+										<option value="other" hassubinfo="true">其他</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="tradeComment" name="tradeComment" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-2">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/keep_account/add.js">
+	</script>
+</body>
+</html>

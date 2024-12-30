@@ -1,25 +1,6 @@
-const prefix = "/rwe/trade";
+const prefix = "/rwe/keep_account";
 
 $(function () {
-    let config = {
-        '.chosen-select': {},
-        '.chosen-select-deselect': {
-            allow_single_deselect: true
-        },
-        '.chosen-select-no-single': {
-            disable_search_threshold: 10
-        },
-        '.chosen-select-no-results': {
-            no_results_text: 'Oops, nothing found!'
-        },
-        '.chosen-select-width': {
-            width: "40%"
-        }
-    }
-    for (let selector in config) {
-        $(selector).chosen(config[selector]);
-    }
-
     load();
 });
 
@@ -47,9 +28,7 @@ function load() {
                         // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
                         offset: params.offset,
-                        platform: $('#platform').val(),
                         searchText: $('#searchText').val()
-                        // username:$('#searchName').val()
                     };
                 },
                 // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -78,8 +57,8 @@ function load() {
                         }
                     },
                     {
-                        field: 'platform',
-                        title: '交易平台',
+                        field: 'amount',
+                        title: '金额(元)',
                         align : 'center'
                     },
                     {
@@ -88,17 +67,21 @@ function load() {
 						align : 'center'
                     },
                     {
-                        field: 'product',
-                        title: '商品说明'
+                        field: 'tradeType',
+                        title: '交易类型'
                     },
                     {
-                        field: 'amount',
-                        title: '金额(元)'
+                        field: 'tradeVariety',
+                        title: '所属分类'
                     },
                     {
                         visible: false,
-                        field: 'orderId',
-                        title: '交易订单号'
+                        field: 'id',
+                        title: '交易ID'
+                    },
+                    {
+                        field: 'payFor',
+                        title: '受益人'
                     },
                     {
                         field: 'tradeStatus',
@@ -119,17 +102,16 @@ function load() {
                         align: 'center',
                         formatter: function (value, row, index) {
                             let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + row.orderId + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
+                                + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
-                                + row.orderId + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            return d;
+                                + row.id + '\')"><i class="fa fa-remove"></i> 删除</a>';
+                            return e + d;
                         }
                     }]
             });
 }
 
 function refreshPage() {
-    $('#platform').val('');
     $('#searchText').val('');
     reload();
     layer.msg("刷新成功");
@@ -137,6 +119,28 @@ function refreshPage() {
 
 function reload() {
     $('#exampleTable').bootstrapTable('refresh');
+}
+
+function add() {
+    layer.open({
+        type: 2,
+        title: '记账',
+        maxmin: true,
+        shadeClose: false, // 点击遮罩关闭层
+        area: ['800px', '520px'],
+        content: prefix + '/add' // iframe的url
+    });
+}
+
+function edit(orderId) {
+    layer.open({
+        type: 2,
+        title: '修改账单',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '520px'],
+        content: prefix + '/edit/' + orderId // iframe的url
+    });
 }
 
 function singleRemove(orderId) {

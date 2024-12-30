@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox ibox-content">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button type="button" class="btn btn-primary" onclick="add()">
+								<i class="fa fa-pencil" aria-hidden="true"></i> 记账
+							</button>
+<!--							<button class="btn btn-success" onclick="exportTrade()">-->
+<!--								<i class="fa fa-download" aria-hidden="true"></i> 导出账单-->
+<!--							</button>-->
+<!--							<button type="button" class="btn btn-primary" onclick="add()">-->
+<!--								<i class="fa fa-pencil" aria-hidden="true"></i> 记一笔-->
+<!--							</button>-->
+							<button type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i> 删除
+							</button>
+							<button type="button" class="btn btn-default" onclick="refreshPage()">
+								<i class="fa fa-refresh" aria-hidden="true"></i> 刷新
+							</button>
+						</div>
+						<div class="columns pull-right" style="margin-left: 5px;">
+							<button class="btn btn-success" onclick="reload()"> 查询</button>
+						</div>
+						<div class="columns pull-right" style="margin-left: 5px;">
+							<input id="searchText" type="text" class="form-control" placeholder="商品说明/交易商户">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/keep_account/index.js"></script>
+</body>
+</html>
