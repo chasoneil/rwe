@@ -73,4 +73,19 @@ public enum ConsumeEnum {
     public String getStatisticalType() {
         return statisticalType;
     }
+
+    public static String[] getAllTypes(String enumType) {
+
+        String[] types = new String[3];
+        for (ConsumeEnum consumeEnum : ConsumeEnum.values()) {
+            if (consumeEnum.name().equalsIgnoreCase(enumType)) {
+                types[0] = consumeEnum.getFirstLevelType();
+                types[1] = consumeEnum.getDetailType();
+                types[2] = consumeEnum.getStatisticalType();
+                return types;
+            }
+        }
+        return null;
+    }
+
 }

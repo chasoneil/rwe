@@ -16,7 +16,7 @@ public class KeepAccountServiceImpl implements KeepAccountService {
     private KeepAccountDao keepAccountDao;
 
     @Override
-    public KeepAccountDO get(String id) {
+    public KeepAccountDO get(int id) {
         return keepAccountDao.get(id);
     }
 

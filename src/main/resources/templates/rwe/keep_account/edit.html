@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="keepAccountId" name="id" th:value="${keepAccount.id}" type="hidden">
+						<input name="userId" th:value="${keepAccount.userId}" type="hidden">
+						<input name="checked" th:value="${keepAccount.checked}" type="hidden">
+
+						<div class="form-group">
+                            <label class="col-sm-2 control-label">交易时间：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <input id="tradeTime" class="laydate-icon form-control layer-date" th:value="${keepAccount.tradeTime}"
+                                       placeholder="YYYY-MM-DD" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
+                            </div>
+                            <label class="col-sm-2 control-label">金额：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <input name="amount" class="form-control" th:value="${keepAccount.amount}" placeholder="请输入大于0的金额" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">交易类型：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeType}" name="tradeType" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <option value="">选择交易类型</option>
+                                    <option value="TAKEAWAY" hassubinfo="true">外卖</option>
+                                    <option value="SNACKS" hassubinfo="true">零食</option>
+                                    <option value="RESTAURANT" hassubinfo="true">外食</option>
+                                    <option value="DAILY_BUY" hassubinfo="true">日用采购</option>
+                                    <option value="BEAUTIFUL" hassubinfo="true">化妆品</option>
+                                    <option value="CAR_PARKING" hassubinfo="true">停车费</option>
+                                    <option value="TRANSPORTATION" hassubinfo="true">交通费</option>
+                                    <option value="RENT" hassubinfo="true">租金</option>
+                                    <option value="BUY_HOUSE" hassubinfo="true">房屋买卖</option>
+                                    <option value="PROPERTY_FEE" hassubinfo="true">物业费</option>
+                                    <option value="ELECTRONIC" hassubinfo="true">电子产品</option>
+                                    <option value="MOVIE" hassubinfo="true">电影</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">消费人：</label>
+                            <div class="col-sm-4">
+                                <label>
+                                    <select data-placeholder="选择为谁消费..." th:value="${keepAccount.payFor}" name="payFor" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择消费人</option>
+                                        <option value="MYSELF" hassubinfo="true">本人</option>
+                                        <option value="WIFE" hassubinfo="true">妻子</option>
+                                        <option value="HUSBAND" hassubinfo="true">丈夫</option>
+                                        <option value="PARENT_1" hassubinfo="true">父母</option>
+                                        <option value="PARENT_2" hassubinfo="true">妻子父母</option>
+                                        <option value="PARENT_3" hassubinfo="true">丈夫父母</option>
+                                        <option value="FRIEND" hassubinfo="true">朋友</option>
+                                        <option value="CHILDREN" hassubinfo="true">子女</option>
+                                        <option value="COLLEAGUE" hassubinfo="true">同事</option>
+                                        <option value="OTHER" hassubinfo="true">其他</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">交易状态：</label>
+                            <div class="col-sm-4">
+                                <label>
+                                    <select data-placeholder="交易状态..." th:value="${keepAccount.tradeStatus}" name="tradeStatus" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择交易状态</option>
+                                        <option value="交易成功" hassubinfo="true">交易成功</option>
+                                        <option value="交易失败" hassubinfo="true">交易失败</option>
+                                        <option value="已取消" hassubinfo="true">已取消</option>
+                                        <option value="已退款" hassubinfo="true">已退款</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注：</label>
+                            <div class="col-sm-8">
+                                <input th:value="${keepAccount.tradeComment}" placeholder="请输入交易备注" name="tradeComment" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/keep_account/edit.js"></script>
+</body>
+</html>

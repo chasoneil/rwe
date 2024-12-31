@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface KeepAccountDao {
 
-    KeepAccountDO get(String id);
+    KeepAccountDO get(int id);
 
     List<KeepAccountDO> list(Map<String, Object> map);
 

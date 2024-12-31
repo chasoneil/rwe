@@ -1,10 +1,16 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
+import com.chason.common.domain.DictDO;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.KeepAccountDO;
+import com.chason.rwe.domain.PolicyDO;
+import com.chason.rwe.domain.SpaceDO;
+import com.chason.rwe.enums.ConsumeEnum;
+import com.chason.rwe.enums.PayForEnum;
 import com.chason.rwe.service.KeepAccountService;
 import com.chason.system.service.RoleService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -13,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +74,72 @@ public class KeepAccountController extends BaseController {
         return PREFIX + "/add";
     }
 
+    @ResponseBody
+    @PostMapping("/save")
+    public R save(KeepAccountDO keepAccountDO) {
+        try {
+            check(keepAccountDO);
+            String[] types = ConsumeEnum.getAllTypes(keepAccountDO.getTradeType());
+            if (types == null || types.length == 0) {
+                throw new RuntimeException("交易类型错误");
+            }
+
+            keepAccountDO.setTradeVariety(types[0]);
+            keepAccountDO.setTradeType(types[1]);
+            keepAccountDO.setTradeStatistics(types[2]);
+
+            keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
+
+            keepAccountDO.setUserId(getUserId());
+            keepAccountDO.setTradeStatus("交易成功");
+            int save = keepAccountService.save(keepAccountDO);
+            if (save != 1) {
+                return R.error("记账失败");
+            }
+        } catch (Exception e) {
+            return R.error("记账失败：" + e.getMessage());
+        }
+        return R.ok();
+    }
+
+    @GetMapping("/edit/{id}")
+    String edit(@PathVariable("id") int id, Model model) {
+        KeepAccountDO keepAccountDO = keepAccountService.get(id);
+
+        if (keepAccountDO == null) {
+            throw new RuntimeException("记账信息不存在");
+        }
+
+        model.addAttribute("keepAccount", keepAccountDO);
+        return PREFIX + "/edit";
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public R update(KeepAccountDO keepAccountDO) {
+        try {
+            check(keepAccountDO);
+            String[] types = ConsumeEnum.getAllTypes(keepAccountDO.getTradeType());
+            if (types == null || types.length == 0) {
+                throw new RuntimeException("交易类型错误");
+            }
+
+            keepAccountDO.setTradeVariety(types[0]);
+            keepAccountDO.setTradeType(types[1]);
+            keepAccountDO.setTradeStatistics(types[2]);
+            keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
+
+            int update = keepAccountService.update(keepAccountDO);
+            if (update != 1) {
+                return R.error("修改记账信息失败");
+            }
+        }
+        catch (Exception e) {
+            return R.error("修改记账信息失败：" + e.getMessage());
+        }
+        return R.ok();
+    }
+
     @PostMapping("/remove")
     @ResponseBody
     public R remove(Integer id) {
@@ -77,6 +151,25 @@ public class KeepAccountController extends BaseController {
     public R remove(@RequestParam("ids[]") int[] ids) {
         int row = keepAccountService.batchRemove(ids);
         return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
+    }
+
+
+    private void check(KeepAccountDO keepAccountDO) {
+        if (!StringUtils.isNotNull(keepAccountDO.getTradeTime())) {
+            throw new RuntimeException("交易时间不能为空");
+        }
+
+        if (!StringUtils.isNotNull(keepAccountDO.getTradeType())) {
+            throw new RuntimeException("交易类型不能为空");
+        }
+
+        if (keepAccountDO.getAmount() == 0) {
+            throw new RuntimeException("交易金额不能为零或者为空");
+        }
+
+        if (!StringUtils.isNotNull(keepAccountDO.getPayFor())) {
+            throw new RuntimeException("消费者不能为空");
+        }
     }
 }
 

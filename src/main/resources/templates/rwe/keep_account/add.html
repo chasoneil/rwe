@@ -9,20 +9,21 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="signupForm">
-							<div class="form-group">
+							<div class="form-group" >
 								<label class="col-sm-2 control-label">交易时间：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<input id="tradeTime" name="tradeTime" class="form-control" type="text">
+									<input id="tradeTime" class="laydate-icon form-control layer-date"
+										   placeholder="YYYY-MM-DD" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
 								</div>
 								<label class="col-sm-2 control-label">金额：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<input id="amount" name="amount" class="form-control" placeholder="请输入大于0的金额" type="text">
+									<input name="amount" class="form-control" placeholder="请输入大于0的金额" type="text">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">交易类型：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<select data-placeholder="选择交易类型..." id="tradeType" class="chosen-select" style="width:150px;" tabindex="2">
+									<select data-placeholder="选择交易类型..." name="tradeType" class="chosen-select" style="width:220px;" tabindex="2">
 										<option value="">选择交易类型</option>
 										<option value="TAKEAWAY" hassubinfo="true">外卖</option>
 										<option value="SNACKS" hassubinfo="true">零食</option>
@@ -41,15 +42,21 @@
 
 								<label class="col-sm-2 control-label">消费人：</label>
 								<div class="col-sm-4">
-									<select data-placeholder="选择为谁消费..." id="payFor" class="chosen-select" style="width:150px;" tabindex="2">
-										<option value="">选择消费人</option>
-										<option value="myself" hassubinfo="true">本人</option>
-										<option value="wife" hassubinfo="true">老婆</option>
-										<option value="husband" hassubinfo="true">老公</option>
-										<option value="wife_home" hassubinfo="true">老婆家</option>
-										<option value="myself_home" hassubinfo="true">本人家</option>
-										<option value="other" hassubinfo="true">其他</option>
-									</select>
+									<label>
+										<select data-placeholder="选择为谁消费..." name="payFor" class="chosen-select" style="width:220px;" tabindex="2">
+											<option value="">选择消费人</option>
+											<option value="MYSELF" hassubinfo="true">本人</option>
+											<option value="WIFE" hassubinfo="true">老婆</option>
+											<option value="HUSBAND" hassubinfo="true">老公</option>
+											<option value="PARENT_1" hassubinfo="true">父母</option>
+											<option value="PARENT_2" hassubinfo="true">妻子父母</option>
+											<option value="PARENT_3" hassubinfo="true">丈夫父母</option>
+											<option value="FRIEND" hassubinfo="true">朋友</option>
+											<option value="CHILDREN" hassubinfo="true">子女</option>
+											<option value="COLLEAGUE" hassubinfo="true">同事</option>
+											<option value="OTHER" hassubinfo="true">其他</option>
+										</select>
+									</label>
 								</div>
 							</div>
 							<div class="form-group">
@@ -71,7 +78,7 @@
 	</div>
 
 	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/js/appjs/rtm/keep_account/add.js">
-	</script>
+	<script type="text/javascript" src="/js/appjs/rtm/keep_account/add.js"></script>
+	<!-- Date picker -->
 </body>
 </html>

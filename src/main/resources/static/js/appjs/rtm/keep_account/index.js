@@ -62,17 +62,14 @@ function load() {
                         align : 'center'
                     },
                     {
-                        field: 'tradeType',
-                        title: '交易类型',
+                        field: 'tradeVariety',
+                        title: '所属分类',
 						align : 'center'
                     },
                     {
                         field: 'tradeType',
-                        title: '交易类型'
-                    },
-                    {
-                        field: 'tradeVariety',
-                        title: '所属分类'
+                        title: '交易类型',
+                        align : 'center'
                     },
                     {
                         visible: false,
@@ -81,7 +78,12 @@ function load() {
                     },
                     {
                         field: 'payFor',
-                        title: '受益人'
+                        title: '受益人',
+                        align : 'center'
+                    },
+                    {
+                        field: 'tradeComment',
+                        title: '备注'
                     },
                     {
                         field: 'tradeStatus',
@@ -90,7 +92,7 @@ function load() {
                         formatter: function (value, row, index) {
                             if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
                                 return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
-                            } else if(row.tradeStatus === '已关闭' || row.tradeStatus === '已转账') {
+                            } else if(row.tradeStatus === '交易失败') {
                                 return '<a class="btn btn-default btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
                             } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
                                 return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
@@ -132,18 +134,18 @@ function add() {
     });
 }
 
-function edit(orderId) {
+function edit(id) {
     layer.open({
         type: 2,
-        title: '修改账单',
+        title: '修改记账',
         maxmin: true,
         shadeClose: false,
         area: ['800px', '520px'],
-        content: prefix + '/edit/' + orderId // iframe的url
+        content: prefix + '/edit/' + id // iframe的url
     });
 }
 
-function singleRemove(orderId) {
+function singleRemove(id) {
     layer.confirm('确定要删除选中的记录？', {
         btn: ['确定', '取消']
     }, function () {
@@ -151,7 +153,7 @@ function singleRemove(orderId) {
             url: prefix + "/remove",
             type: "post",
             data: {
-                'orderId': orderId
+                'id': id
             },
             success: function (r) {
                 if (r.code === 0) {
@@ -166,7 +168,7 @@ function singleRemove(orderId) {
 }
 
 function batchRemove() {
-    const rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+    const rows = $('#exampleTable').bootstrapTable('getSelections');
     if (rows.length === 0) {
         layer.msg("请选择要删除的数据");
         return;
@@ -175,10 +177,10 @@ function batchRemove() {
     layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
         btn: ['确定', '取消']
     }, function () {
-        const ids = new Array();
+        const ids = [];
         // 遍历所有选择的行数据，取每条数据对应的ID
         $.each(rows, function (i, row) {
-            ids[i] = row['orderId'];
+            ids[i] = row['id'];
         });
         $.ajax({
             type: 'POST',
@@ -197,16 +199,5 @@ function batchRemove() {
         });
     }, function () {
 
-    });
-}
-
-function importTrade() {
-    layer.open({
-        type: 2,
-        title: '导入账单',
-        maxmin: true,
-        shadeClose: false,
-        area: ['520px', '320px'],
-        content: prefix + '/import' // iframe的url
     });
 }

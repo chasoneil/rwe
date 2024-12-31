@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface KeepAccountService {
 
-    KeepAccountDO get(String id);
+    KeepAccountDO get(int id);
 
     List<KeepAccountDO> list(Map<String, Object> map);
 
