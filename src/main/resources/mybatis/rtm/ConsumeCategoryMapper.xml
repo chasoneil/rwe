@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.ConsumeCategoryDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		from tbl_consume_category
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		from tbl_consume_category
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
+			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
+			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
+			<if test="level != null and level != ''"> and `level` = #{level} </if>
+		</where>
+		order by category_name, category_type
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from tbl_consume_category
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
+			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
+			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
+			<if test="level != null and level != ''"> and `level` = #{level} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.ConsumeCategoryDO">
+		insert into tbl_consume_category
+		(
+			`user_id`,
+			`category_name`,
+			`category_type`,
+			`bill_type`,
+			`deep_type`,
+		 `level`
+		)
+		values
+			(
+				#{userId},
+				#{categoryName},
+				#{categoryType},
+				#{billType},
+				#{deepType},
+			 #{level}
+			)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.ConsumeCategoryDO">
+		update tbl_consume_category
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="categoryName != null">`category_name` = #{categoryName}, </if>
+			<if test="categoryType != null">`category_type` = #{categoryType}, </if>
+			<if test="billType != null">`bill_type` = #{billType}, </if>
+			<if test="deepType != null">`deep_type` = #{deepType} </if>
+			<if test="level != null">`level` = #{level} </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="updateCategoryName" parameterType="map">
+		update tbl_consume_category
+		<set>
+			`category_name` = #{newName}
+		</set>
+		where category_name = #{oldName}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_consume_category where id = #{value}
+	</delete>
+
+	<delete id="removeCategory">
+		delete from tbl_consume_category where category_name = #{categoryName}
+	</delete>
+
+
+	<delete id="batchRemove">
+		delete from tbl_consume_category where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

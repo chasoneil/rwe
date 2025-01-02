@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input name="id" th:value="${consumeCategory.id}" type="hidden">
+						<input name="userId" th:value="${consumeCategory.userId}" type="hidden">
+						<input name="level" th:value="${consumeCategory.level}" type="hidden">
+                        <div th:if="${consumeCategory.level == 1}">
+                            <input name="billType" th:value="${consumeCategory.categoryName}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    <input name="categoryName" class="form-control" th:value="${consumeCategory.categoryName}" placeholder="请输入分类名称" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${consumeCategory.categoryType == 2}">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    <select data-placeholder="请选择分类" class="chosen-select" style="width:220px;" tabindex="4" th:value="${consumeCategory.categoryName}" name="categoryName" id="categoryName">
+                                        <span th:each="name, index : ${names}">
+                                            <option th:value="${name}" th:text="${name}"></option>
+                                        </span>
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">细类名称：<span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    <input name="categoryType" class="form-control" th:value="${consumeCategory.categoryType}" placeholder="请输入细类名称" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">账本类型：<span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    <select data-placeholder="选择账本类型..." name="billType" th:value="${consumeCategory.billType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择账本类型</option>
+                                        <option value="年" hassubinfo="true">年</option>
+                                        <option value="半年" hassubinfo="true">半年</option>
+                                        <option value="月" hassubinfo="true">月</option>
+                                        <option value="一次性" hassubinfo="true">一次性</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/consume_category/edit.js"></script>
+</body>
+</html>

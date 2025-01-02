@@ -22,4 +22,6 @@ public interface KeepAccountService {
     int remove(int id);
 
     int batchRemove(int[] ids);
+
+    boolean checkKeepAccount(KeepAccountDO keepAccountDO);
 }

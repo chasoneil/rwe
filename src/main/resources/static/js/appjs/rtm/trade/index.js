@@ -118,14 +118,25 @@ function load() {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + row.orderId + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
+                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="拆分" onclick="seperateTrade(\''
+                                + row.orderId + '\')"><i class="fa fa-edit"></i> 拆分</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + row.orderId + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            return d;
+                            return e + d;
                         }
                     }]
             });
+}
+
+function seperateTrade(orderId) {
+    layer.open({
+        type: 2,
+        title: '拆分账单',
+        maxmin: true,
+        shadeClose: false, // 点击遮罩关闭层
+        area: ['1000px', '520px'],
+        content: prefix + '/split/' + orderId // iframe的url
+    });
 }
 
 function refreshPage() {

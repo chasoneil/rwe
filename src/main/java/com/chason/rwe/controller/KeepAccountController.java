@@ -1,26 +1,20 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
-import com.chason.common.domain.DictDO;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.KeepAccountDO;
-import com.chason.rwe.domain.PolicyDO;
-import com.chason.rwe.domain.SpaceDO;
 import com.chason.rwe.enums.ConsumeEnum;
 import com.chason.rwe.enums.PayForEnum;
 import com.chason.rwe.service.KeepAccountService;
 import com.chason.system.service.RoleService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +77,10 @@ public class KeepAccountController extends BaseController {
             if (types == null || types.length == 0) {
                 throw new RuntimeException("交易类型错误");
             }
+
+//            if (!keepAccountService.checkKeepAccount(keepAccountDO)) {
+//                throw new RuntimeException("记账信息重复");
+//            }
 
             keepAccountDO.setTradeVariety(types[0]);
             keepAccountDO.setTradeType(types[1]);

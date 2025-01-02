@@ -64,4 +64,31 @@ create table tbl_keep_account (
     index (pay_for)
 );
 ```
+消费二级目录表
 
+```mysql
+create table tbl_consume_category (
+    id int primary key auto_increment comment '消费分类ID',
+    user_id int not null comment '用户ID',
+    category_name varchar(32) not null comment '一级菜单',  
+    category_type varchar(32) not null comment '二级菜单', 
+    bill_type varchar(32) not null comment '账本类型', 
+    deep_type varchar(32) not null comment '深度支出分类', 
+    level int not null default 1 comment '分类级别',
+    index (user_id),
+    index (category_name),
+    index (bill_type),
+    index (deep_type)
+);
+```
+
+深度支出分类表
+
+```mysql  
+create table tbl_deep_type(
+    id             int primary key auto_increment comment '深度分类ID',
+    user_id        int         not null comment '用户ID',
+    deep_type_name varchar(32) not null comment '深度分类名称',
+    index (user_id)
+);
+```

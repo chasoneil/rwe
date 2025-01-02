@@ -1,7 +1,8 @@
 
-let prefix = '/rwe/keep_account';
+let prefix = '/rwe/consume_category';
 
 $().ready(function() {
+	validateRule();
 
 	let config = {
 		'.chosen-select': {},
@@ -21,21 +22,19 @@ $().ready(function() {
 	for (let selector in config) {
 		$(selector).chosen(config[selector]);
 	}
-
-	validateRule();
 });
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		saveType();
 	}
 });
 
-function save() {
+function saveType() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : prefix + '/save',
+		url : prefix + '/saveType',
 		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
@@ -58,30 +57,18 @@ function validateRule() {
 	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			tradeTime : {
+			categoryName : {
 				required : true
 			},
-			amount : {
-				required : true
-			},
-			tradeType : {
-				required : true
-			},
-			payFor : {
+			categoryType : {
 				required : true
 			}
 		},
 		messages : {
-			tradeTime : {
+			categoryName : {
 				required : icon + "不能为空"
 			},
-			amount : {
-				required : icon + "不能为空"
-			},
-			tradeType : {
-				required : icon + "不能为空"
-			},
-			payFor : {
+			categoryType : {
 				required : icon + "不能为空"
 			}
 		}

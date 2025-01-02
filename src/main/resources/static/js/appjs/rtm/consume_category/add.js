@@ -1,27 +1,7 @@
 
-let prefix = '/rwe/keep_account';
+let prefix = '/rwe/consume_category';
 
 $().ready(function() {
-
-	let config = {
-		'.chosen-select': {},
-		'.chosen-select-deselect': {
-			allow_single_deselect: true
-		},
-		'.chosen-select-no-single': {
-			disable_search_threshold: 10
-		},
-		'.chosen-select-no-results': {
-			no_results_text: 'Oops, nothing found!'
-		},
-		'.chosen-select-width': {
-			width: "40%"
-		}
-	}
-	for (let selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-
 	validateRule();
 });
 
@@ -31,6 +11,7 @@ $.validator.setDefaults({
 	}
 });
 
+// 新增一级菜单
 function save() {
 	$.ajax({
 		cache : true,
@@ -58,30 +39,12 @@ function validateRule() {
 	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			tradeTime : {
-				required : true
-			},
-			amount : {
-				required : true
-			},
-			tradeType : {
-				required : true
-			},
-			payFor : {
+			categoryName : {
 				required : true
 			}
 		},
 		messages : {
-			tradeTime : {
-				required : icon + "不能为空"
-			},
-			amount : {
-				required : icon + "不能为空"
-			},
-			tradeType : {
-				required : icon + "不能为空"
-			},
-			payFor : {
+			categoryName : {
 				required : icon + "不能为空"
 			}
 		}

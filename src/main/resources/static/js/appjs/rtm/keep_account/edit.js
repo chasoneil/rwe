@@ -21,8 +21,6 @@ $().ready(function() {
 	for (let selector in config) {
 		$(selector).chosen(config[selector]);
 	}
-
-
 });
 
 document.addEventListener("DOMContentLoaded", function() {

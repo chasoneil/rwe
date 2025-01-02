@@ -2,12 +2,16 @@ package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
 import com.chason.common.utils.*;
+import com.chason.rwe.domain.KeepAccountDO;
 import com.chason.rwe.domain.TradeDO;
+import com.chason.rwe.enums.ConsumeEnum;
+import com.chason.rwe.enums.PayForEnum;
 import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,6 +80,45 @@ public class TradeController extends BaseController {
         return new PageUtils(tradeLists, total);
     }
 
+
+
+
+
+    @PostMapping("/remove")
+    @ResponseBody
+    public R remove(String orderId) {
+        return tradeService.remove(orderId) > 0 ? R.ok("删除成功") : R.error("删除失败");
+    }
+
+    @PostMapping("/batchRemove")
+    @ResponseBody
+    public R remove(@RequestParam("ids[]") String[] orderIds) {
+        int row = tradeService.batchRemove(orderIds);
+        return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
+    }
+
+    // 2024010222001480931455389050
+    @GetMapping("/split/{orderId}")
+    String split(@PathVariable("orderId") String orderId, Model model) {
+        TradeDO tradeDO = tradeService.get(orderId.trim());
+
+        if (tradeDO == null) {
+            throw new RuntimeException("账单信息不存在");
+        }
+
+        model.addAttribute("trade", tradeDO);
+        return PREFIX + "/split";
+    }
+
+    @ResponseBody
+    @PostMapping("/doSplit")
+    public R update(TradeDO tradeDO) {
+
+        System.out.println("123");
+        return R.ok();
+    }
+
+
     @GetMapping("/import")
     public String importFile() {
         return PREFIX + "/import";
@@ -99,30 +142,17 @@ public class TradeController extends BaseController {
         int result = 0;
 
         if (file.getOriginalFilename().endsWith(".xls") || file.getOriginalFilename().endsWith(".xlsx")
-        || file.getOriginalFilename().endsWith(".XLSX") || file.getOriginalFilename().endsWith(".XLS")) {
+                || file.getOriginalFilename().endsWith(".XLSX") || file.getOriginalFilename().endsWith(".XLS")) {
             return R.ok("暂不支持Excel导入！");
             //result = doExcelImport(file);
         }
 
         if (file.getOriginalFilename().endsWith(".csv") || file.getOriginalFilename().endsWith(".txt") ||
-        file.getOriginalFilename().endsWith(".TXT") || file.getOriginalFilename().endsWith(".CSV")) {
+                file.getOriginalFilename().endsWith(".TXT") || file.getOriginalFilename().endsWith(".CSV")) {
             result = doCsvTxtImport(file);
         }
 
         return R.ok("导入成功，共导入" + result + "条数据！");
-    }
-
-    @PostMapping("/remove")
-    @ResponseBody
-    public R remove(String orderId) {
-        return tradeService.remove(orderId) > 0 ? R.ok("删除成功") : R.error("删除失败");
-    }
-
-    @PostMapping("/batchRemove")
-    @ResponseBody
-    public R remove(@RequestParam("ids[]") String[] orderIds) {
-        int row = tradeService.batchRemove(orderIds);
-        return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
     }
 
     // 解析并导入Excel文件
@@ -233,16 +263,16 @@ public class TradeController extends BaseController {
         TradeDO tradeDO = new TradeDO();
         for (int i = 0; i < columns.length; i++) {
             tradeDO.setTradeTime(sdf.parse(columns[0]));
-            tradeDO.setTradeType(columns[1]);
-            tradeDO.setTradeObj(columns[2]);
-            tradeDO.setObjAccount(columns[3]);
-            tradeDO.setProduct(columns[4]);
-            tradeDO.setInOut(columns[5]);
+            tradeDO.setTradeType(columns[1].trim());
+            tradeDO.setTradeObj(columns[2].trim());
+            tradeDO.setObjAccount(columns[3].trim());
+            tradeDO.setProduct(columns[4].trim());
+            tradeDO.setInOut(columns[5].trim());
             tradeDO.setAmount(Double.parseDouble(columns[6]));
             tradeDO.setPayType(columns[7]);
             tradeDO.setTradeStatus(columns[8]);
-            tradeDO.setOrderId(columns[9]);
-            tradeDO.setSellerOrderId(columns[10]);
+            tradeDO.setOrderId(columns[9].trim());
+            tradeDO.setSellerOrderId(columns[10].trim());
             tradeDO.setPlatform("支付宝");
             tradeDO.setCreateUserId(getUserId());
             tradeDO.setChecked(0);
@@ -259,16 +289,16 @@ public class TradeController extends BaseController {
         TradeDO tradeDO = new TradeDO();
         for (int i = 0; i < columns.length; i++) {
             tradeDO.setTradeTime(sdf.parse(columns[0]));
-            tradeDO.setTradeType(columns[1]);
-            tradeDO.setTradeObj(columns[2]);
-            tradeDO.setProduct(columns[3]);
-            tradeDO.setInOut(columns[4]);
+            tradeDO.setTradeType(columns[1].trim());
+            tradeDO.setTradeObj(columns[2].trim());
+            tradeDO.setProduct(columns[3].trim());
+            tradeDO.setInOut(columns[4].trim());
             String amount = columns[5].replaceAll("¥", "");
             tradeDO.setAmount(Double.parseDouble(amount));
-            tradeDO.setPayType(columns[6]);
-            tradeDO.setTradeStatus(columns[7]);
-            tradeDO.setOrderId(columns[8]);
-            tradeDO.setSellerOrderId(columns[9]);
+            tradeDO.setPayType(columns[6].trim());
+            tradeDO.setTradeStatus(columns[7].trim());
+            tradeDO.setOrderId(columns[8].trim());
+            tradeDO.setSellerOrderId(columns[9].trim());
             tradeDO.setPlatform("微信");
             tradeDO.setCreateUserId(getUserId());
             tradeDO.setChecked(0);
