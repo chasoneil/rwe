@@ -27,6 +27,8 @@ public class AccountDict {
 
     private HashSet<String> CATEGORY_NAME_DICT = new HashSet<>();
 
+    private HashSet<String> CATEGORY_TYPE_DICT = new HashSet<>();
+
     public HashSet<String> getDeepTypeDict(DeepTypeService deepTypeService) {
 
         if (DEEP_TYPE_DICT.isEmpty()) {
@@ -45,6 +47,14 @@ public class AccountDict {
         return CATEGORY_NAME_DICT;
     }
 
+    public HashSet<String> getCategoryTypeDict(ConsumeCategoryService consumeCategoryService) {
+        if (CATEGORY_TYPE_DICT.isEmpty()) {
+            initCategoryTypeDict(consumeCategoryService);
+        }
+
+        return CATEGORY_TYPE_DICT;
+    }
+
     public void initDeepTypeDict(DeepTypeService deepTypeService) {
         List<DeepTypeDO> list = deepTypeService.list(new HashMap<>());
         DEEP_TYPE_DICT.clear();
@@ -56,10 +66,20 @@ public class AccountDict {
     public void initCategoryNameDict(ConsumeCategoryService consumeCategoryService) {
         List<ConsumeCategoryDO> list = consumeCategoryService.list(new HashMap<>());
         for (ConsumeCategoryDO categoryDO : list) {
+            if ("-".equals(categoryDO.getCategoryName())) {
+                continue;
+            }
             CATEGORY_NAME_DICT.add(categoryDO.getCategoryName());
         }
     }
 
-
-
+    public void initCategoryTypeDict(ConsumeCategoryService consumeCategoryService) {
+        List<ConsumeCategoryDO> list = consumeCategoryService.list(new HashMap<>());
+        for (ConsumeCategoryDO categoryDO : list) {
+            if ("-".equals(categoryDO.getCategoryType())) {
+                continue;
+            }
+            CATEGORY_TYPE_DICT.add(categoryDO.getCategoryType());
+        }
+    }
 }

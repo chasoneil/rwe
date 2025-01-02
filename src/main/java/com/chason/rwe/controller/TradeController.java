@@ -2,10 +2,7 @@ package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
 import com.chason.common.utils.*;
-import com.chason.rwe.domain.KeepAccountDO;
 import com.chason.rwe.domain.TradeDO;
-import com.chason.rwe.enums.ConsumeEnum;
-import com.chason.rwe.enums.PayForEnum;
 import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
@@ -113,8 +110,6 @@ public class TradeController extends BaseController {
     @ResponseBody
     @PostMapping("/doSplit")
     public R update(TradeDO tradeDO) {
-
-        System.out.println("123");
         return R.ok();
     }
 

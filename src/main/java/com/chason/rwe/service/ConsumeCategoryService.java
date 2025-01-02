@@ -9,6 +9,8 @@ public interface ConsumeCategoryService {
 
     ConsumeCategoryDO get(int id);
 
+    ConsumeCategoryDO getByType(String type);
+
     List<ConsumeCategoryDO> list(Map<String, Object> map);
 
     int count(Map<String, Object> map);

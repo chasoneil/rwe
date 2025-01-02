@@ -13,16 +13,16 @@
 							<input type="hidden" name="userId" th:value="${consumeCategory.userId}">
 							<div class="form-group" >
 								<label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
-								<div class="col-sm-10">
+								<div class="col-sm-4">
 									<input class="form-control" name="categoryName" th:value="${consumeCategory.categoryName}" readonly>
 								</div>
-							</div>
-							<div class="form-group" >
+
 								<label class="col-sm-2 control-label">细类名称：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
 									<input class="form-control" name="categoryType" placeholder="请输入细类名称">
 								</div>
-
+							</div>
+							<div class="form-group" >
 								<label class="col-sm-2 control-label">账本类型：</label>
 								<div class="col-sm-4">
 									<select data-placeholder="选择账本类型..." name="billType" class="chosen-select" style="width:220px;" tabindex="2">
@@ -31,6 +31,16 @@
 										<option value="半年" hassubinfo="true">半年</option>
 										<option value="月" hassubinfo="true">月</option>
 										<option value="一次性" hassubinfo="true">一次性</option>
+									</select>
+								</div>
+
+								<label class="col-sm-2 control-label">深度支出类型：</label>
+								<div class="col-sm-4">
+									<select data-placeholder="选择深度支出类型..." name="deepType" class="chosen-select" style="width:220px;" tabindex="2">
+										<option value="">选择深度支出类型</option>
+										<span th:each="deepTypeName, index : ${deepTypeNames}">
+                                            <option th:value="${deepTypeName}" th:text="${deepTypeName}"></option>
+                                        </span>
 									</select>
 								</div>
 							</div>

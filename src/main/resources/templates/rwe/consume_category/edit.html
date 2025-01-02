@@ -12,7 +12,8 @@
 						<input name="id" th:value="${consumeCategory.id}" type="hidden">
 						<input name="userId" th:value="${consumeCategory.userId}" type="hidden">
 						<input name="level" th:value="${consumeCategory.level}" type="hidden">
-                        <div th:if="${consumeCategory.level == 1}">
+
+                        <div th:if="${consumeCategory.level} == '1'">
                             <input name="billType" th:value="${consumeCategory.categoryName}" type="hidden">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
@@ -21,7 +22,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:if="${consumeCategory.categoryType == 2}">
+
+                        <div th:if="${consumeCategory.level} == '2'">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
@@ -45,6 +47,15 @@
                                         <option value="半年" hassubinfo="true">半年</option>
                                         <option value="月" hassubinfo="true">月</option>
                                         <option value="一次性" hassubinfo="true">一次性</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label">深度支出类型：</label>
+                                <div class="col-sm-4">
+                                    <select data-placeholder="选择深度支出类型..." name="deepType" th:value="${consumeCategory.deepType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择深度支出类型</option>
+                                        <span th:each="deepTypeName, index : ${deepTypeNames}">
+                                            <option th:value="${deepTypeName}" th:text="${deepTypeName}"></option>
+                                        </span>
                                     </select>
                                 </div>
                             </div>

@@ -9,6 +9,12 @@
 		where id = #{value}
 	</select>
 
+	<select id="getByType" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
+		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		from tbl_consume_category
+		where category_type = #{type}
+	</select>
+
 	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
 		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
 		from tbl_consume_category

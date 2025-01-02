@@ -1,13 +1,15 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
+import com.chason.common.dict.AccountDict;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
+import com.chason.rwe.domain.ConsumeCategoryDO;
 import com.chason.rwe.domain.KeepAccountDO;
-import com.chason.rwe.enums.ConsumeEnum;
 import com.chason.rwe.enums.PayForEnum;
+import com.chason.rwe.service.ConsumeCategoryService;
 import com.chason.rwe.service.KeepAccountService;
 import com.chason.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +38,9 @@ public class KeepAccountController extends BaseController {
 
     @Autowired
     private KeepAccountService keepAccountService;
+
+    @Autowired
+    private ConsumeCategoryService consumeCategoryService;
 
     @Autowired
     private RoleService roleService;
@@ -64,7 +70,10 @@ public class KeepAccountController extends BaseController {
     }
 
     @GetMapping("/add")
-    String add() {
+    String add(Model model) {
+
+        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService);
+        model.addAttribute("types", types);
         return PREFIX + "/add";
     }
 
@@ -73,18 +82,19 @@ public class KeepAccountController extends BaseController {
     public R save(KeepAccountDO keepAccountDO) {
         try {
             check(keepAccountDO);
-            String[] types = ConsumeEnum.getAllTypes(keepAccountDO.getTradeType());
-            if (types == null || types.length == 0) {
-                throw new RuntimeException("交易类型错误");
+            ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.getByType(keepAccountDO.getTradeType());
+            if (consumeCategoryDO == null) {
+                throw new RuntimeException("未定义的分类");
             }
 
 //            if (!keepAccountService.checkKeepAccount(keepAccountDO)) {
 //                throw new RuntimeException("记账信息重复");
 //            }
 
-            keepAccountDO.setTradeVariety(types[0]);
-            keepAccountDO.setTradeType(types[1]);
-            keepAccountDO.setTradeStatistics(types[2]);
+            keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
+            keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
+            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
+            keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
 
             keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
 
@@ -108,6 +118,8 @@ public class KeepAccountController extends BaseController {
             throw new RuntimeException("记账信息不存在");
         }
 
+        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService);
+        model.addAttribute("types", types);
         model.addAttribute("keepAccount", keepAccountDO);
         return PREFIX + "/edit";
     }
@@ -117,14 +129,15 @@ public class KeepAccountController extends BaseController {
     public R update(KeepAccountDO keepAccountDO) {
         try {
             check(keepAccountDO);
-            String[] types = ConsumeEnum.getAllTypes(keepAccountDO.getTradeType());
-            if (types == null || types.length == 0) {
-                throw new RuntimeException("交易类型错误");
+            ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.getByType(keepAccountDO.getTradeType());
+            if (consumeCategoryDO == null) {
+                throw new RuntimeException("未定义的分类");
             }
 
-            keepAccountDO.setTradeVariety(types[0]);
-            keepAccountDO.setTradeType(types[1]);
-            keepAccountDO.setTradeStatistics(types[2]);
+            keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
+            keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
+            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
+            keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
             keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
 
             int update = keepAccountService.update(keepAccountDO);

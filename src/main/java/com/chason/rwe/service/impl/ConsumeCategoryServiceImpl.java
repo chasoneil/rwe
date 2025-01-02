@@ -21,6 +21,11 @@ public class ConsumeCategoryServiceImpl implements ConsumeCategoryService {
     }
 
     @Override
+    public ConsumeCategoryDO getByType(String type) {
+        return consumeCategoryDao.getByType(type);
+    }
+
+    @Override
     public List<ConsumeCategoryDO> list(Map<String, Object> map) {
         return consumeCategoryDao.list(map);
     }
