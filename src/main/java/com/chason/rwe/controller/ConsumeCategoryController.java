@@ -1,6 +1,7 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
+import com.chason.common.dict.AccountDict;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 记账信息
  * consume_category 记账分类
  * @author Chason
  * @date 2025/1/1
@@ -104,11 +104,7 @@ public class ConsumeCategoryController extends BaseController {
     String edit(@PathVariable("id") int id, Model model) {
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(id);
 
-        List<ConsumeCategoryDO> list = consumeCategoryService.list(new HashMap<>());
-        HashSet<String> names = new HashSet<>();
-        for (ConsumeCategoryDO categoryDO : list) {
-            names.add(categoryDO.getCategoryName());
-        }
+        HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService);
 
         if (consumeCategoryDO == null) {
             throw new RuntimeException("消费类型不存在");
