@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.31, for Win64 (x86_64)
 --
--- Host: localhost    Database: zmanager
+-- Host: localhost    Database: rwe
 -- ------------------------------------------------------
 -- Server version	5.7.31-log
 
@@ -196,7 +196,6 @@ CREATE TABLE `sys_log` (
 
 LOCK TABLES `sys_log` WRITE;
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
-INSERT INTO `sys_log` VALUES (1,141,'chason','登录',10,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 16:00:26'),(2,141,'chason','请求访问主页',45,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 16:00:26'),(3,141,'chason','访问主页',4,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:00:27'),(4,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:00:27'),(5,141,'chason','登录',0,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 16:21:52'),(6,141,'chason','请求访问主页',41,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 16:21:52'),(7,141,'chason','访问主页',4,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:21:52'),(8,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:21:52'),(9,141,'chason','编辑菜单',9,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 16:24:34'),(10,141,'chason','更新菜单',11,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 16:24:39'),(11,141,'chason','编辑菜单',12,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 16:24:42'),(12,141,'chason','更新菜单',7,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 16:24:52'),(13,141,'chason','编辑菜单',7,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 16:24:56'),(14,141,'chason','更新菜单',8,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 16:25:05'),(15,141,'chason','登录',8,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 16:29:26'),(16,141,'chason','请求访问主页',46,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 16:29:26'),(17,141,'chason','访问主页',4,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:29:26'),(18,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 16:29:26'),(19,141,'chason','编辑菜单',14,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 17:04:50'),(20,141,'chason','更新菜单',11,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 17:05:10'),(21,141,'chason','编辑菜单',9,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 17:05:17'),(22,141,'chason','更新菜单',6,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 17:05:27'),(23,141,'chason','编辑菜单',10,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 17:05:32'),(24,141,'chason','更新菜单',6,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 17:05:36'),(25,141,'chason','编辑菜单',6,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 17:05:40'),(26,141,'chason','更新菜单',8,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 17:05:45'),(27,141,'chason','登录',9,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 17:10:06'),(28,141,'chason','请求访问主页',44,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 17:10:06'),(29,141,'chason','访问主页',7,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:10:06'),(30,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:10:06'),(31,141,'chason','编辑菜单',12,'com.chason.system.controller.MenuController.edit()',NULL,'127.0.0.1','2024-08-15 17:10:49'),(32,141,'chason','更新菜单',14,'com.chason.system.controller.MenuController.update()',NULL,'127.0.0.1','2024-08-15 17:10:54'),(33,141,'chason','登录',9,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 17:11:27'),(34,141,'chason','请求访问主页',39,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 17:11:27'),(35,141,'chason','访问主页',3,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:11:27'),(36,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:11:27'),(37,141,'chason','请求访问主页',12,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 17:14:33'),(38,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:14:33'),(39,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:14:33'),(40,141,'chason','登录',7,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 17:38:41'),(41,141,'chason','请求访问主页',38,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 17:38:41'),(42,141,'chason','访问主页',6,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:38:41'),(43,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:38:41'),(44,141,'chason','登录',9,'com.chason.system.controller.LoginController.ajaxLogin()',NULL,'127.0.0.1','2024-08-15 17:59:08'),(45,141,'chason','请求访问主页',37,'com.chason.system.controller.LoginController.index()',NULL,'127.0.0.1','2024-08-15 17:59:08'),(46,141,'chason','访问主页',4,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:59:08'),(47,141,'chason','访问主页',0,'com.chason.rwe.controller.MainController.main()',NULL,'127.0.0.1','2024-08-15 17:59:08');
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +227,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,0,'基础管理','','',0,'fa fa-bars',95,'2017-08-09 22:49:47',NULL),(2,3,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',2,'2017-08-09 22:55:15',NULL),(3,0,'系统管理','','',0,'fa fa-desktop',99,'2017-08-09 23:06:55','2017-08-14 14:13:43'),(6,3,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',0,'2017-08-10 14:12:11',NULL),(7,3,'角色管理','sys/role','sys:role:role',1,'fa fa-paw',1,'2017-08-10 14:13:19',NULL),(12,6,'新增','','sys:user:add',2,'',0,'2017-08-14 10:51:35',NULL),(13,6,'编辑','','sys:user:edit',2,'',0,'2017-08-14 10:52:06',NULL),(14,6,'删除',NULL,'sys:user:remove',2,NULL,0,'2017-08-14 10:52:24',NULL),(15,7,'新增','','sys:role:add',2,'',0,'2017-08-14 10:56:37',NULL),(20,2,'新增','','sys:menu:add',2,'',0,'2017-08-14 10:59:32',NULL),(21,2,'编辑','','sys:menu:edit',2,'',0,'2017-08-14 10:59:56',NULL),(22,2,'删除','','sys:menu:remove',2,'',0,'2017-08-14 11:00:26',NULL),(24,6,'批量删除','','sys:user:batchRemove',2,'',0,'2017-08-14 17:27:18',NULL),(25,6,'停用',NULL,'sys:user:disable',2,NULL,0,'2017-08-14 17:27:43',NULL),(26,6,'重置密码','','sys:user:resetPwd',2,'',0,'2017-08-14 17:28:34',NULL),(27,91,'系统日志','common/log','common:log',1,'fa fa-warning',0,'2017-08-14 22:11:53',NULL),(28,27,'刷新',NULL,'sys:log:list',2,NULL,0,'2017-08-14 22:30:22',NULL),(29,27,'删除',NULL,'sys:log:remove',2,NULL,0,'2017-08-14 22:30:43',NULL),(30,27,'清空',NULL,'sys:log:clear',2,NULL,0,'2017-08-14 22:31:02',NULL),(55,7,'编辑','','sys:role:edit',2,'',NULL,NULL,NULL),(56,7,'删除','','sys:role:remove',2,NULL,NULL,NULL,NULL),(57,91,'运行监控','/druid/index.html','',1,'fa fa-caret-square-o-right',1,NULL,NULL),(61,2,'批量删除','','sys:menu:batchRemove',2,NULL,NULL,NULL,NULL),(62,7,'批量删除','','sys:role:batchRemove',2,NULL,NULL,NULL,NULL),(71,1,'文件管理','/common/sysFile','common:sysFile:sysFile',1,'fa fa-folder-open',2,NULL,NULL),(73,3,'部门管理','/system/sysDept','system:sysDept:sysDept',1,'fa fa-users',3,NULL,NULL),(74,73,'增加','/system/sysDept/add','system:sysDept:add',2,'fa fa-wifi',1,NULL,NULL),(75,73,'刪除','system/sysDept/remove','system:sysDept:remove',2,NULL,2,NULL,NULL),(76,73,'编辑','/system/sysDept/edit','system:sysDept:edit',2,NULL,3,NULL,NULL),(78,1,'数据字典','/common/sysDict','common:sysDict:sysDict',1,'fa fa-book',1,NULL,NULL),(79,78,'增加','/common/sysDict/add','common:sysDict:add',2,NULL,2,NULL,NULL),(80,78,'编辑','/common/sysDict/edit','common:sysDict:edit',2,NULL,2,NULL,NULL),(81,78,'删除','/common/sysDict/remove','common:sysDict:remove',2,'',3,NULL,NULL),(83,78,'批量删除','/common/sysDict/batchRemove','common:sysDict:batchRemove',2,'',4,NULL,NULL),(91,0,'系统监控','','',0,'fa fa-video-camera',90,NULL,NULL),(92,91,'在线用户','sys/online','',1,'fa fa-user',NULL,NULL,NULL),(146,0,'设备发现','','',0,'fa fa-laptop',10,NULL,NULL),(147,0,'任务管理','','',0,'fa fa-gears',60,NULL,NULL),(148,146,'设备发现','/rtm/device/register','rtm:device:register',1,'fa fa-newspaper-o',0,NULL,NULL),(157,147,'计划任务','common/job','common:taskScheduleJob',1,'fa fa-hourglass-1',8,NULL,NULL),(159,0,'设备运维','','',0,'fa fa-briefcase',20,NULL,NULL),(160,159,'设备分组','/rtm/device/group','rwe:device:group',1,'fa fa-bars',2,NULL,NULL),(166,159,'分组设置','/rtm/space','rwe:space:space',1,'fa fa-bars',1,NULL,NULL),(168,166,'空间信息操作','','rtm:space:update',2,'fa fa-circle-o',NULL,NULL,NULL),(170,159,'定时策略','/rtm/policy','rwe:policy:policy',1,'',2,NULL,NULL),(175,166,'添加','','rtm:space:add',2,'',NULL,NULL,NULL),(176,166,'删除','','rtm:space:delete',2,'',NULL,NULL,NULL),(177,170,'添加','','rtm:policy:add',2,'',NULL,NULL,NULL),(178,170,'删除','','rtm:policy:remove',2,'',NULL,NULL,NULL),(179,0,'背单词','','',0,'fa fa-book',30,NULL,NULL),(180,179,'选课背','/rwe/lesson','rwe:lesson',1,'fa fa-pencil-square-o',NULL,NULL,NULL),(182,0,'企业信息','','',0,'fa fa-tag',40,NULL,NULL),(183,182,'企业信息列表','/rtm/company','',1,'',NULL,NULL,NULL),(184,179,'随机测验','/rwe/lesson/exam','rwe:lesson',1,'fa fa-calendar-check-o',NULL,NULL,NULL);
+INSERT INTO `sys_menu` VALUES (1,0,'基础管理','','',0,'fa fa-bars',95,'2017-08-09 22:49:47',NULL),(2,3,'系统菜单','sys/menu/','sys:menu:menu',1,'fa fa-th-list',2,'2017-08-09 22:55:15',NULL),(3,0,'系统管理','','',0,'fa fa-desktop',99,'2017-08-09 23:06:55','2017-08-14 14:13:43'),(6,3,'用户管理','sys/user/','sys:user:user',1,'fa fa-user',0,'2017-08-10 14:12:11',NULL),(7,3,'角色管理','sys/role','sys:role:role',1,'fa fa-paw',1,'2017-08-10 14:13:19',NULL),(12,6,'新增','','sys:user:add',2,'',0,'2017-08-14 10:51:35',NULL),(13,6,'编辑','','sys:user:edit',2,'',0,'2017-08-14 10:52:06',NULL),(14,6,'删除',NULL,'sys:user:remove',2,NULL,0,'2017-08-14 10:52:24',NULL),(15,7,'新增','','sys:role:add',2,'',0,'2017-08-14 10:56:37',NULL),(20,2,'新增','','sys:menu:add',2,'',0,'2017-08-14 10:59:32',NULL),(21,2,'编辑','','sys:menu:edit',2,'',0,'2017-08-14 10:59:56',NULL),(22,2,'删除','','sys:menu:remove',2,'',0,'2017-08-14 11:00:26',NULL),(24,6,'批量删除','','sys:user:batchRemove',2,'',0,'2017-08-14 17:27:18',NULL),(25,6,'停用',NULL,'sys:user:disable',2,NULL,0,'2017-08-14 17:27:43',NULL),(26,6,'重置密码','','sys:user:resetPwd',2,'',0,'2017-08-14 17:28:34',NULL),(27,91,'系统日志','common/log','common:log',1,'fa fa-warning',0,'2017-08-14 22:11:53',NULL),(28,27,'刷新',NULL,'sys:log:list',2,NULL,0,'2017-08-14 22:30:22',NULL),(29,27,'删除',NULL,'sys:log:remove',2,NULL,0,'2017-08-14 22:30:43',NULL),(30,27,'清空',NULL,'sys:log:clear',2,NULL,0,'2017-08-14 22:31:02',NULL),(55,7,'编辑','','sys:role:edit',2,'',NULL,NULL,NULL),(56,7,'删除','','sys:role:remove',2,NULL,NULL,NULL,NULL),(57,91,'运行监控','/druid/index.html','',1,'fa fa-caret-square-o-right',1,NULL,NULL),(61,2,'批量删除','','sys:menu:batchRemove',2,NULL,NULL,NULL,NULL),(62,7,'批量删除','','sys:role:batchRemove',2,NULL,NULL,NULL,NULL),(71,1,'文件管理','/common/sysFile','common:sysFile:sysFile',1,'fa fa-folder-open',2,NULL,NULL),(73,3,'部门管理','/system/sysDept','system:sysDept:sysDept',1,'fa fa-users',3,NULL,NULL),(74,73,'增加','/system/sysDept/add','system:sysDept:add',2,'fa fa-wifi',1,NULL,NULL),(75,73,'刪除','system/sysDept/remove','system:sysDept:remove',2,NULL,2,NULL,NULL),(76,73,'编辑','/system/sysDept/edit','system:sysDept:edit',2,NULL,3,NULL,NULL),(78,1,'数据字典','/common/sysDict','common:sysDict:sysDict',1,'fa fa-book',1,NULL,NULL),(79,78,'增加','/common/sysDict/add','common:sysDict:add',2,NULL,2,NULL,NULL),(80,78,'编辑','/common/sysDict/edit','common:sysDict:edit',2,NULL,2,NULL,NULL),(81,78,'删除','/common/sysDict/remove','common:sysDict:remove',2,'',3,NULL,NULL),(83,78,'批量删除','/common/sysDict/batchRemove','common:sysDict:batchRemove',2,'',4,NULL,NULL),(91,0,'系统监控','','',0,'fa fa-video-camera',90,NULL,NULL),(92,91,'在线用户','sys/online','',1,'fa fa-user',NULL,NULL,NULL),(147,0,'任务管理','','',0,'fa fa-gears',60,NULL,NULL),(157,147,'计划任务','common/job','common:taskScheduleJob',1,'fa fa-hourglass-1',8,NULL,NULL),(179,0,'背单词','','',0,'fa fa-book',30,NULL,NULL),(180,179,'选课背','/rwe/lesson','rwe:lesson',1,'fa fa-pencil-square-o',NULL,NULL,NULL),(184,179,'随机测验','/rwe/lesson/exam','rwe:lesson',1,'fa fa-calendar-check-o',NULL,NULL,NULL),(185,180,'添加课程','/rwe/lesson/add','rwe:lesson:add',2,'',NULL,NULL,NULL),(186,0,'账单管理','','',0,'fa fa-calendar',35,NULL,NULL),(187,186,'我的账单','/rwe/trade/index','',1,'fa fa-building',2,NULL,NULL),(188,186,'记账','/rwe/keep_account/index','',1,'fa fa-calendar',3,NULL,NULL),(189,186,'账单分类字典','/rwe/consume_category/index','',1,'fa fa-server',4,NULL,NULL),(190,186,'深度支出字典','/rwe/deepType/index','',1,'fa fa-eye',5,NULL,NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +281,7 @@ CREATE TABLE `sys_role_menu` (
 
 LOCK TABLES `sys_role_menu` WRITE;
 /*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
-INSERT INTO `sys_role_menu` VALUES (367,44,1),(368,44,32),(369,44,33),(370,44,34),(371,44,35),(372,44,28),(373,44,29),(374,44,30),(375,44,38),(376,44,4),(377,44,27),(378,45,38),(379,46,3),(380,46,20),(381,46,21),(382,46,22),(383,46,23),(384,46,11),(385,46,12),(386,46,13),(387,46,14),(388,46,24),(389,46,25),(390,46,26),(391,46,15),(392,46,2),(393,46,6),(394,46,7),(632,38,42),(1064,54,53),(1095,55,2),(1096,55,6),(1097,55,7),(1098,55,3),(1099,55,50),(1100,55,49),(1101,55,1),(1856,53,28),(1857,53,29),(1858,53,30),(1859,53,27),(1860,53,57),(1861,53,71),(1862,53,48),(1863,53,72),(1864,53,1),(1865,53,7),(1866,53,55),(1867,53,56),(1868,53,62),(1869,53,15),(1870,53,2),(1871,53,61),(1872,53,20),(1873,53,21),(1874,53,22),(2247,63,-1),(2248,63,84),(2249,63,85),(2250,63,88),(2251,63,87),(2252,64,84),(2253,64,89),(2254,64,88),(2255,64,87),(2256,64,86),(2257,64,85),(2258,65,89),(2259,65,88),(2260,65,86),(2262,67,48),(2263,68,88),(2264,68,87),(2265,69,89),(2266,69,88),(2267,69,86),(2268,69,87),(2269,69,85),(2270,69,84),(2271,70,85),(2272,70,89),(2273,70,88),(2274,70,87),(2275,70,86),(2276,70,84),(2277,71,87),(2278,72,59),(2279,73,48),(2280,74,88),(2281,74,87),(2282,75,88),(2283,75,87),(2284,76,85),(2285,76,89),(2286,76,88),(2287,76,87),(2288,76,86),(2289,76,84),(2292,78,88),(2293,78,87),(2294,78,NULL),(2295,78,NULL),(2296,78,NULL),(2308,80,87),(2309,80,86),(2310,80,-1),(2311,80,84),(2312,80,85),(2328,79,72),(2329,79,48),(2330,79,77),(2331,79,84),(2332,79,89),(2333,79,88),(2334,79,87),(2335,79,86),(2336,79,85),(2337,79,-1),(2338,77,89),(2339,77,88),(2340,77,87),(2341,77,86),(2342,77,85),(2343,77,84),(2344,77,72),(2345,77,-1),(2346,77,77),(7419,49,148),(7420,49,168),(7421,49,175),(7422,49,176),(7423,49,160),(7424,49,177),(7425,49,178),(7426,49,180),(7427,49,181),(7428,49,183),(7429,49,157),(7430,49,79),(7431,49,80),(7432,49,81),(7433,49,83),(7434,49,71),(7435,49,12),(7436,49,13),(7437,49,25),(7438,49,26),(7439,49,74),(7440,49,75),(7441,49,76),(7442,49,146),(7443,49,166),(7444,49,170),(7445,49,159),(7446,49,179),(7447,49,182),(7448,49,147),(7449,49,78),(7450,49,1),(7451,49,73),(7452,49,7),(7453,49,55),(7454,49,56),(7455,49,62),(7456,49,15),(7457,49,2),(7458,49,61),(7459,49,20),(7460,49,21),(7461,49,22),(7462,49,-1),(7463,49,28),(7464,49,29),(7465,49,30),(7466,49,92),(7467,49,27),(7468,49,57),(7469,49,14),(7470,49,24),(7471,49,6),(7472,49,91),(7473,49,3),(7474,52,146),(7475,52,148),(7476,52,159),(7477,52,168),(7478,52,175),(7479,52,176),(7480,52,177),(7481,52,178),(7482,52,166),(7483,52,160),(7484,52,170),(7485,52,179),(7486,52,180),(7487,52,181),(7488,52,182),(7489,52,183),(7490,52,-1),(7491,1,148),(7492,1,168),(7493,1,175),(7494,1,176),(7495,1,160),(7496,1,177),(7497,1,178),(7498,1,180),(7499,1,183),(7500,1,157),(7501,1,92),(7502,1,28),(7503,1,29),(7504,1,30),(7505,1,57),(7506,1,79),(7507,1,80),(7508,1,81),(7509,1,83),(7510,1,71),(7511,1,12),(7512,1,13),(7513,1,14),(7514,1,24),(7515,1,25),(7516,1,26),(7517,1,55),(7518,1,56),(7519,1,62),(7520,1,15),(7521,1,61),(7522,1,20),(7523,1,21),(7524,1,22),(7525,1,74),(7526,1,75),(7527,1,76),(7528,1,146),(7529,1,166),(7530,1,170),(7531,1,159),(7532,1,182),(7533,1,147),(7534,1,27),(7535,1,91),(7536,1,78),(7537,1,1),(7538,1,6),(7539,1,7),(7540,1,2),(7541,1,73),(7542,1,3),(7543,1,184),(7544,1,179),(7545,1,-1);
+INSERT INTO `sys_role_menu` VALUES (367,44,1),(368,44,32),(369,44,33),(370,44,34),(371,44,35),(372,44,28),(373,44,29),(374,44,30),(375,44,38),(376,44,4),(377,44,27),(378,45,38),(379,46,3),(380,46,20),(381,46,21),(382,46,22),(383,46,23),(384,46,11),(385,46,12),(386,46,13),(387,46,14),(388,46,24),(389,46,25),(390,46,26),(391,46,15),(392,46,2),(393,46,6),(394,46,7),(632,38,42),(1064,54,53),(1095,55,2),(1096,55,6),(1097,55,7),(1098,55,3),(1099,55,50),(1100,55,49),(1101,55,1),(1856,53,28),(1857,53,29),(1858,53,30),(1859,53,27),(1860,53,57),(1861,53,71),(1862,53,48),(1863,53,72),(1864,53,1),(1865,53,7),(1866,53,55),(1867,53,56),(1868,53,62),(1869,53,15),(1870,53,2),(1871,53,61),(1872,53,20),(1873,53,21),(1874,53,22),(2247,63,-1),(2248,63,84),(2249,63,85),(2250,63,88),(2251,63,87),(2252,64,84),(2253,64,89),(2254,64,88),(2255,64,87),(2256,64,86),(2257,64,85),(2258,65,89),(2259,65,88),(2260,65,86),(2262,67,48),(2263,68,88),(2264,68,87),(2265,69,89),(2266,69,88),(2267,69,86),(2268,69,87),(2269,69,85),(2270,69,84),(2271,70,85),(2272,70,89),(2273,70,88),(2274,70,87),(2275,70,86),(2276,70,84),(2277,71,87),(2278,72,59),(2279,73,48),(2280,74,88),(2281,74,87),(2282,75,88),(2283,75,87),(2284,76,85),(2285,76,89),(2286,76,88),(2287,76,87),(2288,76,86),(2289,76,84),(2292,78,88),(2293,78,87),(2294,78,NULL),(2295,78,NULL),(2296,78,NULL),(2308,80,87),(2309,80,86),(2310,80,-1),(2311,80,84),(2312,80,85),(2328,79,72),(2329,79,48),(2330,79,77),(2331,79,84),(2332,79,89),(2333,79,88),(2334,79,87),(2335,79,86),(2336,79,85),(2337,79,-1),(2338,77,89),(2339,77,88),(2340,77,87),(2341,77,86),(2342,77,85),(2343,77,84),(2344,77,72),(2345,77,-1),(2346,77,77),(7979,1,148),(7980,1,168),(7981,1,175),(7982,1,176),(7983,1,160),(7984,1,177),(7985,1,178),(7986,1,185),(7987,1,184),(7988,1,188),(7989,1,189),(7990,1,187),(7991,1,183),(7992,1,157),(7993,1,92),(7994,1,28),(7995,1,29),(7996,1,30),(7997,1,57),(7998,1,79),(7999,1,80),(8000,1,81),(8001,1,83),(8002,1,71),(8003,1,12),(8004,1,13),(8005,1,14),(8006,1,24),(8007,1,25),(8008,1,26),(8009,1,55),(8010,1,56),(8011,1,62),(8012,1,15),(8013,1,61),(8014,1,20),(8015,1,21),(8016,1,22),(8017,1,74),(8018,1,75),(8019,1,76),(8020,1,146),(8021,1,166),(8022,1,170),(8023,1,159),(8024,1,180),(8025,1,179),(8026,1,182),(8027,1,147),(8028,1,27),(8029,1,91),(8030,1,78),(8031,1,1),(8032,1,6),(8033,1,7),(8034,1,2),(8035,1,73),(8036,1,3),(8037,1,190),(8038,1,186),(8039,1,-1),(8040,52,185),(8041,52,184),(8042,52,188),(8043,52,189),(8044,52,187),(8045,52,180),(8046,52,179),(8047,52,190),(8048,52,186),(8049,52,-1),(8111,49,185),(8112,49,184),(8113,49,187),(8114,49,188),(8115,49,189),(8116,49,190),(8117,49,92),(8118,49,28),(8119,49,29),(8120,49,30),(8121,49,57),(8122,49,79),(8123,49,80),(8124,49,81),(8125,49,83),(8126,49,71),(8127,49,12),(8128,49,13),(8129,49,14),(8130,49,24),(8131,49,25),(8132,49,26),(8133,49,55),(8134,49,56),(8135,49,62),(8136,49,15),(8137,49,61),(8138,49,20),(8139,49,21),(8140,49,22),(8141,49,74),(8142,49,75),(8143,49,76),(8144,49,180),(8145,49,179),(8146,49,186),(8147,49,27),(8148,49,91),(8149,49,78),(8150,49,1),(8151,49,6),(8152,49,7),(8153,49,2),(8154,49,73),(8155,49,3),(8156,49,-1);
 /*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,8 +317,7 @@ CREATE TABLE `sys_task` (
 
 LOCK TABLES `sys_task` WRITE;
 /*!40000 ALTER TABLE `sys_task` DISABLE KEYS */;
-INSERT INTO `sys_task` VALUES (14,'0 0 20 * * ? *',NULL,NULL,'每日20点自动备份数据库',NULL,'com.chason.common.task.JobBackupDb',NULL,'0','dataCheckJob',NULL,NULL,NULL,'数据备份'),(20,'0 0/1 * * * ? ',NULL,NULL,'每一个小时校时一次',NULL,'com.chason.common.task.JobDeviceCheckTime',NULL,'0','dataCheckJob',NULL,NULL,NULL,'延时设置');
-/*!40000 ALTER TABLE `sys_task` ENABLE KEYS */;
+INSERT INTO `sys_task` VALUES (14,'0 0 20 * * ? *',NULL,NULL,'每日20点自动备份数据库',NULL,'com.chason.common.task.JobBackupDb',NULL,'0','dataCheckJob',NULL,NULL,NULL,'数据备份');/*!40000 ALTER TABLE `sys_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -359,7 +357,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin','总经理','d1e2292b8991e896b272a37e1c9be3ad',9,'admin@example.com','123456',1,1,'2017-08-15 21:40:39','2017-08-15 21:41:00',NULL,NULL,170,NULL,NULL,NULL,NULL,NULL),(139,'manager','副总经理','18e9a6e0b2e8abab4fbb09a24e7098b9',9,'manager@example.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(140,'user01','普通用户','f811545e9532d73b88dfd07799f35aab',11,'user01@example.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(141,'chason','chason','9f8efd748ef4f7338d41fb1e492f1cae',9,'chason001@126.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,'admin','超级管理员','d1e2292b8991e896b272a37e1c9be3ad',9,'admin@example.com','123456',1,1,'2017-08-15 21:40:39','2017-08-15 21:41:00',NULL,NULL,170,NULL,NULL,NULL,NULL,NULL),(139,'manager','管理员','18e9a6e0b2e8abab4fbb09a24e7098b9',9,'manager@example.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(140,'user01','测试用户','f811545e9532d73b88dfd07799f35aab',11,'user01@example.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(141,'chason','chason','9f8efd748ef4f7338d41fb1e492f1cae',9,'chason001@126.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(142,'sanzuo29','六一','bb77ed9fec422972e1556e5abd82d152',9,'sanzuo29@126.com',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,110 +382,8 @@ CREATE TABLE `sys_user_role` (
 
 LOCK TABLES `sys_user_role` WRITE;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-INSERT INTO `sys_user_role` VALUES (73,30,48),(74,30,49),(75,30,50),(76,31,48),(77,31,49),(78,31,52),(79,32,48),(80,32,49),(81,32,50),(82,32,51),(83,32,52),(84,33,38),(85,33,49),(86,33,52),(87,34,50),(88,34,51),(89,34,52),(124,NULL,48),(149,139,49),(150,1,1),(151,141,1);
+INSERT INTO `sys_user_role` VALUES (73,30,48),(74,30,49),(75,30,50),(76,31,48),(77,31,49),(78,31,52),(79,32,48),(80,32,49),(81,32,50),(82,32,51),(83,32,52),(84,33,38),(85,33,49),(86,33,52),(87,34,50),(88,34,51),(89,34,52),(124,NULL,48),(154,141,52),(155,142,52),(156,1,1),(157,139,49),(158,140,52);
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_cluster`
---
-
-DROP TABLE IF EXISTS `tbl_cluster`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_cluster` (
-  `id` varchar(64) NOT NULL COMMENT '主键',
-  `cluster_name` varchar(64) NOT NULL,
-  `cluster_note` varchar(255) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL,
-  `delete_time` datetime DEFAULT NULL,
-  `is_deleted` int(11) NOT NULL,
-  `creator` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_cluster`
---
-
-LOCK TABLES `tbl_cluster` WRITE;
-/*!40000 ALTER TABLE `tbl_cluster` DISABLE KEYS */;
-INSERT INTO `tbl_cluster` VALUES ('c10fbf8b-93c3-4817-9a3f-9e14f9e5d32b','d80demo_ldr','同城集群',1,'2021-06-11 14:40:02',NULL,0,'admin'),('f4c0022d-13f6-4834-b432-d9154444c064','d80demo_prd','生产集群',0,'2021-06-11 14:38:12',NULL,0,'admin');
-/*!40000 ALTER TABLE `tbl_cluster` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_company`
---
-
-DROP TABLE IF EXISTS `tbl_company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_company` (
-  `id` varchar(64) NOT NULL COMMENT '主键',
-  `company_code` varchar(255) NOT NULL,
-  `company_name` varchar(64) NOT NULL,
-  `business_nature` varchar(64) NOT NULL,
-  `representative` varchar(32) NOT NULL COMMENT '法人代表',
-  `representative_phone` varchar(32) NOT NULL,
-  `connector` varchar(32) DEFAULT NULL,
-  `connector_phone` varchar(32) DEFAULT NULL,
-  `company_nature` varchar(64) NOT NULL,
-  `staff_number` int(11) NOT NULL,
-  `regist_address` varchar(255) DEFAULT NULL,
-  `product` varchar(32) DEFAULT NULL,
-  `is_list` varchar(32) NOT NULL,
-  `list_note` varchar(255) NOT NULL,
-  `social_number` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_company`
---
-
-LOCK TABLES `tbl_company` WRITE;
-/*!40000 ALTER TABLE `tbl_company` DISABLE KEYS */;
-INSERT INTO `tbl_company` VALUES ('249b0f5c-9c0b-44a8-a89a-820788343b40','JG1000001','杭州阿里巴巴','互联网','马云','13100010001','小王','13900020002','互联网',20065,NULL,NULL,'已上市','阿里巴巴于纳斯达克上市							',18000),('9a229a6b-235d-4438-90cc-ff0642841bc9','JM0232212','北京京东','互联网','刘强东','13909918898','章泽天','13909918897','互联网',15688,NULL,NULL,'已上市','已于纳斯达克上市						',14700),('e5b9dee7-6b41-4cf5-af96-c7d25a5325f8','GC0000014','上海新能源有限公司','新能源','陈胜','18321810247','李锂','13909918897','新能源',3,NULL,NULL,'计划上市','小公司，慢慢来，先做大做强		',3);
-/*!40000 ALTER TABLE `tbl_company` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_device`
---
-
-DROP TABLE IF EXISTS `tbl_device`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_device` (
-  `dev_id` varchar(255) NOT NULL COMMENT '主键',
-  `dev_code` varchar(255) DEFAULT NULL COMMENT '设备代号',
-  `dev_number` varchar(255) DEFAULT NULL COMMENT '设备序列号',
-  `dev_group_code` varchar(255) DEFAULT NULL COMMENT '设备分组号',
-  `dev_type` varchar(255) DEFAULT NULL COMMENT '设备类型',
-  `dev_reg_by` varchar(255) DEFAULT NULL COMMENT '注册人',
-  `dev_reg_time` datetime DEFAULT NULL COMMENT '注册时间',
-  `dev_online_last_time` datetime DEFAULT NULL COMMENT '最近在线时间',
-  `dev_status` varchar(255) DEFAULT NULL COMMENT '设备状态',
-  `dev_switch_mode` varchar(255) DEFAULT NULL,
-  `dev_policy` text,
-  `dev_switch_hand_time` datetime DEFAULT NULL,
-  `dev_random` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`dev_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_device`
---
-
-LOCK TABLES `tbl_device` WRITE;
-/*!40000 ALTER TABLE `tbl_device` DISABLE KEYS */;
-INSERT INTO `tbl_device` VALUES ('638160ddc0a8053526cf3032a0c0c081','192.168.5.225','515338122187','f59665b5c0a805346f17d9e4ceb64468,FM0101,FM01','ZTOWER','自动获取','2019-06-17 11:35:51','2019-06-17 11:43:46','11','自动','[\"16:00~16:10\",\"16:15~16:25\"]','2019-06-17 11:38:18','fab19801c0a805344993e127bdd76a06,fb0bdca7c0a805346a6cd7ba8d42eee3'),('63819859c0a80535364c52f8eb07fbf3','192.168.5.226','525564392087','f59695f6c0a805341e5de53ab97107e0,FM0101,FM01','ZTOWER','自动获取','2019-06-17 11:36:05','2019-06-17 11:43:48','11','自动','[\"16:00~16:10\",\"16:15~16:25\"]','2019-06-17 11:38:20','fab19801c0a805344993e127bdd76a06,fb0bdca7c0a805346a6cd7ba8d42eee3'),('6381d46ac0a8053576fb89507bc88d91','192.168.5.228','495028341687','f596be10c0a805343a08d98f0f998e99,FM0101,FM01','ZTOWER','自动获取','2019-06-17 11:36:21','2019-06-17 11:43:48','11','自动','[\"16:00~16:10\",\"16:15~16:25\"]','2019-06-17 11:38:20','fab19801c0a805344993e127bdd76a06,fb0bdca7c0a805346a6cd7ba8d42eee3'),('638208dfc0a805355bf3dfa9817dfa6e','192.168.5.229','525555242387','f596ebf1c0a80534752ef338b0ec9369,FM0101,FM01','ZTOWER','自动获取','2019-06-17 11:36:34','2019-06-17 11:43:46','11','自动','[\"16:00~16:10\",\"16:15~16:25\"]','2019-06-17 11:38:18','fab19801c0a805344993e127bdd76a06,fb0bdca7c0a805346a6cd7ba8d42eee3'),('63824f00c0a8053547033c5f91ad4d17','192.168.5.230','525541672487',NULL,'ZTOWER','自动获取','2019-06-17 11:36:52','2019-06-17 11:43:45','11','自动','-','2019-06-17 11:38:18',NULL),('6382777ac0a805357ba659bdb77a4553','192.168.5.231','525732391687',NULL,'ZTOWER','自动获取','2019-06-17 11:37:03','2019-06-17 11:43:47','11','自动','-','2019-06-17 11:38:19',NULL),('6382b668c0a80535398b161d42497075','192.168.5.15','495038221787',NULL,'ZTOWER','自动获取','2019-06-17 11:37:19','2019-06-28 09:33:01','11','自动','-','2019-06-28 09:32:21',NULL),('6382e9b8c0a80535195a659f8fb9ecb3','192.168.5.233','504973541467',NULL,'ZTOWER','自动获取','2019-06-17 11:37:32','2019-06-17 11:43:48','11','自动','-','2019-06-17 11:38:21',NULL),('63831bf1c0a8053538bb4c9d4db09532','192.168.5.234','525752201787',NULL,'ZTOWER','自动获取','2019-06-17 11:37:45','2019-06-17 11:43:46','11','自动','-','2019-06-17 11:38:18',NULL);
-/*!40000 ALTER TABLE `tbl_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -505,6 +401,7 @@ CREATE TABLE `tbl_lesson` (
   `passed` int(11) NOT NULL COMMENT '已经通过考试的单词数',
   `pass_time` datetime DEFAULT NULL COMMENT '整个课程通过考试的时间',
   `lesson` varchar(32) NOT NULL COMMENT 'lesson 名称',
+  `last_learn_time` datetime DEFAULT NULL COMMENT '上次学习时间',
   PRIMARY KEY (`lesson_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -515,93 +412,8 @@ CREATE TABLE `tbl_lesson` (
 
 LOCK TABLES `tbl_lesson` WRITE;
 /*!40000 ALTER TABLE `tbl_lesson` DISABLE KEYS */;
-INSERT INTO `tbl_lesson` VALUES (1,0,0,0,0,'2024-08-15 00:00:00','Lesson1');
+INSERT INTO `tbl_lesson` VALUES ('064426c9-5d61-4c2a-80be-ad480822fe52',0,0,0,0,NULL,'Lesson4',NULL),('aeb95fae-73f8-4a40-bf6a-2e8d257b3b15',0,0,0,0,NULL,'Lesson2',NULL),('d64aa83b-980a-4a95-81ed-ef66290ee5f6',0,0,0,0,NULL,'Lesson1',NULL),('ec09ad30-9b89-46ba-b2fc-4de85553f168',0,0,0,0,NULL,'Lesson3',NULL);
 /*!40000 ALTER TABLE `tbl_lesson` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_policy`
---
-
-DROP TABLE IF EXISTS `tbl_policy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_policy` (
-  `policy_id` varchar(255) NOT NULL,
-  `policy_name` varchar(255) DEFAULT NULL,
-  `policy_type` varchar(255) DEFAULT NULL,
-  `policy_week` varchar(255) DEFAULT NULL,
-  `policy_start_time` time DEFAULT NULL,
-  `policy_dur` int(11) DEFAULT NULL,
-  `policy_space_keys` text,
-  PRIMARY KEY (`policy_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_policy`
---
-
-LOCK TABLES `tbl_policy` WRITE;
-/*!40000 ALTER TABLE `tbl_policy` DISABLE KEYS */;
-INSERT INTO `tbl_policy` VALUES ('fab19801c0a805344993e127bdd76a06','随机策略1','随机策略','2,3,4,5,6','16:00:00',10,'f59665b5c0a805346f17d9e4ceb64468,f59695f6c0a805341e5de53ab97107e0,f596be10c0a805343a08d98f0f998e99,f596ebf1c0a80534752ef338b0ec9369,e27f7e17c0a8053404c0c0d2d69f6849,-1,e26f4451c0a805347cdb8819b3e51f3a,'),('fb0bdca7c0a805346a6cd7ba8d42eee3','随机策略2','随机策略','2,3,4,5,6','16:15:00',10,'e27f7e17c0a8053404c0c0d2d69f6849,f59665b5c0a805346f17d9e4ceb64468,f59695f6c0a805341e5de53ab97107e0,f596be10c0a805343a08d98f0f998e99,f596ebf1c0a80534752ef338b0ec9369,-1,e26f4451c0a805347cdb8819b3e51f3a,');
-/*!40000 ALTER TABLE `tbl_policy` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_space`
---
-
-DROP TABLE IF EXISTS `tbl_space`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_space` (
-  `space_id` varchar(255) NOT NULL,
-  `space_parent_id` varchar(255) DEFAULT NULL,
-  `space_code` varchar(255) DEFAULT NULL,
-  `space_address` varchar(255) DEFAULT NULL,
-  `space_manager_by` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`space_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_space`
---
-
-LOCK TABLES `tbl_space` WRITE;
-/*!40000 ALTER TABLE `tbl_space` DISABLE KEYS */;
-INSERT INTO `tbl_space` VALUES ('e26f4451c0a805347cdb8819b3e51f3a','','FM01','女生宿舍12号楼','139,1,140,9,11,-1,'),('e27d7be7c0a805345f0646d6a5ca10f8','','FM02','女生宿舍2号楼','9,139,1,-1,'),('e27f7e17c0a8053404c0c0d2d69f6849','e26f4451c0a805347cdb8819b3e51f3a','FM0101','女12号楼1层','139,1,9,-1,'),('e27fbb99c0a805344d62e17ddaddfc24','e26f4451c0a805347cdb8819b3e51f3a','FM0102','女12号楼2层','139,1,9,-1,'),('e27ff5a4c0a8053419f57dd29f6e8f74','e26f4451c0a805347cdb8819b3e51f3a','FM0103','女12号楼3层','139,1,9,-1,'),('e2806956c0a805344ac37ef13051ad8b','e26f4451c0a805347cdb8819b3e51f3a','FM0104','女12号楼4层','139,1,9,-1,'),('e280b159c0a805344c29d6c39f45a8fe','e26f4451c0a805347cdb8819b3e51f3a','FM0105','女12号楼5层','139,1,9,-1,'),('e28482b8c0a80534674ddcae3d6de376','e26f4451c0a805347cdb8819b3e51f3a','FM0106','女12号楼6层','139,1,9,-1,'),('e2850654c0a8053471f505aa76045cc7','e26f4451c0a805347cdb8819b3e51f3a','FM0107','女12号楼7层','139,1,9,-1,'),('e2854f8fc0a8053449a795b69a512a02','e27d7be7c0a805345f0646d6a5ca10f8','FM0201','女2号楼1层','139,1,9,-1,'),('e2859cc9c0a8053461949f579189b56b','e27d7be7c0a805345f0646d6a5ca10f8','FM0202','女2号楼2层','139,1,9,-1,'),('e62ddc44dbdcdde450d1cf51698df899','e27d7be7c0a805345f0646d6a5ca10f8','FM0203','女2号楼3层','139,1,9,-1,'),('e62e02a4dbdcdde40b044523693fb789','e27d7be7c0a805345f0646d6a5ca10f8','FM0204','女2号楼4层','139,1,9,-1,'),('e62e2baddbdcdde4116ed93b545dde51','e27d7be7c0a805345f0646d6a5ca10f8','FM0205','女2号楼5层','139,1,9,-1,'),('e62e4be7dbdcdde44174866881a89ed9','e27d7be7c0a805345f0646d6a5ca10f8','FM0206','女2号楼6层','139,1,9,-1,'),('e62e7aa8dbdcdde445b896a0cade77eb','e27d7be7c0a805345f0646d6a5ca10f8','FM0207','女2号楼7层','139,1,9,-1,'),('f59665b5c0a805346f17d9e4ceb64468','e27f7e17c0a8053404c0c0d2d69f6849','f59665b5c0a805346f17d9e4ceb64468','女12号楼1层-1单元','-1,139,1,140,9,11,13,'),('f59695f6c0a805341e5de53ab97107e0','e27f7e17c0a8053404c0c0d2d69f6849','f59695f6c0a805341e5de53ab97107e0','女12号楼1层-2单元','-1,139,1,140,9,11,13,'),('f596be10c0a805343a08d98f0f998e99','e27f7e17c0a8053404c0c0d2d69f6849','f596be10c0a805343a08d98f0f998e99','女12号楼1层-3单元','-1,139,1,140,9,11,13,'),('f596ebf1c0a80534752ef338b0ec9369','e27f7e17c0a8053404c0c0d2d69f6849','f596ebf1c0a80534752ef338b0ec9369','女12号楼1层-4单元','-1,139,1,140,9,11,13,');
-/*!40000 ALTER TABLE `tbl_space` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_table`
---
-
-DROP TABLE IF EXISTS `tbl_table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_table` (
-  `id` int(11) NOT NULL,
-  `schema_name` varchar(32) NOT NULL,
-  `table_name` varchar(32) NOT NULL,
-  `table_type` varchar(32) NOT NULL,
-  `shards` int(11) NOT NULL,
-  `split_key` varchar(32) NOT NULL,
-  `rule_name` varchar(32) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_table`
---
-
-LOCK TABLES `tbl_table` WRITE;
-/*!40000 ALTER TABLE `tbl_table` DISABLE KEYS */;
-INSERT INTO `tbl_table` VALUES (1,'demo','t_list','split',8,'col1','r_list'),(2,'demo','t_hash','split',8,'col1','r_hash'),(3,'demo','t_range','split',8,'col1','r_range'),(4,'demo','t_day','split',8,'col1','r_day');
-/*!40000 ALTER TABLE `tbl_table` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -636,6 +448,140 @@ LOCK TABLES `tbl_word` WRITE;
 /*!40000 ALTER TABLE `tbl_word` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `tbl_consume_category`
+--
+
+DROP TABLE IF EXISTS `tbl_consume_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_consume_category` (
+    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `user_id` int(11) NOT NULL COMMENT '用户ID',
+    `category_name` varchar(32) NOT NULL COMMENT '一级分类',
+    `category_type` varchar(32) NOT NULL COMMENT '二级分类',
+    `bill_type` varchar(32) NOT NULL COMMENT '账单周期',
+    `deep_type` varchar(32) NOT NULL COMMENT '深度支出分类',
+    `level` int(11) NOT NULL DEFAULT '1' COMMENT '菜单级别',
+    PRIMARY KEY (`id`),
+    KEY `user_id` (`user_id`),
+    KEY `category_name` (`category_name`),
+    KEY `bill_type` (`bill_type`),
+    KEY `deep_type` (`deep_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `tbl_consume_category` WRITE;
+/*!40000 ALTER TABLE `tbl_consume_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_consume_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_deep_type`
+--
+
+DROP TABLE IF EXISTS `tbl_deep_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_deep_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `deep_type_name` varchar(32) NOT NULL COMMENT '深度支出名称',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_deep_type`
+--
+
+LOCK TABLES `tbl_deep_type` WRITE;
+/*!40000 ALTER TABLE `tbl_deep_type` DISABLE KEYS */;
+INSERT INTO `tbl_deep_type` VALUES (5,1,'基本生存支出'),(6,1,'生活改善支出');
+/*!40000 ALTER TABLE `tbl_deep_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_keep_account`
+--
+
+DROP TABLE IF EXISTS `tbl_keep_account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_keep_account` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `amount` double NOT NULL COMMENT '金额',
+  `trade_time` datetime NOT NULL COMMENT '交易时间',
+  `trade_variety` varchar(32) NOT NULL COMMENT '交易所属一级菜单',
+  `trade_type` varchar(32) NOT NULL COMMENT '交易所属二级菜单',
+  `trade_statistics` text NOT NULL COMMENT '交易所属深度支出分类',
+  `pay_for` varchar(32) NOT NULL COMMENT '消费人',
+  `trade_status` varchar(16) NOT NULL COMMENT '交易状态',
+  `trade_comment` text NOT NULL COMMENT '备注',
+  `checked` int(11) DEFAULT '0' COMMENT '是否checked', 
+  `trade_period` varchar(8) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `trade_variety` (`trade_variety`),
+  KEY `trade_type` (`trade_type`),
+  KEY `pay_for` (`pay_for`),
+  KEY `time_amount` (`trade_time`,`amount`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_keep_account`
+--
+
+LOCK TABLES `tbl_keep_account` WRITE;
+/*!40000 ALTER TABLE `tbl_keep_account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_keep_account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_trade`
+--
+
+DROP TABLE IF EXISTS `tbl_trade`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_trade` (
+  `order_id` varchar(128) NOT NULL COMMENT '订单号',
+  `trade_time` datetime NOT NULL COMMENT '交易时间',
+  `trade_type` varchar(32) DEFAULT NULL COMMENT '交易类型',
+  `trade_obj` varchar(32) DEFAULT NULL COMMENT '交易对象',
+  `obj_account` varchar(32) DEFAULT NULL COMMENT '对方账户',
+  `product` varchar(128) DEFAULT NULL COMMENT '商品信息',
+  `in_out` varchar(4) DEFAULT NULL COMMENT '收入支出',
+  `amount` double DEFAULT NULL COMMENT '金额',
+  `pay_type` varchar(32) DEFAULT NULL COMMENT '付款方式',
+  `trade_status` varchar(16) DEFAULT NULL COMMENT '交易状态',
+  `seller_order_id` varchar(128) DEFAULT NULL COMMENT '商户订单号',
+  `trade_comment` text COMMENT '备注',
+  `platform` varchar(16) DEFAULT NULL COMMENT '消费平台',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建用户id',
+  `checked` int(11) DEFAULT '0' COMMENT '是否checked',
+  PRIMARY KEY (`order_id`,`create_user_id`),
+  KEY `trade_time` (`trade_time`),
+  KEY `trade_type` (`trade_type`),
+  KEY `in_out` (`in_out`),
+  KEY `money` (`amount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_trade`
+--
+
+LOCK TABLES `tbl_trade` WRITE;
+/*!40000 ALTER TABLE `tbl_trade` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_trade` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
