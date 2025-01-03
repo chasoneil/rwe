@@ -13,7 +13,7 @@ public interface TradeDao {
 
     List<TradeDO> list(Map<String, Object> map);
 
-    List<TradeDO> getYearTrade(Map<String, Object> map);
+    List<TradeDO> getTradeRange(Map<String, Object> map);
 
     int count(Map<String, Object> map);
 

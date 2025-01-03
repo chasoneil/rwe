@@ -62,7 +62,7 @@ public class TradeServiceImpl implements TradeService {
      * @return 当年的支出
      */
     @Override
-    public Double getSpentByYear(String year) {
+    public Double getYearSpent(String year) {
 
         double sum = 0.0;
         String start = year + "-01-01";
@@ -70,7 +70,7 @@ public class TradeServiceImpl implements TradeService {
         Map<String, Object> map = new HashMap<>();
         map.put("startTime", start);
         map.put("endTime", end);
-        List<TradeDO> trades = tradeDao.getYearTrade(map);
+        List<TradeDO> trades = tradeDao.getTradeRange(map);
 
         if (trades == null || trades.isEmpty()) {
             return sum;
@@ -78,11 +78,7 @@ public class TradeServiceImpl implements TradeService {
 
         for (TradeDO trade : trades) {
             if (trade.getInOut().equals("支出")) {
-                if (trade.getTradeStatus().equals("交易成功") || trade.getTradeStatus().equals("支付成功") ||
-                        trade.getTradeStatus().equals("对方已收钱") || trade.getTradeStatus().equals("已转账") ||
-                        trade.getTradeStatus().contains("还款成功")) {
-                    sum += trade.getAmount();
-                }
+                sum += trade.getAmount();
             }
         }
         return sum;
@@ -94,7 +90,7 @@ public class TradeServiceImpl implements TradeService {
      * @return 当年的收入
      */
     @Override
-    public Double getEarnByYear(String year) {
+    public Double getYearEarned(String year) {
 
         double sum = 0.0;
         String start = year + "-01-01";
@@ -102,7 +98,7 @@ public class TradeServiceImpl implements TradeService {
         Map<String, Object> map = new HashMap<>();
         map.put("startTime", start);
         map.put("endTime", end);
-        List<TradeDO> trades = tradeDao.getYearTrade(map);
+        List<TradeDO> trades = tradeDao.getTradeRange(map);
 
         if (trades == null || trades.isEmpty()) {
             return sum;
@@ -110,11 +106,53 @@ public class TradeServiceImpl implements TradeService {
 
         for (TradeDO trade : trades) {
             if (trade.getInOut().equals("收入")) {
-                if (trade.getTradeStatus().equals("交易成功") || trade.getTradeStatus().equals("已到账") ||
-                        trade.getTradeStatus().equals("支付成功") || trade.getTradeStatus().equals("已存入零钱") ||
-                        trade.getTradeStatus().contains("已退款")) {
-                    sum += trade.getAmount();
-                }
+                sum += trade.getAmount();
+            }
+        }
+        return sum;
+    }
+
+    @Override
+    public Double getMonthSpent(String year, String month) {
+
+        double sum = 0.0;
+        String start = year + "-" + month + "-01";
+        String end = year + "-" + month + "-31";
+        Map<String, Object> map = new HashMap<>();
+        map.put("startTime", start);
+        map.put("endTime", end);
+        List<TradeDO> trades = tradeDao.getTradeRange(map);
+
+        if (trades == null || trades.isEmpty()) {
+            return sum;
+        }
+
+        for (TradeDO trade : trades) {
+            if (trade.getInOut().equals("支出")) {
+                sum += trade.getAmount();
+            }
+        }
+
+        return sum;
+    }
+
+    @Override
+    public Double getMonthEarned(String year, String month) {
+        double sum = 0.0;
+        String start = year + "-" + month + "-01";
+        String end = year + "-" + month + "-31";
+        Map<String, Object> map = new HashMap<>();
+        map.put("startTime", start);
+        map.put("endTime", end);
+        List<TradeDO> trades = tradeDao.getTradeRange(map);
+
+        if (trades == null || trades.isEmpty()) {
+            return sum;
+        }
+
+        for (TradeDO trade : trades) {
+            if (trade.getInOut().equals("收入")) {
+                sum += trade.getAmount();
             }
         }
         return sum;

@@ -6,6 +6,7 @@ import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 交易信息
@@ -77,10 +79,6 @@ public class TradeController extends BaseController {
         return new PageUtils(tradeLists, total);
     }
 
-
-
-
-
     @PostMapping("/remove")
     @ResponseBody
     public R remove(String orderId) {
@@ -94,7 +92,6 @@ public class TradeController extends BaseController {
         return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
     }
 
-    // 2024010222001480931455389050
     @GetMapping("/split/{orderId}")
     String split(@PathVariable("orderId") String orderId, Model model) {
         TradeDO tradeDO = tradeService.get(orderId.trim());
@@ -109,10 +106,56 @@ public class TradeController extends BaseController {
 
     @ResponseBody
     @PostMapping("/doSplit")
-    public R update(TradeDO tradeDO) {
-        return R.ok();
+    public R doSplit(@RequestParam("orderId") String orderId,
+                    @RequestParam("products[]") String[] products,
+                    @RequestParam("amounts[]") String[] amounts,
+                    @RequestParam("tradeComments[]") String[] tradeComments) {
+
+        TradeDO tradeDO = tradeService.get(orderId.trim());
+        if (tradeDO == null) {
+            return R.error("账单信息不存在");
+        }
+
+        if(!checkAmount(tradeDO, amounts)) {
+            return R.error("金额总和不等于账单金额");
+        }
+
+        boolean success = true;
+        List<String> tmpOrderIds = new ArrayList<>();
+        for (int i=0; i<products.length; i++) {
+            TradeDO trade = new TradeDO();
+            BeanUtils.copyProperties(tradeDO, trade);
+            trade.setProduct(products[i].trim());
+            trade.setAmount(Double.parseDouble(amounts[i].trim()));
+            String tmpOrderId = UUID.randomUUID().toString().replaceAll("-", "");
+            tmpOrderIds.add(tmpOrderId);
+            trade.setOrderId(tmpOrderId);
+            trade.setTradeComment(tradeComments[i].trim());
+            if (tradeService.save(trade) == 0) {
+                success = false;
+                break;
+            }
+        }
+
+        // rollback data
+        if (!success) {
+            for (String id : tmpOrderIds) {
+                tradeService.remove(id);
+            }
+            return R.error("账单分割失败");
+        }
+
+        tradeService.remove(orderId);
+        return R.ok("账单分割成功，原账单已删除");
     }
 
+    private boolean checkAmount(TradeDO tradeDO, String[] amounts) {
+        double totalAmount = 0;
+        for (String amount : amounts) {
+            totalAmount += Double.parseDouble(amount.trim());
+        }
+        return totalAmount == tradeDO.getAmount();
+    }
 
     @GetMapping("/import")
     public String importFile() {

@@ -28,12 +28,17 @@ public interface TradeService {
      * @param year
      * @return
      */
-    Double getSpentByYear(String year);
+    Double getYearSpent(String year);
 
     /**
      * 获取一年内的总收益
      * @param year
      * @return
      */
-    Double getEarnByYear(String year);
+    Double getYearEarned(String year);
+
+    Double getMonthSpent(String year, String month);
+
+    Double getMonthEarned(String year, String month);
+
 }

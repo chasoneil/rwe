@@ -8,6 +8,7 @@ import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.DeepTypeDO;
 import com.chason.rwe.service.DeepTypeService;
+import com.chason.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ public class DeepTypeController extends BaseController {
     @Autowired
     private DeepTypeService deepTypeService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/index")
     public String index() {
         return PREFIX + "index";
@@ -43,6 +47,12 @@ public class DeepTypeController extends BaseController {
 
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
+
+        int roleLevel = roleService.getRoleLevel(getUserId());
+        if (roleLevel == 20) { // 普通用户
+            params.put("userId", getUserId());
+        }
+
         Query query = new Query(params);
         List<DeepTypeDO> deepTypeDOList = deepTypeService.list(query);
         int total = deepTypeService.count(query);

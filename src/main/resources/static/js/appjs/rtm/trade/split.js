@@ -1,52 +1,57 @@
 let PREFIX = "/rwe/trade";
 
-$().ready(function() {
-	validateRule();
-});
+// 用于存储用户新增的行数据
+let userAddedRows = [];
 
-document.getElementById('addRow').addEventListener('click', function() {
-	// 获取#split-form的父元素
-	let splitForm = document.getElementById('split-form');
-	// 克隆当前的行
-	let newRow = splitForm.cloneNode(true);
-
+// 监听“新增一行”按钮的点击事件
+document.getElementById('addRow').addEventListener('click', function () {
 	// 获取当前行数
-	let rowCount = document.querySelectorAll('.form-group[id^="split-form"]').length + 1;
+	const rowCount = document.querySelectorAll('.auto-line').length;
 
-	// 更新新行的id
-	newRow.id = 'split-form_' + rowCount;
-
-	// 更新新行中所有输入框的id
-	let inputs = newRow.getElementsByTagName('input');
-	for (let i = 0; i < inputs.length; i++) {
-		let oldId = inputs[i].id;
-		if (oldId) {
-			let newId = oldId.split('_')[0] + '_' + rowCount;
-			inputs[i].id = newId;
-		}
-	}
-
-	// 清空新行中的输入框的值
-	for (let i = 0; i < inputs.length; i++) {
-		inputs[i].value = '';
-	}
+	// 创建新的行
+	const newRow = document.createElement('div');
+	newRow.className = 'form-group auto-line';
+	newRow.innerHTML = `
+        <label class="col-sm-2 control-label">商品说明：</label>
+        <div class="col-sm-2">
+            <input id="product_${rowCount + 1}" class="form-control" type="text">
+        </div>
+        <label class="col-sm-1 control-label">金额：</label>
+        <div class="col-sm-2">
+            <input id="amount_${rowCount + 1}" class="form-control" type="text">
+        </div>
+        <label class="col-sm-1 control-label">备注：</label>
+        <div class="col-sm-2">
+            <input id="tradeComment_${rowCount + 1}" class="form-control" type="text">
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-danger" type="button" onclick="removeRow(this)">
+                <i class="fa fa-trash" aria-hidden="true"></i> 删除
+            </button>
+        </div>
+    `;
 
 	// 将新行添加到表单中
-	splitForm.parentNode.insertBefore(newRow, splitForm.nextSibling);
+	document.getElementById('auto-line').appendChild(newRow);
+
+	// 保存新行的引用
+	userAddedRows.push(newRow);
 });
 
-$.validator.setDefaults({
-	submitHandler : function() {
-		doSplit();
-	}
-});
+// 删除行的函数
+function removeRow(button) {
+	const row = button.closest('.form-group');
+	row.remove();
+
+	// 从 userAddedRows 中移除对应的行
+	userAddedRows = userAddedRows.filter(item => item !== row);
+}
 
 function doSplit() {
-
 	// 处理分割的账单信息
-	let products;
-	let amounts;
-	let tradeComments;
+	let products = [];
+	let amounts = [];
+	let tradeComments = [];
 	let rowIndex = 1;
 
 	while (true) {
@@ -61,29 +66,29 @@ function doSplit() {
 			break; // 如果找不到该行，退出循环
 		}
 
-		products += productElement.value + ",";
-		amounts += amountElement.value + ",";
-		tradeComments += tradeCommentElement.value + ",";
-		rowIndex++; // 处理下一行
+		products[rowIndex - 1] = productElement.value;
+		amounts[rowIndex - 1] = amountElement.value;
+		tradeComments[rowIndex - 1] = tradeCommentElement.value;
+		rowIndex++;
 	}
-
-	// 将分割的账单信息放入表单中
-	document.getElementById("product").value = products.substring(0, products.length - 1);
-	document.getElementById("amount").value = amounts.substring(0, amounts.length - 1);
-	document.getElementById("tradeComment").value = tradeComments.substring(0, tradeComments.length - 1);
 
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : PREFIX + "/doSplit",
-		data : $('#signupForm').serialize(),
+		data : {
+			"products" : products,
+			"amounts" : amounts,
+			"tradeComments" : tradeComments,
+			"orderId" : document.getElementById("orderId").value
+		},
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
 			if (data.code === 0) {
-				parent.layer.msg("操作成功");
+				parent.layer.msg("拆分成功");
 				parent.reload();
 				let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
@@ -94,37 +99,5 @@ function doSplit() {
 	});
 }
 
-function validateRule() {
-	let icon = "<i class='fa fa-times-circle'></i> ";
-	$("#signupForm").validate({
-		rules : {
-			tradeTime : {
-				required : true
-			},
-			amount : {
-				required : true
-			},
-			tradeType : {
-				required : true
-			},
-			payFor : {
-				required : true
-			}
-		},
-		messages : {
-			tradeTime : {
-				required : icon + "不能为空"
-			},
-			amount : {
-				required : icon + "不能为空"
-			},
-			tradeType : {
-				required : icon + "不能为空"
-			},
-			payFor : {
-				required : icon + "不能为空"
-			}
-		}
-	})
-}
+
 

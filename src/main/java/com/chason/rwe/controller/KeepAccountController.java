@@ -63,6 +63,10 @@ public class KeepAccountController extends BaseController {
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
 
+        if (!StringUtils.isEmpty(params.get("searchText"))) {
+            params.put("tradeComment", params.get("searchText"));
+        }
+
         Query query = new Query(params);
         List<KeepAccountDO> keepAccountDOList = keepAccountService.list(query);
         int total = keepAccountService.count(query);

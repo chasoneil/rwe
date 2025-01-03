@@ -37,7 +37,7 @@
 		</if>
 	</select>
 
-	<select id="getYearTrade" resultType="com.chason.rwe.domain.TradeDO">
+	<select id="getTradeRange" resultType="com.chason.rwe.domain.TradeDO">
 		select `order_id`,`trade_time`,`trade_type`,`in_out`,`amount`,`trade_status`,`create_user_id`,`checked` from tbl_trade
 		<where>
 			<if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>

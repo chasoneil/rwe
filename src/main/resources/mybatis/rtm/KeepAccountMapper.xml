@@ -20,6 +20,7 @@
 			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
 			<if test="payFor != null and payFor != ''"> and pay_for = #{payFor} </if>
 			<if test="tradeStatus != null and tradeStatus != ''"> and trade_status = #{tradeStatus} </if>
+			<if test="tradeComment != null and tradeComment != ''"> and trade_comment like concat('%', #{tradeComment}, '%') </if>
 			<if test="checked != null"> and checked = #{checked} </if>
 		</where>
 		order by trade_time, id
