@@ -71,7 +71,7 @@ public class DeepTypeController extends BaseController {
             check(deepTypeDO);
             deepTypeDO.setUserId(getUserId());
             int save = deepTypeService.save(deepTypeDO);
-            AccountDict.getInstance().initDeepTypeDict(deepTypeService);
+            refreshDict();
             if (save != 1) {
                 return R.error("新增深度支出类型失败");
             }
@@ -97,7 +97,7 @@ public class DeepTypeController extends BaseController {
         try {
             check(deepTypeDO);
             int result = deepTypeService.update(deepTypeDO);
-            AccountDict.getInstance().initDeepTypeDict(deepTypeService);
+            refreshDict();
             return result > 0 ? R.ok("修改成功") : R.error("修改失败");
         }
         catch (Exception e) {
@@ -108,13 +108,16 @@ public class DeepTypeController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public R remove(Integer id) {
-        return  deepTypeService.remove(id) > 0 ? R.ok("删除成功") : R.error("删除失败");
+        int result = deepTypeService.remove(id);
+        refreshDict();
+        return  result > 0 ? R.ok("删除成功") : R.error("删除失败");
     }
 
     @PostMapping("/batchRemove")
     @ResponseBody
     public R remove(@RequestParam("ids[]") int[] ids) {
         int row = deepTypeService.batchRemove(ids);
+        refreshDict();
         return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
     }
 
@@ -125,10 +128,17 @@ public class DeepTypeController extends BaseController {
            throw new RuntimeException("深度支出名称不能为空");
         }
 
-        HashSet<String> names = AccountDict.getInstance().getDeepTypeDict(deepTypeService);
+        long userId = getUserId();
+        HashSet<String> names = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
+                roleService.getRoleLevel(userId), userId).get(userId);
         if (names.contains(deepTypeDO.getDeepTypeName())) {
             throw new RuntimeException("深度支出名称已存在");
         }
+    }
+
+    private void refreshDict() {
+        long userId = getUserId();
+        AccountDict.getInstance().initDeepTypeDict(deepTypeService, roleService.getRoleLevel(userId), userId);
     }
 }
 

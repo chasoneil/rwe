@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 与记账功能相关的字典缓存
@@ -23,63 +24,117 @@ public class AccountDict {
         return accountDict;
     }
 
-    private HashSet<String> DEEP_TYPE_DICT = new HashSet<>();
+    private Map<Long, HashSet<String>> DEEP_TYPE_DICT = new HashMap<>();
 
-    private HashSet<String> CATEGORY_NAME_DICT = new HashSet<>();
+    private Map<Long, HashSet<String>> CATEGORY_NAME_DICT = new HashMap<>();
 
-    private HashSet<String> CATEGORY_TYPE_DICT = new HashSet<>();
+    private Map<Long, HashSet<String>> CATEGORY_TYPE_DICT = new HashMap<>();
 
-    public HashSet<String> getDeepTypeDict(DeepTypeService deepTypeService) {
+    public Map<Long, HashSet<String>> getDeepTypeDict(DeepTypeService deepTypeService,int roleLevel,
+                                                      long userId) {
+        if (userId == 0) {
+            return null;
+        }
 
-        if (DEEP_TYPE_DICT.isEmpty()) {
-            initDeepTypeDict(deepTypeService);
+        if (DEEP_TYPE_DICT.isEmpty() || DEEP_TYPE_DICT.get(userId).isEmpty()) {
+            initDeepTypeDict(deepTypeService, roleLevel, userId);
         }
 
         return DEEP_TYPE_DICT;
     }
 
-    public HashSet<String> getCategoryNameDict(ConsumeCategoryService consumeCategoryService) {
+    public Map<Long, HashSet<String>> getCategoryNameDict(ConsumeCategoryService consumeCategoryService,int roleLevel,
+                                                          long userId) {
+        if (userId == 0) {
+            return null;
+        }
 
-        if (CATEGORY_NAME_DICT.isEmpty()) {
-            initCategoryNameDict(consumeCategoryService);
+        if (CATEGORY_NAME_DICT.isEmpty() || CATEGORY_NAME_DICT.get(userId).isEmpty()) {
+            initCategoryNameDict(consumeCategoryService, roleLevel, userId);
         }
 
         return CATEGORY_NAME_DICT;
     }
 
-    public HashSet<String> getCategoryTypeDict(ConsumeCategoryService consumeCategoryService) {
-        if (CATEGORY_TYPE_DICT.isEmpty()) {
-            initCategoryTypeDict(consumeCategoryService);
+    public Map<Long, HashSet<String>> getCategoryTypeDict(ConsumeCategoryService consumeCategoryService,
+                                                          int roleLevel, long userId) {
+        if (userId == 0) {
+            return null;
+        }
+
+        if (CATEGORY_TYPE_DICT.isEmpty() || CATEGORY_TYPE_DICT.get(userId).isEmpty()) {
+            initCategoryTypeDict(consumeCategoryService, roleLevel, userId);
         }
 
         return CATEGORY_TYPE_DICT;
     }
 
-    public void initDeepTypeDict(DeepTypeService deepTypeService) {
-        List<DeepTypeDO> list = deepTypeService.list(new HashMap<>());
-        DEEP_TYPE_DICT.clear();
-        for (DeepTypeDO deepTypeDO : list) {
-            DEEP_TYPE_DICT.add(deepTypeDO.getDeepTypeName());
+    public void initDeepTypeDict(DeepTypeService deepTypeService, int roleLevel,
+                                 long userId) {
+        Map<String, Object> param = new HashMap<>();
+        if (roleLevel == 20  && userId != 0) {
+            param.put("userId", userId);
         }
+        List<DeepTypeDO> list = deepTypeService.list(param);
+        HashSet<String> dicts = DEEP_TYPE_DICT.get(userId);
+        if (dicts == null) {
+            dicts = new HashSet<>();
+        } else {
+            dicts.clear();
+        }
+        for (DeepTypeDO deepTypeDO : list) {
+            if ("-".equals(deepTypeDO.getDeepTypeName())) {
+                continue;
+            }
+            dicts.add(deepTypeDO.getDeepTypeName());
+        }
+
+        DEEP_TYPE_DICT.put(userId, dicts);
     }
 
-    public void initCategoryNameDict(ConsumeCategoryService consumeCategoryService) {
-        List<ConsumeCategoryDO> list = consumeCategoryService.list(new HashMap<>());
+    public void initCategoryNameDict(ConsumeCategoryService consumeCategoryService, int roleLevel,
+                                     long userId) {
+        Map<String, Object> param = new HashMap<>();
+        if (roleLevel == 20 && userId != 0) {
+            param.put("userId", userId);
+        }
+        List<ConsumeCategoryDO> list = consumeCategoryService.list(param);
+        HashSet<String> dicts = CATEGORY_NAME_DICT.get(userId);
+        if (dicts == null) {
+            dicts = new HashSet<>();
+        } else {
+            dicts.clear();
+        }
         for (ConsumeCategoryDO categoryDO : list) {
             if ("-".equals(categoryDO.getCategoryName())) {
                 continue;
             }
-            CATEGORY_NAME_DICT.add(categoryDO.getCategoryName());
+            dicts.add(categoryDO.getCategoryName());
         }
+        CATEGORY_NAME_DICT.put(userId, dicts);
     }
 
-    public void initCategoryTypeDict(ConsumeCategoryService consumeCategoryService) {
+    public void initCategoryTypeDict(ConsumeCategoryService consumeCategoryService, int roleLevel,
+                                     long userId) {
+        Map<String, Object> param = new HashMap<>();
+        if (roleLevel == 20 && userId != 0) {
+            param.put("userId", userId);
+        }
         List<ConsumeCategoryDO> list = consumeCategoryService.list(new HashMap<>());
+        HashSet<String> dicts = CATEGORY_TYPE_DICT.get(userId);
+        if (dicts == null) {
+            dicts = new HashSet<>();
+        } else {
+            dicts.clear();
+        }
+
         for (ConsumeCategoryDO categoryDO : list) {
             if ("-".equals(categoryDO.getCategoryType())) {
                 continue;
             }
-            CATEGORY_TYPE_DICT.add(categoryDO.getCategoryType());
+            dicts.add(categoryDO.getCategoryType());
         }
+
+        CATEGORY_TYPE_DICT.put(userId, dicts);
     }
 }

@@ -76,7 +76,9 @@ public class KeepAccountController extends BaseController {
     @GetMapping("/add")
     String add(Model model) {
 
-        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService);
+        long userId = getUserId();
+        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
         model.addAttribute("types", types);
         return PREFIX + "/add";
     }
@@ -122,7 +124,9 @@ public class KeepAccountController extends BaseController {
             throw new RuntimeException("记账信息不存在");
         }
 
-        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService);
+        long userId = getUserId();
+        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
         model.addAttribute("types", types);
         model.addAttribute("keepAccount", keepAccountDO);
         return PREFIX + "/edit";

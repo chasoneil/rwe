@@ -75,7 +75,10 @@ public class ConsumeCategoryController extends BaseController {
         if (consumeCategoryDO == null) {
             throw new RuntimeException("消费类型不存在");
         }
-        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService);
+
+        long userId = getUserId();
+        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
+                roleService.getRoleLevel(userId), userId).get(userId);
         model.addAttribute("consumeCategory", consumeCategoryDO);
         model.addAttribute("deepTypeNames", deepTypeNames);
         return PREFIX + "addType";
@@ -89,7 +92,7 @@ public class ConsumeCategoryController extends BaseController {
             consumeCategoryDO.setUserId(getUserId());
             consumeCategoryDO.setLevel(1);
             int save = consumeCategoryService.save(consumeCategoryDO);
-            AccountDict.getInstance().initCategoryNameDict(consumeCategoryService);
+            refreshNameDict();
             if (save != 1) {
                 return R.error("新增消费类型失败");
             }
@@ -106,7 +109,7 @@ public class ConsumeCategoryController extends BaseController {
             checkAdd(consumeCategoryDO,2);
             consumeCategoryDO.setLevel(2);
             int save = consumeCategoryService.save(consumeCategoryDO);
-            AccountDict.getInstance().initCategoryTypeDict(consumeCategoryService);
+            refreshTypeDict();
             if (save != 1) {
                 return R.error("新增消费细类失败");
             }
@@ -120,8 +123,12 @@ public class ConsumeCategoryController extends BaseController {
     String edit(@PathVariable("id") int id, Model model) {
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(id);
 
-        HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService);
-        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService);
+        long userId = getUserId();
+
+        HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
+        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
+                roleService.getRoleLevel(userId), getUserId()).get(userId);
         if (consumeCategoryDO == null) {
             throw new RuntimeException("消费类型不存在");
         }
@@ -146,9 +153,11 @@ public class ConsumeCategoryController extends BaseController {
                     params.put("oldName", oldName);
                     params.put("newName", newName);
                     consumeCategoryService.updateCategory(params);
+                    refreshNameDict();
                 }
             } else {
                 consumeCategoryService.update(consumeCategoryDO);
+                refreshTypeDict();
             }
         }
         catch (Exception e) {
@@ -168,6 +177,8 @@ public class ConsumeCategoryController extends BaseController {
         } else {
             result = consumeCategoryService.remove(id);
         }
+        refreshNameDict();
+        refreshTypeDict();
         return  result> 0 ? R.ok("删除成功") : R.error("删除失败");
     }
 
@@ -178,8 +189,11 @@ public class ConsumeCategoryController extends BaseController {
             throw new RuntimeException("一级菜单不能为空");
         }
 
+        long userId = getUserId();
         if (level == 1) {
-            HashSet<String> categoryNameDict = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService);
+
+            HashSet<String> categoryNameDict = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
+                    roleService.getRoleLevel(userId), userId).get(userId);
             if (categoryNameDict.contains(consumeCategoryDO.getCategoryName())) {
                 throw new RuntimeException("一级菜单名称已存在");
             }
@@ -193,7 +207,8 @@ public class ConsumeCategoryController extends BaseController {
                 throw new RuntimeException("二级菜单不能为空");
             }
 
-            HashSet<String> categoryTypeDict = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService);
+            HashSet<String> categoryTypeDict = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+                    roleService.getRoleLevel(userId), userId).get(userId);
             if (categoryTypeDict.contains(consumeCategoryDO.getCategoryType())) {
                 throw new RuntimeException("二级菜单名称已存在");
             }
@@ -227,6 +242,16 @@ public class ConsumeCategoryController extends BaseController {
                 consumeCategoryDO.setDeepType("-");
             }
         }
+    }
+
+    private void refreshNameDict() {
+        long userId = getUserId();
+        AccountDict.getInstance().initCategoryNameDict(consumeCategoryService, roleService.getRoleLevel(userId), userId);
+    }
+
+    private void refreshTypeDict() {
+        long userId = getUserId();
+        AccountDict.getInstance().initCategoryTypeDict(consumeCategoryService, roleService.getRoleLevel(userId), userId);
     }
 }
 
