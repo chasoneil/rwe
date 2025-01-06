@@ -52,12 +52,6 @@ function load() {
                         // username:$('#searchName').val()
                     };
                 },
-                // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-                // queryParamsType = 'limit' ,返回参数必须包含
-                // limit, offset, search, sort, order 否则, 需要包含:
-                // pageSize, pageNumber, searchText, sortName,
-                // sortOrder.
-                // 返回false将会终止请求
                 columns: [
                     {
                         checkbox: true
@@ -78,22 +72,27 @@ function load() {
                         }
                     },
                     {
-                        field: 'platform',
-                        title: '交易平台',
-                        align : 'center'
+                        field: 'categoryName',
+                        title: '交易类型(I)',
+						align : 'center'
                     },
                     {
-                        field: 'tradeType',
-                        title: '交易类型',
-						align : 'center'
+                        field: 'categoryType',
+                        title: '交易类型(II)',
+                        align : 'center'
                     },
                     {
                         field: 'product',
                         title: '商品说明'
                     },
                     {
+                        field: 'tradeObj',
+                        title: '交易对方'
+                    },
+                    {
                         field: 'amount',
-                        title: '金额(元)'
+                        title: '金额(元)',
+                        align: 'center'
                     },
                     {
                         visible: false,
@@ -101,28 +100,34 @@ function load() {
                         title: '交易订单号'
                     },
                     {
-                        field: 'tradeStatus',
-                        title: '交易状态',
-						align : 'center',
-                        formatter: function (value, row, index) {
-                            if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
-                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
-                            } else if(row.tradeStatus === '已关闭' || row.tradeStatus === '已转账') {
-                                return '<a class="btn btn-default btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
-                            } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
-                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
-                            }
-                        }
+                        field: 'tradeComment',
+                        title: '交易备注'
                     },
+                    // {
+                    //     field: 'tradeStatus',
+                    //     title: '交易状态',
+					// 	align : 'center',
+                    //     formatter: function (value, row, index) {
+                    //         if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
+                    //             return '<span class="btn btn-primary btn-xs" style="cursor: default;">' + row.tradeStatus + '</span>';
+                    //         } else if(row.tradeStatus === '已关闭' || row.tradeStatus === '已转账') {
+                    //             return '<span class="btn btn-default btn-xs" style="cursor: default;">' + row.tradeStatus + '</span>';
+                    //         } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
+                    //             return '<span class="btn btn-primary btn-xs btn-outline" style="cursor: default;">' + row.tradeStatus + '</span> ';
+                    //         }
+                    //     }
+                    // },
                     {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="拆分" onclick="seperateTrade(\''
-                                + row.orderId + '\')"><i class="fa fa-edit"></i> 拆分</a> ';
+                            let e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="拆分" onclick="seperateTrade(\''
+                                + row.orderId + '\')"><i class="fa fa-copy"></i> 拆分</a> ';
+                            let f = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="拆分" onclick="edit(\''
+                                + row.orderId + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + row.orderId + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            return e + d;
+                            return f + e + d;
                         }
                     }]
             });
@@ -133,9 +138,20 @@ function seperateTrade(orderId) {
         type: 2,
         title: '拆分账单',
         maxmin: true,
-        shadeClose: false, // 点击遮罩关闭层
+        shadeClose: false,
         area: ['1000px', '520px'],
-        content: prefix + '/split/' + orderId // iframe的url
+        content: prefix + '/split/' + orderId
+    });
+}
+
+function edit(orderId) {
+    layer.open({
+        type: 2,
+        title: '编辑账单',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '520px'],
+        content: prefix + '/edit/' + orderId
     });
 }
 

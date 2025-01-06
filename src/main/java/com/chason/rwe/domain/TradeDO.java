@@ -78,6 +78,8 @@ public class TradeDO {
      */
     private String tradeComment;
 
+    private int categoryId;
+
     /**
      * 创建用户ID
      */

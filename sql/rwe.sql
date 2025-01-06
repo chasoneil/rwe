@@ -458,6 +458,7 @@ DROP TABLE IF EXISTS `tbl_consume_category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbl_consume_category` (
     `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
     `user_id` int(11) NOT NULL COMMENT '用户ID',
     `category_name` varchar(32) NOT NULL COMMENT '一级分类',
     `category_type` varchar(32) NOT NULL COMMENT '二级分类',
@@ -563,6 +564,7 @@ CREATE TABLE `tbl_trade` (
   `trade_comment` text COMMENT '备注',
   `platform` varchar(16) DEFAULT NULL COMMENT '消费平台',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建用户id',
+  `category_id` int NOT NULL COMMENT '消费分类id',
   `checked` int(11) DEFAULT '0' COMMENT '是否checked',
   PRIMARY KEY (`order_id`,`create_user_id`),
   KEY `trade_time` (`trade_time`),

@@ -2,8 +2,6 @@ package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
 import com.chason.common.dict.AccountDict;
-import com.chason.common.utils.PageUtils;
-import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.ConsumeCategoryDO;
@@ -11,6 +9,7 @@ import com.chason.rwe.service.ConsumeCategoryService;
 
 import com.chason.rwe.service.DeepTypeService;
 import com.chason.system.service.RoleService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ import java.util.Map;
 @RequestMapping("/rwe/consume_category")
 public class ConsumeCategoryController extends BaseController {
 
-    private static final String PREFIX = "rwe/consume_category/";
+    private static final String PREFIX = "rwe/consume_category";
 
     @Autowired
     private ConsumeCategoryService consumeCategoryService;
@@ -42,38 +41,33 @@ public class ConsumeCategoryController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/index")
+    @GetMapping()
     public String index() {
-        return PREFIX + "index";
+        return PREFIX + "/index";
     }
 
+    @ApiOperation("获取账单字典列表")
     @ResponseBody
     @GetMapping("/list")
-    public PageUtils list(@RequestParam Map<String, Object> params) {
-        params.putIfAbsent("offset", 0);
-        params.putIfAbsent("limit", 10);
+    public List<ConsumeCategoryDO> list(@RequestParam Map<String, Object> params) {
 
         int roleLevel = roleService.getRoleLevel(getUserId());
         if (roleLevel == 20) { // 普通用户
             params.put("userId", getUserId());
         }
-
-        Query query = new Query(params);
-        List<ConsumeCategoryDO> consumeCategoryDOList = consumeCategoryService.list(query);
-        int total = consumeCategoryService.count(query);
-        return new PageUtils(consumeCategoryDOList, total);
+        return consumeCategoryService.list(params);
     }
 
     @GetMapping("/add")
     String add() {
-        return PREFIX + "add";
+        return PREFIX + "/add";
     }
 
     @GetMapping("/addType/{id}")
     String addType(@PathVariable("id") int id, Model model) {
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(id);
         if (consumeCategoryDO == null) {
-            throw new RuntimeException("消费类型不存在");
+            throw new RuntimeException("类型不存在");
         }
 
         long userId = getUserId();
@@ -81,23 +75,27 @@ public class ConsumeCategoryController extends BaseController {
                 roleService.getRoleLevel(userId), userId).get(userId);
         model.addAttribute("consumeCategory", consumeCategoryDO);
         model.addAttribute("deepTypeNames", deepTypeNames);
-        return PREFIX + "addType";
+        return PREFIX + "/addType";
     }
 
     @ResponseBody
     @PostMapping("/save")
     public R save(ConsumeCategoryDO consumeCategoryDO) {
         try {
-            checkAdd(consumeCategoryDO, 1);
+            check(consumeCategoryDO, 1);
             consumeCategoryDO.setUserId(getUserId());
             consumeCategoryDO.setLevel(1);
+            consumeCategoryDO.setParentId(0);
+            consumeCategoryDO.setCategoryType("-");
+            consumeCategoryDO.setBillType("-");
+            consumeCategoryDO.setDeepType("-");
             int save = consumeCategoryService.save(consumeCategoryDO);
             refreshNameDict();
             if (save != 1) {
-                return R.error("新增消费类型失败");
+                return R.error("新增一级菜单失败");
             }
         } catch (Exception e) {
-            return R.error("新增消费类型失败：" + e.getMessage());
+            return R.error("新增一级菜单失败：" + e.getMessage());
         }
         return R.ok();
     }
@@ -106,44 +104,52 @@ public class ConsumeCategoryController extends BaseController {
     @PostMapping("/saveType")
     public R saveType(ConsumeCategoryDO consumeCategoryDO) {
         try {
-            checkAdd(consumeCategoryDO,2);
+            check(consumeCategoryDO,2);
             consumeCategoryDO.setLevel(2);
+            if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
+                consumeCategoryDO.setBillType("-");
+            }
+
+            if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
+                consumeCategoryDO.setDeepType("-");
+            }
             int save = consumeCategoryService.save(consumeCategoryDO);
             refreshTypeDict();
             if (save != 1) {
-                return R.error("新增消费细类失败");
+                return R.error("新增二级菜单失败");
             }
         } catch (Exception e) {
-            return R.error("新增消费细类失败：" + e.getMessage());
+            return R.error("新增二级菜单失败：" + e.getMessage());
         }
         return R.ok();
     }
 
     @GetMapping("/edit/{id}")
     String edit(@PathVariable("id") int id, Model model) {
+
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(id);
 
         long userId = getUserId();
-
         HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
         HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
                 roleService.getRoleLevel(userId), getUserId()).get(userId);
+
         if (consumeCategoryDO == null) {
-            throw new RuntimeException("消费类型不存在");
+            throw new RuntimeException("类型不存在");
         }
 
         model.addAttribute("consumeCategory", consumeCategoryDO);
         model.addAttribute("names", names);
         model.addAttribute("deepTypeNames", deepTypeNames);
-        return PREFIX + "edit";
+        return PREFIX + "/edit";
     }
 
     @ResponseBody
     @PostMapping("/update")
     public R update(ConsumeCategoryDO consumeCategoryDO) {
         try {
-            checkUpdate(consumeCategoryDO, consumeCategoryDO.getLevel());
+            check(consumeCategoryDO, consumeCategoryDO.getLevel());
 
             if (consumeCategoryDO.getLevel() == 1) {
                 String oldName = consumeCategoryDO.getBillType();
@@ -156,12 +162,18 @@ public class ConsumeCategoryController extends BaseController {
                     refreshNameDict();
                 }
             } else {
+                if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
+                    consumeCategoryDO.setBillType("-");
+                }
+                if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
+                    consumeCategoryDO.setDeepType("-");
+                }
                 consumeCategoryService.update(consumeCategoryDO);
                 refreshTypeDict();
             }
         }
         catch (Exception e) {
-            return R.error("修改消费类型失败：" + e.getMessage());
+            return R.error("修改字典失败：" + e.getMessage());
         }
         return R.ok();
     }
@@ -183,23 +195,25 @@ public class ConsumeCategoryController extends BaseController {
     }
 
 
-    private void checkAdd(ConsumeCategoryDO consumeCategoryDO, int level) {
+    private void check(ConsumeCategoryDO consumeCategoryDO, int level) {
 
         if (!StringUtils.isNotNull(consumeCategoryDO.getCategoryName())) {
             throw new RuntimeException("一级菜单不能为空");
         }
 
         long userId = getUserId();
-        if (level == 1) {
+        HashSet<String> categoryNameDict = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
+        HashSet<String> categoryTypeDict = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
 
-            HashSet<String> categoryNameDict = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
-                    roleService.getRoleLevel(userId), userId).get(userId);
+        if (level == 1) {
             if (categoryNameDict.contains(consumeCategoryDO.getCategoryName())) {
                 throw new RuntimeException("一级菜单名称已存在");
             }
-            consumeCategoryDO.setCategoryType("-");
-            consumeCategoryDO.setBillType("-");
-            consumeCategoryDO.setDeepType("-");
+            if (categoryTypeDict.contains(consumeCategoryDO.getCategoryName())) {
+                throw new RuntimeException("存在同名二级菜单");
+            }
         }
 
         if (level == 2) {
@@ -207,39 +221,12 @@ public class ConsumeCategoryController extends BaseController {
                 throw new RuntimeException("二级菜单不能为空");
             }
 
-            HashSet<String> categoryTypeDict = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
-                    roleService.getRoleLevel(userId), userId).get(userId);
             if (categoryTypeDict.contains(consumeCategoryDO.getCategoryType())) {
                 throw new RuntimeException("二级菜单名称已存在");
             }
 
-            if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
-                consumeCategoryDO.setBillType("-");
-            }
-
-            if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
-                consumeCategoryDO.setDeepType("-");
-            }
-        }
-    }
-
-    private void checkUpdate(ConsumeCategoryDO consumeCategoryDO, int level) {
-
-        if (!StringUtils.isNotNull(consumeCategoryDO.getCategoryName())) {
-            throw new RuntimeException("一级菜单不能为空");
-        }
-
-        if (level == 2) {
-            if (!StringUtils.isNotNull(consumeCategoryDO.getCategoryType())) {
-                throw new RuntimeException("二级菜单不能为空");
-            }
-
-            if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
-                consumeCategoryDO.setBillType("-");
-            }
-
-            if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
-                consumeCategoryDO.setDeepType("-");
+            if (categoryNameDict.contains(consumeCategoryDO.getCategoryType())) {
+                throw new RuntimeException("存在同名一级菜单");
             }
         }
     }

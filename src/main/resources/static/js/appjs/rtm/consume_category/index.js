@@ -1,3 +1,4 @@
+
 const prefix = "/rwe/consume_category";
 
 $(function () {
@@ -6,45 +7,35 @@ $(function () {
 
 function load() {
     $('#exampleTable')
-        .bootstrapTable(
+        .bootstrapTreeTable(
             {
                 method: 'get',
                 url: prefix + "/list",
-                showRefresh : false,
-                // showToggle : true,
-                // showColumns : true,
-                iconSize: 'outline',
-                toolbar: '#exampleToolbar',
-                striped: true,
+                id: 'id',
+                code : 'id',
+                parentCode : 'parentId',
+                singleSelect : false,
                 dataType: "json",
-                pagination: true,
-                singleSelect: false,
-                pageSize: 10,
-                pageNumber: 1,
-                showColumns: false,
-                sidePagination: "server",
-                queryParams: function (params) {
-                    return {
-                        // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
-                        limit: params.limit,
-                        offset: params.offset,
-                    };
-                },
-                // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-                // queryParamsType = 'limit' ,返回参数必须包含
-                // limit, offset, search, sort, order 否则, 需要包含:
-                // pageSize, pageNumber, searchText, sortName,
-                // sortOrder.
-                // 返回false将会终止请求
+                ajaxParams : {},
+                expandColumn : '1',
+                striped : true,
+                bordered : true,
+                expandAll : true,
+                toolbar : '#exampleToolbar',
                 columns: [
                     {
+                        field: 'id',
+                        title: '交易ID',
+                        width: 20,
+                    },
+                    {
                         field: 'categoryName',
-                        title: '交易类别',
+                        title: '一级菜单',
                         align: 'center',
                     },
                     {
                         field: 'categoryType',
-                        title: '详细类别',
+                        title: '二级菜单',
                         align : 'center'
                     },
                     {
@@ -58,21 +49,16 @@ function load() {
                         align : 'center'
                     },
                     {
-                        visible: false,
-                        field: 'id',
-                        title: '交易ID'
-                    },
-                    {
                         title: '操作',
                         align: 'center',
-                        formatter: function (value, row, index) {
-                            let f = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="添加细类" onclick="addType(\''
-                                + row.id + '\')"><i class="fa fa-plus"></i> 添加细类</a> ';
+                        formatter: function (item, index) {
+                            let f = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="添加子类" onclick="addType(\''
+                                + item.id + '\')"><i class="fa fa-plus"></i> 添加子类</a> ';
                             let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
+                                + item.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
-                                + row.id + '\', \'' + row.level + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            if (row.categoryType === '-') {
+                                + item.id + '\', \'' + item.level + '\')"><i class="fa fa-remove"></i> 删除</a>';
+                            if (item.categoryType === '-') {
                                 return f + e + d;
                             } else {
                                 return e + d;
@@ -82,13 +68,9 @@ function load() {
             });
 }
 
-function refreshPage() {
-    reload();
-    layer.msg("刷新成功");
-}
-
 function reload() {
-    $('#exampleTable').bootstrapTable('refresh');
+    load();
+    layer.msg("操作成功");
 }
 
 function add() {

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="orderId" th:value="${trade.orderId}" type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select data-placeholder="选择类型..." id="categoryType" th:value="${trade.categoryType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <option value="">选择类型</option>
+                                    <span th:each="item, index : ${types}">
+                                        <option th:value="${item}" th:text="${item}"></option>
+                                    </span>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rtm/trade/edit.js"></script>
+</body>
+</html>

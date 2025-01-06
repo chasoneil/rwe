@@ -1,4 +1,4 @@
-const PREFIX = "/rwe/consume_category/";
+const PREFIX = "/rwe/trade/";
 
 $().ready(function() {
 	validateRule();
@@ -25,6 +25,7 @@ $().ready(function() {
 
 document.addEventListener("DOMContentLoaded", function() {
 	const selectElements = document.querySelectorAll("select");
+
 	selectElements.forEach(select => {
 		const selectedValue = select.getAttribute("value");
 		if (selectedValue) {
@@ -49,7 +50,10 @@ function update() {
 		cache : true,
 		type : "POST",
 		url : PREFIX + "update",
-		data : $('#signupForm').serialize(),
+		data : {
+			"orderId" : $("#orderId").val(),
+			"categoryType" : $("#categoryType").val(),
+		},
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");

@@ -4,22 +4,23 @@
 <mapper namespace="com.chason.rwe.dao.ConsumeCategoryDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
 		from tbl_consume_category
 		where id = #{value}
 	</select>
 
 	<select id="getByType" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
 		from tbl_consume_category
 		where category_type = #{type}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
 		from tbl_consume_category
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
 			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
 			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
@@ -37,6 +38,7 @@
 		from tbl_consume_category
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
 			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
 			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
@@ -49,6 +51,7 @@
 		insert into tbl_consume_category
 		(
 			`user_id`,
+		 	`parent_id`,
 			`category_name`,
 			`category_type`,
 			`bill_type`,
@@ -58,6 +61,7 @@
 		values
 			(
 				#{userId},
+			 	#{parentId},
 				#{categoryName},
 				#{categoryType},
 				#{billType},
@@ -70,10 +74,11 @@
 		update tbl_consume_category
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
+		    <if test="parentId != null">`parent_id` = #{parentId}, </if>
 			<if test="categoryName != null">`category_name` = #{categoryName}, </if>
 			<if test="categoryType != null">`category_type` = #{categoryType}, </if>
 			<if test="billType != null">`bill_type` = #{billType}, </if>
-			<if test="deepType != null">`deep_type` = #{deepType} </if>
+			<if test="deepType != null">`deep_type` = #{deepType}, </if>
 			<if test="level != null">`level` = #{level} </if>
 		</set>
 		where id = #{id}

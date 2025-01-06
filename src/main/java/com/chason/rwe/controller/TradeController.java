@@ -1,9 +1,14 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
+import com.chason.common.dict.AccountDict;
 import com.chason.common.utils.*;
+import com.chason.rwe.domain.ConsumeCategoryDO;
 import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradePlatform;
+import com.chason.rwe.page.TradePage;
+import com.chason.rwe.service.ConsumeCategoryService;
+import com.chason.rwe.service.DeepTypeService;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
 import org.springframework.beans.BeanUtils;
@@ -14,14 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 交易信息
@@ -38,11 +39,19 @@ public class TradeController extends BaseController {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
     @Autowired
     private TradeService tradeService;
 
     @Autowired
+    private ConsumeCategoryService consumeCategoryService;
+
+    @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private DeepTypeService deepTypeService;
 
     @GetMapping("/index")
     public String index() {
@@ -76,7 +85,69 @@ public class TradeController extends BaseController {
         Query query = new Query(params);
         List<TradeDO> tradeLists = tradeService.list(query);
         int total = tradeService.count(query);
-        return new PageUtils(tradeLists, total);
+        List<TradePage> tradePageList = new ArrayList<>();
+        for (TradeDO tradeDO : tradeLists) {
+            TradePage tradePage = new TradePage();
+            ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(tradeDO.getCategoryId());
+            if (consumeCategoryDO != null) {
+                tradePage.setCategoryName(consumeCategoryDO.getCategoryName());
+                tradePage.setCategoryType(consumeCategoryDO.getCategoryType());
+            } else {
+                tradePage.setCategoryName("-");
+                tradePage.setCategoryType("-");
+            }
+            BeanUtils.copyProperties(tradeDO, tradePage);
+            tradePageList.add(tradePage);
+        }
+        return new PageUtils(tradePageList, total);
+    }
+
+    @GetMapping("/edit/{orderId}")
+    String edit(@PathVariable("orderId") String orderId, Model model) {
+
+        TradeDO tradeDO = tradeService.get(orderId);
+
+        ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(tradeDO.getCategoryId());
+
+        long userId = getUserId();
+        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+                roleService.getRoleLevel(userId), userId).get(userId);
+
+        TradePage tradePage = new TradePage();
+        BeanUtils.copyProperties(tradeDO, tradePage);
+
+        if (consumeCategoryDO != null) {
+            tradePage.setCategoryName(consumeCategoryDO.getCategoryName());
+            tradePage.setCategoryType(consumeCategoryDO.getCategoryType());
+        }
+
+        model.addAttribute("trade", tradePage);
+        model.addAttribute("types", types);
+        return PREFIX + "/edit";
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public R update(@RequestParam("orderId") String orderId,
+                    @RequestParam("categoryType") String categoryType) {
+        try {
+            TradeDO tradeDO = tradeService.get(orderId);
+            if (tradeDO == null) {
+                return R.error("账单信息不存在");
+            }
+
+            ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.getByType(categoryType);
+            if (consumeCategoryDO == null) {
+                return R.error("分类不存在");
+            }
+
+            tradeDO.setCategoryId(consumeCategoryDO.getId());
+            tradeService.update(tradeDO);
+        }
+        catch (Exception e) {
+            return R.error("修改账单失败：" + e.getMessage());
+        }
+        return R.ok();
     }
 
     @PostMapping("/remove")
@@ -219,6 +290,12 @@ public class TradeController extends BaseController {
             typeFound = true;
         }
 
+        HashSet<String> orderIds = new HashSet<>();
+        List<TradeDO> list = tradeService.list(new HashMap<>());
+        for (TradeDO trade : list) {
+            orderIds.add(trade.getOrderId());
+        }
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
 
             List<TradeDO> trades = new ArrayList<>();
@@ -248,15 +325,16 @@ public class TradeController extends BaseController {
                         switch (dataSource) {
                             case ALIPAY:
                                 // 解析支付宝账单
-                                if ("金额".equals(columns[6])) {  // title
+                                if ("金额".equals(columns[6]) || orderIds.contains(columns[9].trim())) {  // title
                                     continue;
                                 }
+
                                 tradeDO = doAlipayImport(columns);
                                 trades.add(tradeDO);
                                 break;
                             case WECHAT:
                                 // 解析微信账单
-                                if (columns[5].contains("金额")) {
+                                if (columns[5].contains("金额") || orderIds.contains(columns[8].trim())) {
                                     continue;
                                 }
                                 tradeDO = doWechatImport(columns);
@@ -288,7 +366,7 @@ public class TradeController extends BaseController {
             if (rowCount > 0) {
                 tradeService.batchSave(trades);
             }
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -296,11 +374,16 @@ public class TradeController extends BaseController {
     }
 
     // 解析并导入支付宝账单 .csv
-    private TradeDO doAlipayImport(String[] columns) throws ParseException {
+    private TradeDO doAlipayImport(String[] columns) throws Exception {
         // 解析数据
         TradeDO tradeDO = new TradeDO();
         for (int i = 0; i < columns.length; i++) {
-            tradeDO.setTradeTime(sdf.parse(columns[0]));
+            try {
+                tradeDO.setTradeTime(sdf.parse(columns[0]));
+            } catch (ParseException e) {
+                // try other format
+                tradeDO.setTradeTime(sdf2.parse(columns[0]));
+            }
             tradeDO.setTradeType(columns[1].trim());
             tradeDO.setTradeObj(columns[2].trim());
             tradeDO.setObjAccount(columns[3].trim());
@@ -322,16 +405,22 @@ public class TradeController extends BaseController {
         return tradeDO;
     }
 
-    private TradeDO doWechatImport(String[] columns) throws ParseException {
+    private TradeDO doWechatImport(String[] columns) throws Exception {
         // 解析数据
         TradeDO tradeDO = new TradeDO();
         for (int i = 0; i < columns.length; i++) {
-            tradeDO.setTradeTime(sdf.parse(columns[0]));
+            try {
+                tradeDO.setTradeTime(sdf.parse(columns[0]));
+            } catch (ParseException e) {
+                // try other format
+                tradeDO.setTradeTime(sdf2.parse(columns[0]));
+            }
             tradeDO.setTradeType(columns[1].trim());
             tradeDO.setTradeObj(columns[2].trim());
             tradeDO.setProduct(columns[3].trim());
             tradeDO.setInOut(columns[4].trim());
             String amount = columns[5].replaceAll("¥", "");
+            System.out.println(amount);
             tradeDO.setAmount(Double.parseDouble(amount));
             tradeDO.setPayType(columns[6].trim());
             tradeDO.setTradeStatus(columns[7].trim());
