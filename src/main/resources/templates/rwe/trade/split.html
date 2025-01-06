@@ -8,8 +8,12 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
+						<div class="alert alert-success">
+							当前账单的剩余可拆分金额为：<span id="remainAmount" class="alert-link" th:text="${trade.amount}"></span>
+						</div>
 						<form class="form-horizontal m-t" id="signupForm">
 							<input id="orderId" name="orderId" th:value="${trade.orderId}" type="hidden">
+							<input id="amount" th:value="${trade.amount}" type="hidden">
 							<div class="form-group auto-line" id="split-form">
 								<label class="col-sm-2 control-label">商品说明：</label>
 								<div class="col-sm-2">
@@ -17,7 +21,7 @@
 								</div>
 								<label class="col-sm-1 control-label">金额：</label>
 								<div class="col-sm-2">
-									<input id="amount_1" class="form-control" th:value="${trade.amount}" type="text">
+									<input id="amount_1" class="form-control" onchange="calculateTotal()" th:value="${trade.amount}" type="text">
 								</div>
 								<label class="col-sm-1 control-label">备注：</label>
 								<div class="col-sm-2">

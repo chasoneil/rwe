@@ -166,7 +166,6 @@ public class TradeController extends BaseController {
     @GetMapping("/split/{orderId}")
     String split(@PathVariable("orderId") String orderId, Model model) {
         TradeDO tradeDO = tradeService.get(orderId.trim());
-
         if (tradeDO == null) {
             throw new RuntimeException("账单信息不存在");
         }

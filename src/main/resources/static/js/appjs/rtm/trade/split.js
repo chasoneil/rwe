@@ -18,7 +18,7 @@ document.getElementById('addRow').addEventListener('click', function () {
         </div>
         <label class="col-sm-1 control-label">金额：</label>
         <div class="col-sm-2">
-            <input id="amount_${rowCount + 1}" class="form-control" type="text">
+            <input id="amount_${rowCount + 1}" class="form-control" onchange="calculateTotal()" type="text">
         </div>
         <label class="col-sm-1 control-label">备注：</label>
         <div class="col-sm-2">
@@ -45,6 +45,32 @@ function removeRow(button) {
 
 	// 从 userAddedRows 中移除对应的行
 	userAddedRows = userAddedRows.filter(item => item !== row);
+}
+
+function calculateTotal() {
+	let amountTotal = $('#amount').val();
+
+	let rowIndex = 1;
+	while (true) {
+		let amountId = "amount_" + rowIndex;
+		let amountElement = document.getElementById(amountId);
+
+		if (!amountElement) {
+			break;
+		}
+
+		let value =  amountElement.value;
+		if (!isNaN(parseFloat(value)) && isFinite(value)) {
+			if (value < 0) {
+				layer.alert("金额必须为大于0的数字！");
+			}
+		} else {
+			layer.alert("金额必须为大于0的数字！");
+		}
+		amountTotal -= amountElement.value;
+		rowIndex++;
+	}
+	$('#remainAmount').text(amountTotal);
 }
 
 function doSplit() {
