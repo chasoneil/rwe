@@ -110,7 +110,7 @@ public class TradeController extends BaseController {
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(tradeDO.getCategoryId());
 
         long userId = getUserId();
-        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
+        HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
 
         TradePage tradePage = new TradePage();
@@ -122,8 +122,15 @@ public class TradeController extends BaseController {
         }
 
         model.addAttribute("trade", tradePage);
-        model.addAttribute("types", types);
+        model.addAttribute("names", names);
         return PREFIX + "/edit";
+    }
+
+    @ResponseBody
+    @PostMapping("/types")
+    public R getTypes(@RequestParam("categoryName") String categoryName) {
+        List<String> typeList = consumeCategoryService.listTypes(categoryName);
+        return R.ok().put("types", typeList);
     }
 
     @ResponseBody

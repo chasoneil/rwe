@@ -2,48 +2,60 @@ const PREFIX = "/rwe/trade/";
 
 $().ready(function() {
 	validateRule();
-
-	let config = {
-		'.chosen-select': {},
-		'.chosen-select-deselect': {
-			allow_single_deselect: true
-		},
-		'.chosen-select-no-single': {
-			disable_search_threshold: 10
-		},
-		'.chosen-select-no-results': {
-			no_results_text: 'Oops, nothing found!'
-		},
-		'.chosen-select-width': {
-			width: "40%"
-		}
-	}
-	for (let selector in config) {
-		$(selector).chosen(config[selector]);
-	}
+	$(".chosen-select").chosen();
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-	const selectElements = document.querySelectorAll("select");
-
-	selectElements.forEach(select => {
-		const selectedValue = select.getAttribute("value");
-		if (selectedValue) {
-			Array.from(select.options).forEach(option => {
-				if (option.value === selectedValue) {
-					option.selected = true;
-					$(select).trigger("chosen:updated");
-				}
-			});
-		}
-	});
-});
+// document.addEventListener("DOMContentLoaded", function() {
+// 	const selectElements = document.querySelectorAll("select");
+//
+// 	selectElements.forEach(select => {
+// 		const selectedValue = select.getAttribute("value");
+// 		if (selectedValue) {
+// 			Array.from(select.options).forEach(option => {
+// 				if (option.value === selectedValue) {
+// 					option.selected = true;
+// 					$(select).trigger("chosen:updated");
+// 				}
+// 			});
+// 		}
+// 	});
+// });
 
 $.validator.setDefaults({
 	submitHandler : function() {
 		update();
 	}
 });
+
+function getTypes () {
+
+	const categoryTypeSelect = document.getElementById('categoryType');
+
+	$.ajax({
+		cache : true,
+		type : "POST",
+		url : PREFIX + "types",
+		data : {
+			"categoryName" : $("#categoryName").val(),
+		},
+		async : false,
+		error : function(request) {
+			parent.layer.alert("Connection error");
+		},
+		success : function(data) {
+			if (data.code === 0) {
+				data.types.forEach(type => {
+					const option = document.createElement("option");
+					option.value = type;
+					option.textContent = type;
+					categoryTypeSelect.appendChild(option);
+				});
+			} else {
+				parent.layer.alert("获取分类类型失败");
+			}
+		}
+	});
+}
 
 function update() {
 	$.ajax({

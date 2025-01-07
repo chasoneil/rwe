@@ -11,13 +11,20 @@
 						<form class="form-horizontal m-t" id="signupForm">
 						<input id="orderId" th:value="${trade.orderId}" type="hidden">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
-                            <div class="col-sm-8">
-                                <select data-placeholder="选择类型..." id="categoryType" th:value="${trade.categoryType}" class="chosen-select" style="width:220px;" tabindex="2">
+                            <label class="col-sm-2 control-label">一级分类：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="选择类型..." id="categoryName" th:value="${trade.categoryName}"
+                                        class="chosen-select" style="width:220px;" tabindex="2" onchange="getTypes()">
                                     <option value="">选择类型</option>
-                                    <span th:each="item, index : ${types}">
+                                    <span th:each="item, index : ${names}">
                                         <option th:value="${item}" th:text="${item}"></option>
                                     </span>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">二级分类：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="选择类型..." id="categoryType" th:value="${trade.categoryType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <option value="">选择类型</option>
                                 </select>
                             </div>
                         </div>

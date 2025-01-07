@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>家庭记账助手</title>
-    <meta name="keywords" content="家庭记账助手">
-    <meta name="description" content="家庭记账助手">
+    <title>家庭助手</title>
+    <meta name="keywords" content="家庭助手">
+    <meta name="description" content="家庭助手">
     <!--[if lt IE 9]>
         <meta http-equiv="refresh" content="0;ie.html"/>
         <![endif]-->
@@ -154,8 +154,8 @@
     });
 
     function connect() {
-        var sock = new SockJS("/endpointChat");
-        var stomp = Stomp.over(sock);
+        let sock = new SockJS("/endpointChat");
+        let stomp = Stomp.over(sock);
         stomp.connect('guest', 'guest', function(frame) {
 
             /**  订阅了/user/queue/notifications 发送的消息,这里雨在控制器的 convertAndSendToUser 定义的地址保持一致, 
@@ -187,7 +187,7 @@
         }
     }
 
-    var wrapper = new Vue({
+    let wrapper = new Vue({
         el: '#wrapper',
         data: {
             total: '',
@@ -217,9 +217,9 @@
     })
 
     // judge terminal device computer ? mobile?  pad ?
-	var browser={
+	let browser={
 		versions:function(){
-			var u = navigator.userAgent,
+			let u = navigator.userAgent,
 			app = navigator.appVersion;
 			return {
 				trident: u.indexOf('Trident') > -1,                             // IE

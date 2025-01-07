@@ -31,7 +31,6 @@ function loadDictType(dictType, selectedValue, chosen_select){
 			});
 			//点击事件
 			$(chosen_select).on('change', function(e, params) {
-				console.log(params.selected);
 				var opt = {
 					query : {
 						type : params.selected,

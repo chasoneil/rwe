@@ -13,6 +13,8 @@ public interface ConsumeCategoryService {
 
     List<ConsumeCategoryDO> list(Map<String, Object> map);
 
+    List<String> listTypes(String name);
+
     int count(Map<String, Object> map);
 
     int save(ConsumeCategoryDO consumeCategoryDO);

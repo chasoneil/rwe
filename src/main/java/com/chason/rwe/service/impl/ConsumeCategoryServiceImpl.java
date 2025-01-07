@@ -1,11 +1,14 @@
 package com.chason.rwe.service.impl;
 
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.dao.ConsumeCategoryDao;
 import com.chason.rwe.domain.ConsumeCategoryDO;
 import com.chason.rwe.service.ConsumeCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,25 @@ public class ConsumeCategoryServiceImpl implements ConsumeCategoryService {
     @Override
     public List<ConsumeCategoryDO> list(Map<String, Object> map) {
         return consumeCategoryDao.list(map);
+    }
+
+    @Override
+    public List<String> listTypes(String name) {
+        List<String> types = new ArrayList<>();
+        if (StringUtils.isNotNull(name)) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("categoryName", name);
+            List<ConsumeCategoryDO> list = consumeCategoryDao.list(param);
+            if (list != null && !list.isEmpty()) {
+                for (ConsumeCategoryDO categoryDO : list) {
+                    if ("-".equals(categoryDO.getCategoryType())) {
+                        continue;
+                    }
+                    types.add(categoryDO.getCategoryType());
+                }
+            }
+        }
+        return types;
     }
 
     @Override
