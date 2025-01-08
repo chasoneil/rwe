@@ -31,7 +31,7 @@ function load() {
                     {
                         field: 'categoryName',
                         title: '一级菜单',
-                        align: 'center',
+                        align: 'left',
                     },
                     {
                         field: 'categoryType',
