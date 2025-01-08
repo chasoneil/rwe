@@ -27,136 +27,57 @@
     <!-- echarts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.1.2/echarts.min.js"></script>
 
+    <!-- calendar -->
+    <link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="/css/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet">
+
     <!-- Morris -->
     <link href="/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
-
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-
 </head>
 
-<body class="gray-bg sidebar-content">
-
-<!-- 右侧的消息框 -->
-<div class="sidebard-panel">
-    <div>
-        <h4>消息 <span class="badge badge-info pull-right">16</span></h4>
-        <div class="feed-element">
-            <a href="index_3.html#" class="pull-left">
-                <img alt="image" class="img-circle" src="/img/a1.jpg">
-            </a>
-            <div class="media-body">
-                跑步呐，最重要的是要有动力
-                <br>
-                <small class="text-muted">今天 4:21</small>
-            </div>
-        </div>
-        <div class="feed-element">
-            <a href="index_3.html#" class="pull-left">
-                <img alt="image" class="img-circle" src="/img/a2.jpg">
-            </a>
-            <div class="media-body">
-                V信已经提前恢复，也算是个好消息吧
-                <br>
-                <small class="text-muted">昨天 2:45</small>
-            </div>
-        </div>
-        <div class="feed-element">
-            <a href="index_3.html#" class="pull-left">
-                <img alt="image" class="img-circle" src="/img/a3.jpg">
-            </a>
-            <div class="media-body">
-                是你对不对
-                <br>
-                <small class="text-muted">昨天 1:10</small>
-            </div>
-        </div>
-        <div class="feed-element">
-            <a href="index_3.html#" class="pull-left">
-                <img alt="image" class="img-circle" src="/img/a4.jpg">
-            </a>
-            <div class="media-body">
-                发布了一篇文章
-                <br>
-                <small class="text-muted">星期一 8:37</small>
-            </div>
-        </div>
-    </div>
-    <div class="m-t-md">
-        <h4>统计</h4>
-        <p>
-            上半年数据统计
-        </p>
-        <div class="row m-t-sm">
-            <div class="col-md-6">
-                <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                <h5><strong>169</strong> 文章</h5>
-            </div>
-            <div class="col-md-6">
-                <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-                <h5><strong>28</strong> 订单</h5>
-            </div>
-        </div>
-    </div>
-    <div class="m-t-md">
-        <h4>讨论</h4>
-        <div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <span class="badge badge-primary">16</span> 一般话题
-                </li>
-                <li class="list-group-item ">
-                    <span class="badge badge-info">12</span> 热门话题
-                </li>
-                <li class="list-group-item">
-                    <span class="badge badge-warning">7</span> 最新话题
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<body class="gray-bg">
 <div class="wrapper wrapper-content">
+
+    <!-- 头部 展示 当前时钟 月份选择框 收入支出年月信息 -->
+    <div class="row">
+        <div class="col-sm-4">
+            <h2 class="m-b-xs" style="margin-bottom: 20px;">
+                <span class="date" id="date"></span><br/>
+                <span class="clock" id="clock"></span>
+            </h2>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <span class="pull-right text-right">
+                <a class="btn btn-xs btn-default" onclick="window.location.href='/index_v1';">我的账单</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- 日历和图表  -->
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <div>
-                        <span class="pull-right text-right">
-                            <a class="btn btn-xs btn-default" onclick="window.location.href='/index_v1';">我的账单</a>
-                        </span>
-                        <h2 class="m-b-xs">
-                            <span class="date" id="date"></span><br/>
-                            <span class="clock" id="clock"></span>
-                        </h2>
-                    </div>
-
-                    <div class="row" style="height: 300px">
-                        <div class="col-sm-6">
-                            <div id="pieChart1" class="chart" style="height: 300%; "></div>
+                    <div class="row" style="height: 500px">
+                        <div class="col-sm-4">
+                            <div id="calendar" style="padding: 10px;"></div>
                         </div>
-                        <div class="col-sm-6">
-                            <div id="lineChart1" class="chart" style="height: 300%; margin-right: 50px;"></div>
+                        <div class="col-sm-4">
+                            <div id="pieChart1" class="chart" style="height: 450%;margin-top: 50px;"></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="lineChart1" class="chart" style="height:450%; margin-right: 50px; margin-top: 50px;"></div>
                         </div>
                     </div>
-
-                    <div class="m-t-md">
-                        <small class="pull-right">
-                            <i class="fa fa-clock-o"> </i>
-                            最后更新：2014.11.11
-                        </small>
-                        <small>
-                            <strong>销售分析：</strong> 该值已随时间发生变化，上个月达到的水平超过50,000元。
-                        </small>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 
-
     <div class="row">
-
         <div class="col-sm-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -454,141 +375,10 @@
 
 <!-- Sparkline demo data  -->
 <script src="/js/utils/sparkline-demo.js"></script>
+<script src="/js/appjs/index/index_v5.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('.chart').easyPieChart({
-            barColor: '#f8ac59',
-            //                scaleColor: false,
-            scaleLength: 5,
-            lineWidth: 4,
-            size: 80
-        });
-
-        $('.chart2').easyPieChart({
-            barColor: '#1c84c6',
-            //                scaleColor: false,
-            scaleLength: 5,
-            lineWidth: 4,
-            size: 80
-        });
-
-        var mapData = {
-            "US": 298,
-            "SA": 200,
-            "DE": 220,
-            "FR": 540,
-            "CN": 120,
-            "AU": 760,
-            "BR": 550,
-            "IN": 200,
-            "GB": 120,
-        };
-
-        $('#world-map').vectorMap({
-            map: 'world_mill_en',
-            backgroundColor: "transparent",
-            regionStyle: {
-                initial: {
-                    fill: '#e4e4e4',
-                    "fill-opacity": 0.9,
-                    stroke: 'none',
-                    "stroke-width": 0,
-                    "stroke-opacity": 0
-                }
-            },
-
-            series: {
-                regions: [{
-                    values: mapData,
-                    scale: ["#1ab394", "#22d6b1"],
-                    normalizeFunction: 'polynomial'
-                }]
-            },
-        });
-    });
-
-    function updateClock() {
-        const now = new Date();
-
-        // 格式化日期
-        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-        const currentDate = now.toLocaleDateString('zh-CN', options);
-        document.getElementById('date').textContent = currentDate;
-
-        // 格式化时间
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const currentTime = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('clock').textContent = currentTime;
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock(); // 初始调用以显示时钟
-
-    // echarts
-    let pieChart1 = echarts.init(document.getElementById('pieChart1'));
-    let lineChart1 = echarts.init(document.getElementById('lineChart1'));
-
-    let pieOption1 = {
-        title: {
-            text: '消费分布',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left'
-        },
-        series: [{
-            name: '所占比例',
-            type: 'pie',
-            radius: '60%',
-            data: [
-                { value: 335, name: '食品' },
-                { value: 310, name: '交通' },
-                { value: 234, name: '娱乐' },
-                { value: 135, name: '购物' },
-            ],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }]
-    };
-
-    let lineOption1 = {
-        title: {
-            text: '每月花费趋势',
-            left: 'center'
-        },
-        xAxis: {
-            type: 'category',
-            data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月'],
-            boundaryGap: false,
-            nameTextStyle: { color: '#fff' }
-        },
-        yAxis: {
-            type: 'value',
-            name: '花费（元）',
-            nameTextStyle: { color: '#fff' }
-        },
-        series: [{
-            data: [1200, 1300, 900, 1500, 1700, 1600, 1800, 2200],
-            type: 'line',
-            smooth: true
-        }]
-    };
-
-    pieChart1.setOption(pieOption1);
-    lineChart1.setOption(lineOption1);
-</script>
+<!-- Full Calendar -->
+<script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
 
 </body>
 
