@@ -14,7 +14,7 @@
 						<input name="checked" th:value="${keepAccount.checked}" type="hidden">
 
 						<div class="form-group">
-                            <label class="col-sm-2 control-label">交易时间：<span class="text-danger">*</span></label>
+                            <label class="col-sm-2 control-label">交易日期：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
                                 <input id="tradeTime" class="laydate-icon form-control layer-date" th:value="${keepAccount.tradeTime}"
                                        placeholder="YYYY-MM-DD" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
@@ -25,44 +25,50 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">交易类型：<span class="text-danger">*</span></label>
+                            <label class="col-sm-2 control-label">收入支出：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
-                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeType}" name="tradeType" class="chosen-select" style="width:220px;" tabindex="2">
-                                    <option value="">选择交易类型</option>
-                                    <span th:each="type, index : ${types}">
-                                        <option th:value="${type}" th:text="${type}"></option>
-                                    </span>
+                                <select data-placeholder="选择收入支出..." name="inOut" id="inOut" th:value="${keepAccount.inOut}"
+                                        class="chosen-select" style="width:220px;" onchange="initFirstLevel(this.value)" tabindex="2">
+                                    <option value="">选择收入支出</option>
+                                    <option value="支出">支出</option>
+                                    <option value="收入">收入</option>
                                 </select>
-                            </div>
-                            <label class="col-sm-2 control-label">消费人：</label>
-                            <div class="col-sm-4">
-                                <label>
-                                    <select data-placeholder="选择为谁消费..." th:value="${keepAccount.payFor}" name="payFor" class="chosen-select" style="width:220px;" tabindex="2">
-                                        <option value="">选择消费人</option>
-                                        <option value="MYSELF" hassubinfo="true">本人</option>
-                                        <option value="WIFE" hassubinfo="true">妻子</option>
-                                        <option value="HUSBAND" hassubinfo="true">丈夫</option>
-                                        <option value="PARENT_1" hassubinfo="true">父母</option>
-                                        <option value="PARENT_2" hassubinfo="true">妻子父母</option>
-                                        <option value="PARENT_3" hassubinfo="true">丈夫父母</option>
-                                        <option value="FRIEND" hassubinfo="true">朋友</option>
-                                        <option value="CHILDREN" hassubinfo="true">子女</option>
-                                        <option value="COLLEAGUE" hassubinfo="true">同事</option>
-                                        <option value="OTHER" hassubinfo="true">其他</option>
-                                    </select>
-                                </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">交易状态：</label>
+                            <label class="col-sm-2 control-label">一级分类：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeVariety}" id="tradeVariety" name="tradeVariety"
+                                        onchange="changeTradeType()" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <option value="">选择一级菜单</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">二级分类：<span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeType}" id="tradeType" name="tradeType"
+                                        class="chosen-select" style="width:220px;" tabindex="2">
+                                    <option value="">选择二级菜单</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">消费人：</label>
                             <div class="col-sm-4">
                                 <label>
-                                    <select data-placeholder="交易状态..." th:value="${keepAccount.tradeStatus}" name="tradeStatus" class="chosen-select" style="width:220px;" tabindex="2">
-                                        <option value="">选择交易状态</option>
-                                        <option value="交易成功" hassubinfo="true">交易成功</option>
-                                        <option value="交易失败" hassubinfo="true">交易失败</option>
-                                        <option value="已取消" hassubinfo="true">已取消</option>
-                                        <option value="已退款" hassubinfo="true">已退款</option>
+                                    <select data-placeholder="选择为谁消费..." th:value="${keepAccount.payFor}" name="payFor"
+                                            class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择消费人</option>
+                                        <option value="自己" hassubinfo="true">自己</option>
+                                        <option value="妻子" hassubinfo="true">妻子</option>
+                                        <option value="丈夫" hassubinfo="true">丈夫</option>
+                                        <option value="父母" hassubinfo="true">父母</option>
+                                        <option value="岳父母" hassubinfo="true">岳父母</option>
+                                        <option value="公婆" hassubinfo="true">公婆</option>
+                                        <option value="兄弟姐妹" hassubinfo="true">兄弟姐妹</option>
+                                        <option value="朋友" hassubinfo="true">朋友</option>
+                                        <option value="子女" hassubinfo="true">子女</option>
+                                        <option value="同事" hassubinfo="true">同事</option>
+                                        <option value="其他" hassubinfo="true">其他</option>
                                     </select>
                                 </label>
                             </div>
@@ -70,7 +76,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">备注：</label>
                             <div class="col-sm-8">
-                                <input th:value="${keepAccount.tradeComment}" placeholder="请输入交易备注" name="tradeComment" class="form-control" type="text">
+                                <input th:value="${keepAccount.tradeComment}" placeholder="请输入交易备注"
+                                       name="tradeComment" class="form-control" type="text">
                             </div>
                         </div>
                         <div class="form-group">

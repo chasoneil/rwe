@@ -27,6 +27,7 @@ public class KeepAccountDO {
     private long userId;
     private double amount;
     private String tradeTime;
+    private String inOut;
     private String tradeVariety;
     private String tradeType;
     private String tradePeriod;

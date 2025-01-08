@@ -7,10 +7,7 @@ import com.chason.rwe.service.ConsumeCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ConsumeCategoryServiceImpl implements ConsumeCategoryService {
@@ -50,6 +47,24 @@ public class ConsumeCategoryServiceImpl implements ConsumeCategoryService {
             }
         }
         return types;
+    }
+
+    @Override
+    public HashSet<String> listNames(String inOut) {
+
+        HashSet<String> names = new HashSet<>();
+        if (StringUtils.isNotNull(inOut)) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("inOut", inOut);
+            List<ConsumeCategoryDO> list = consumeCategoryDao.list(param);
+            if (list != null && !list.isEmpty()) {
+                for (ConsumeCategoryDO categoryDO : list) {
+                    names.add(categoryDO.getCategoryName());
+                }
+            }
+        }
+
+        return names;
     }
 
     @Override

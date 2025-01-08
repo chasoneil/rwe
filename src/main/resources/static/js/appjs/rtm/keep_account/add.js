@@ -3,25 +3,7 @@ let prefix = '/rwe/keep_account';
 
 $().ready(function() {
 
-	let config = {
-		'.chosen-select': {},
-		'.chosen-select-deselect': {
-			allow_single_deselect: true
-		},
-		'.chosen-select-no-single': {
-			disable_search_threshold: 10
-		},
-		'.chosen-select-no-results': {
-			no_results_text: 'Oops, nothing found!'
-		},
-		'.chosen-select-width': {
-			width: "40%"
-		}
-	}
-	for (let selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-
+	$(".chosen-select").chosen();
 	validateRule();
 });
 
@@ -30,6 +12,96 @@ $.validator.setDefaults({
 		save();
 	}
 });
+
+function changeTradeType(categoryName) {
+
+	const secondLevelSelect = document.getElementById('tradeType');
+
+	if (categoryName === "") {
+		parent.layer.alert("请选择一级菜单");
+		return;
+	}
+
+	$.ajax({
+		cache : true,
+		type : "POST",
+		url : "/rwe/trade/types",
+		data : {
+			"categoryName" : categoryName
+		},
+		async : false,
+		error : function(request) {
+			parent.layer.alert("Connection error");
+		},
+		success : function(data) {
+			if (data.code === 0) {
+				if (data.types.length === 0) {
+					secondLevelSelect.innerHTML = "<option value=''>选择类型</option>";
+					$(secondLevelSelect).trigger("chosen:updated");
+				} else {
+					secondLevelSelect.innerHTML = "<option value=''>选择类型</option>";
+					$(secondLevelSelect).trigger("chosen:updated");
+					data.types.forEach(type => {
+						const option = document.createElement("option");
+						option.value = type;
+						option.textContent = type;
+						secondLevelSelect.appendChild(option);
+						$(secondLevelSelect).trigger("chosen:updated");
+					});
+				}
+			} else {
+				parent.layer.alert("获取分类类型失败");
+			}
+		}
+	});
+
+}
+
+
+function changeInOut(inOut) {
+
+	const firstLevelSelect = document.getElementById('tradeVariety');
+
+	if (inOut === "") {
+		parent.layer.alert("请选择收支类型");
+		return;
+	}
+
+	$.ajax({
+		cache : true,
+		type : "POST",
+		url : prefix + "/inout",
+		data : {
+			"inOut" : inOut
+		},
+		async : false,
+		error : function(request) {
+			parent.layer.alert("Connection error");
+		},
+		success : function(data) {
+			if (data.code === 0) {
+				if (data.names.length === 0) {
+					// 将分类类型下拉框清空
+					firstLevelSelect.innerHTML = "<option value=''>选择一级菜单</option>";
+					$(firstLevelSelect).trigger("chosen:updated");
+				} else {
+					firstLevelSelect.innerHTML = "<option value=''>选择一级菜单</option>";
+					$(firstLevelSelect).trigger("chosen:updated");
+					data.names.forEach(name => {
+						const option = document.createElement("option");
+						option.value = name;
+						option.textContent = name;
+						firstLevelSelect.appendChild(option);
+						$(firstLevelSelect).trigger("chosen:updated");
+					});
+				}
+			} else {
+				parent.layer.alert("获取分类类型失败");
+			}
+		}
+	});
+
+}
 
 function save() {
 	$.ajax({

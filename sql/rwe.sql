@@ -465,10 +465,12 @@ CREATE TABLE `tbl_consume_category` (
     `bill_type` varchar(32) NOT NULL COMMENT '账单周期',
     `deep_type` varchar(32) NOT NULL COMMENT '深度支出分类',
     `level` int(11) NOT NULL DEFAULT '1' COMMENT '菜单级别',
+    `in_out` varchar(8) not null default '支出' comment '收入支出',
     PRIMARY KEY (`id`),
     KEY `user_id` (`user_id`),
     KEY `category_name` (`category_name`),
     KEY `bill_type` (`bill_type`),
+    KEY `in_out` (`in_out`),
     KEY `deep_type` (`deep_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -519,6 +521,7 @@ CREATE TABLE `tbl_keep_account` (
   `trade_variety` varchar(32) NOT NULL COMMENT '交易所属一级菜单',
   `trade_type` varchar(32) NOT NULL COMMENT '交易所属二级菜单',
   `trade_statistics` text NOT NULL COMMENT '交易所属深度支出分类',
+  `in_out` varchar(8) NOT NULL default '支出' COMMENT '收入支出',
   `pay_for` varchar(32) NOT NULL COMMENT '消费人',
   `trade_status` varchar(16) NOT NULL COMMENT '交易状态',
   `trade_comment` text NOT NULL COMMENT '备注',
@@ -527,6 +530,7 @@ CREATE TABLE `tbl_keep_account` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `trade_variety` (`trade_variety`),
+  KEY `in_out` (`in_out`),
   KEY `trade_type` (`trade_type`),
   KEY `pay_for` (`pay_for`),
   KEY `time_amount` (`trade_time`,`amount`)

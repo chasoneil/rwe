@@ -44,12 +44,21 @@ function getTypes () {
 		},
 		success : function(data) {
 			if (data.code === 0) {
-				data.types.forEach(type => {
-					const option = document.createElement("option");
-					option.value = type;
-					option.textContent = type;
-					categoryTypeSelect.appendChild(option);
-				});
+				if (data.types.length === 0) {
+					// 将分类类型下拉框清空
+					categoryTypeSelect.innerHTML = "<option value=''>选择类型</option>";
+					$(categoryTypeSelect).trigger("chosen:updated");
+				} else {
+					categoryTypeSelect.innerHTML = "<option value=''>选择类型</option>";
+					$(categoryTypeSelect).trigger("chosen:updated");
+					data.types.forEach(type => {
+						const option = document.createElement("option");
+						option.value = type;
+						option.textContent = type;
+						categoryTypeSelect.appendChild(option);
+						$(categoryTypeSelect).trigger("chosen:updated");
+					});
+				}
 			} else {
 				parent.layer.alert("获取分类类型失败");
 			}
@@ -58,6 +67,12 @@ function getTypes () {
 }
 
 function update() {
+
+	if ($("#categoryType").val() === "") {
+		parent.layer.alert("二级分类不能为空");
+		return;
+	}
+
 	$.ajax({
 		cache : true,
 		type : "POST",

@@ -101,9 +101,6 @@ public class KeepAccountController extends BaseController {
             keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
             keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
             keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
-
-            keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
-
             keepAccountDO.setUserId(getUserId());
             keepAccountDO.setTradeStatus("交易成功");
             int save = keepAccountService.save(keepAccountDO);
@@ -116,18 +113,19 @@ public class KeepAccountController extends BaseController {
         return R.ok();
     }
 
+    @ResponseBody
+    @PostMapping("/inout")
+    public R getCategory(@RequestParam("inOut") String inOut) {
+        HashSet<String> names = consumeCategoryService.listNames(inOut);
+        return R.ok().put("names", names);
+    }
+
     @GetMapping("/edit/{id}")
     String edit(@PathVariable("id") int id, Model model) {
         KeepAccountDO keepAccountDO = keepAccountService.get(id);
-
         if (keepAccountDO == null) {
             throw new RuntimeException("记账信息不存在");
         }
-
-        long userId = getUserId();
-        HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
-                roleService.getRoleLevel(userId), userId).get(userId);
-        model.addAttribute("types", types);
         model.addAttribute("keepAccount", keepAccountDO);
         return PREFIX + "/edit";
     }
@@ -146,8 +144,6 @@ public class KeepAccountController extends BaseController {
             keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
             keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
             keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
-            keepAccountDO.setPayFor(PayForEnum.getName(keepAccountDO.getPayFor().trim()));
-
             int update = keepAccountService.update(keepAccountDO);
             if (update != 1) {
                 return R.error("修改记账信息失败");

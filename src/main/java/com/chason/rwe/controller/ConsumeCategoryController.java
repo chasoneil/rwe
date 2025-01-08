@@ -67,7 +67,7 @@ public class ConsumeCategoryController extends BaseController {
     String addType(@PathVariable("id") int id, Model model) {
         ConsumeCategoryDO consumeCategoryDO = consumeCategoryService.get(id);
         if (consumeCategoryDO == null) {
-            throw new RuntimeException("类型不存在");
+            throw new RuntimeException("一级菜单不存在");
         }
 
         long userId = getUserId();
@@ -199,6 +199,10 @@ public class ConsumeCategoryController extends BaseController {
 
         if (!StringUtils.isNotNull(consumeCategoryDO.getCategoryName())) {
             throw new RuntimeException("一级菜单不能为空");
+        }
+
+        if (!StringUtils.isNotNull(consumeCategoryDO.getInOut())) {
+            throw new RuntimeException("收支类型不能为空");
         }
 
         long userId = getUserId();

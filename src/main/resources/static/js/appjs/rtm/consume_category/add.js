@@ -3,6 +3,7 @@ let prefix = '/rwe/consume_category';
 
 $().ready(function() {
 	validateRule();
+	$(".chosen-select").chosen();
 });
 
 $.validator.setDefaults({

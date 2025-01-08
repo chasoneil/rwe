@@ -4,19 +4,19 @@
 <mapper namespace="com.chason.rwe.dao.ConsumeCategoryDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		where id = #{value}
 	</select>
 
 	<select id="getByType" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		where category_type = #{type}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
@@ -26,6 +26,7 @@
 			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
 			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
 			<if test="level != null and level != ''"> and `level` = #{level} </if>
+		    <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 		</where>
 		order by category_name, category_type
 		<if test="offset != null and limit != null">
@@ -44,6 +45,7 @@
 			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
 			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
 			<if test="level != null and level != ''"> and `level` = #{level} </if>
+		    <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 		</where>
 	</select>
 
@@ -56,7 +58,8 @@
 			`category_type`,
 			`bill_type`,
 			`deep_type`,
-		 `level`
+		 	`level`,
+		 	`in_out`
 		)
 		values
 			(
@@ -66,7 +69,8 @@
 				#{categoryType},
 				#{billType},
 				#{deepType},
-			 #{level}
+			 	#{level},
+			 	#{inOut}
 			)
 	</insert>
 
@@ -79,7 +83,8 @@
 			<if test="categoryType != null">`category_type` = #{categoryType}, </if>
 			<if test="billType != null">`bill_type` = #{billType}, </if>
 			<if test="deepType != null">`deep_type` = #{deepType}, </if>
-			<if test="level != null">`level` = #{level} </if>
+			<if test="level != null">`level` = #{level}, </if>
+			<if test="inOut != null">`in_out` = #{inOut} </if>
 		</set>
 		where id = #{id}
 	</update>

@@ -78,26 +78,12 @@ function load() {
                     },
                     {
                         field: 'payFor',
-                        title: '受益人',
+                        title: '消费人',
                         align : 'center'
                     },
                     {
                         field: 'tradeComment',
                         title: '备注'
-                    },
-                    {
-                        field: 'tradeStatus',
-                        title: '交易状态',
-						align : 'center',
-                        formatter: function (value, row, index) {
-                            if (row.tradeStatus === '交易成功' || row.tradeStatus === '支付成功' ) {
-                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
-                            } else if(row.tradeStatus === '交易失败') {
-                                return '<a class="btn btn-default btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a>';
-                            } else if(row.tradeStatus === '退款成功' || row.tradeStatus === '已存入零钱' || row.tradeStatus.includes('%已退款%')) {
-                                return '<a class="btn btn-primary btn-xs btn-outline" href="#" mce_href="#">' + row.tradeStatus + '</a> ';
-                            }
-                        }
                     },
                     {
                         title: '操作',

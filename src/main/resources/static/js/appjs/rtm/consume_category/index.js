@@ -39,6 +39,18 @@ function load() {
                         align : 'center'
                     },
                     {
+                        field: 'inOut',
+                        title: '收支类型',
+                        align: 'center',
+                        formatter: function (item, index) {
+                            if (item.inOut === '收入') {
+                                return '<span class="btn btn-danger btn-xs" style="cursor: default;">' + item.inOut + '</span>';
+                            } else if(item.inOut === '支出') {
+                                return '<span class="btn btn-default btn-xs" style="cursor: default;">' + item.inOut + '</span>';
+                            }
+                        }
+                    },
+                    {
                         field: 'billType',
                         title: '账本类型',
 						align : 'center'

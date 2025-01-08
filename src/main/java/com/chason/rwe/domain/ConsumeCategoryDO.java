@@ -21,4 +21,6 @@ public class ConsumeCategoryDO {
 
     private int level; // 分类层级
 
+    private String inOut; // 收支类型
+
 }

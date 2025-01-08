@@ -2,6 +2,7 @@ package com.chason.rwe.service;
 
 import com.chason.rwe.domain.ConsumeCategoryDO;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public interface ConsumeCategoryService {
     List<ConsumeCategoryDO> list(Map<String, Object> map);
 
     List<String> listTypes(String name);
+
+    HashSet<String> listNames(String inOut);
 
     int count(Map<String, Object> map);
 

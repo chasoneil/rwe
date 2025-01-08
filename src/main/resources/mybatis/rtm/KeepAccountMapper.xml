@@ -4,17 +4,18 @@
 <mapper namespace="com.chason.rwe.dao.KeepAccountDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.KeepAccountDO">
-		select `id`, `user_id`, `amount`, `trade_time`, `trade_variety`, `trade_type`, `trade_period`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
+		select `id`, `user_id`, `amount`, `trade_time`, `in_out`, `trade_variety`, `trade_type`, `trade_period`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
 		from tbl_keep_account
 		where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.KeepAccountDO">
-		select `id`, `user_id`, `amount`, `trade_time`, `trade_variety`, `trade_type`, `trade_period`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
+		select `id`, `user_id`, `amount`, `trade_time`, `in_out`, `trade_variety`, `trade_type`, `trade_period`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
 		from tbl_keep_account
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
 			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
 			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
 			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
@@ -35,6 +36,7 @@
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
 			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
 			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
 			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
@@ -50,6 +52,7 @@
 			`user_id`,
 			`amount`,
 			`trade_time`,
+		    `in_out`,
 			`trade_variety`,
 			`trade_type`,
 		    `trade_period`,
@@ -64,6 +67,7 @@
 				#{userId},
 				#{amount},
 				#{tradeTime},
+			 	#{inOut},
 				#{tradeVariety},
 				#{tradeType},
 			 	#{tradePeriod},
@@ -81,6 +85,7 @@
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="amount != null">`amount` = #{amount}, </if>
 			<if test="tradeTime != null">`trade_time` = #{tradeTime}, </if>
+			<if test="inOut != null">`in_out` = #{inOut}, </if>
 			<if test="tradeVariety != null">`trade_variety` = #{tradeVariety}, </if>
 			<if test="tradeType != null">`trade_type` = #{tradeType}, </if>
 		    <if test="tradePeriod != null">`trade_period` = #{tradePeriod}, </if>
