@@ -70,7 +70,7 @@ function load() {
                                 + item.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + item.id + '\', \'' + item.level + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            if (item.categoryType === '-') {
+                            if (item.level === 1) {
                                 return f + e + d;
                             } else {
                                 return e + d;

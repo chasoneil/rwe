@@ -3,21 +3,8 @@ $(document).ready(function () {
 
     initCalendar();
 
-    $('.chart').easyPieChart({
-        barColor: '#f8ac59',
-        //                scaleColor: false,
-        scaleLength: 5,
-        lineWidth: 4,
-        size: 80
-    });
-
-    $('.chart2').easyPieChart({
-        barColor: '#1c84c6',
-        //                scaleColor: false,
-        scaleLength: 5,
-        lineWidth: 4,
-        size: 80
-    });
+    let data =[];
+    initEchartsData();
 
     var mapData = {
         "US": 298,
@@ -57,65 +44,137 @@ $(document).ready(function () {
 
 // echarts
 let pieChart1 = echarts.init(document.getElementById('pieChart1'));
-let lineChart1 = echarts.init(document.getElementById('lineChart1'));
+let pieChart2 = echarts.init(document.getElementById('pieChart2'));
 
 let pieOption1 = {
-    title: {
-        text: '消费分布',
-        left: 'center'
-    },
     tooltip: {
         trigger: 'item'
     },
+    title: {
+        text: '支出',
+        left: 'center'
+    },
     legend: {
-        orient: 'vertical',
-        left: 'left'
+        top: '5%',
+        left: 'center'
     },
     series: [{
         name: '所占比例',
         type: 'pie',
-        radius: '60%',
-        data: [
-            { value: 335, name: '食品' },
-            { value: 310, name: '交通' },
-            { value: 234, name: '娱乐' },
-            { value: 135, name: '购物' },
-        ],
+        radius: ['40%', '70%'],     // 饼图的直径 40% - 70% ->内层40% - 70%外层
+        avoidLabelOverlap: false,
+        itemStyle: {        // 定义边框样式
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+        },
         emphasis: {
             itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
-        }
+        },
+        data: []
     }]
 };
 
-let lineOption1 = {
+let pieOption2 = {
+    tooltip: {
+        trigger: 'item'
+    },
     title: {
-        text: '每月花费趋势',
+        text: '收入',
         left: 'center'
     },
-    xAxis: {
-        type: 'category',
-        data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月'],
-        boundaryGap: false,
-        nameTextStyle: { color: '#fff' }
-    },
-    yAxis: {
-        type: 'value',
-        name: '花费（元）',
-        nameTextStyle: { color: '#fff' }
+    legend: {
+        top: '5%',
+        left: 'center'
     },
     series: [{
-        data: [1200, 1300, 900, 1500, 1700, 1600, 1800, 2200],
-        type: 'line',
-        smooth: true
+        name: '所占比例',
+        type: 'pie',
+        radius: ['40%', '70%'],     // 饼图的直径 40% - 70% ->内层40% - 70%外层
+        avoidLabelOverlap: false,
+        itemStyle: {        // 定义边框样式
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+        },
+        emphasis: {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        },
+        data: []
     }]
 };
 
+
 pieChart1.setOption(pieOption1);
-lineChart1.setOption(lineOption1);
+pieChart2.setOption(pieOption2);
+
+
+function initEchartsData() {
+
+    let date = '';
+
+    let defaultData = [
+        { value: 335, name: '食品' },
+        { value: 310, name: '交通' },
+        { value: 234, name: '娱乐' },
+        { value: 135, name: '购物' },
+    ];
+
+    $.ajax({
+        cache : true,
+        type : "POST",
+        url : "rwe/index/pie/out",
+        data : {
+            "date" : date
+        },
+        async : false,
+        error : function(request) {
+            parent.layer.alert("Connection error");
+        },
+        success : function(data) {
+            if (data.code === 0) {
+                pieOption1.series[0].data = data.data;
+                pieChart1.setOption(pieOption1);
+            } else {
+                parent.layer.msg("获取支出数据失败");
+                pieOption1.series[0].data = defaultData;
+                pieChart1.setOption(pieOption1);
+            }
+        }
+    });
+
+    $.ajax({
+        cache : true,
+        type : "POST",
+        url : "rwe/index/pie/in",
+        data : {
+            "date" : date
+        },
+        async : false,
+        error : function(request) {
+            parent.layer.alert("Connection error");
+        },
+        success : function(data) {
+            if (data.code === 0) {
+                pieOption2.series[0].data = data.data;
+                pieChart2.setOption(pieOption2);
+            } else {
+                parent.layer.msg("获取收入数据失败");
+                pieOption2.series[0].data = defaultData;
+                pieChart2.setOption(pieOption2);
+            }
+        }
+    });
+
+}
 
 function initCalendar() {
     /*---- initialize the calendar ------*/
@@ -131,39 +190,28 @@ function initCalendar() {
             right: 'month,agendaWeek,agendaDay'
         },
         editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar !!!
-        drop: function (date, allDay) { // this function is called when something is dropped
+        droppable: true,
+        drop: function (date, allDay) {
 
-            // retrieve the dropped element's stored Event Object
-            var originalEventObject = $(this).data('eventObject');
+            let originalEventObject = $(this).data('eventObject');
+            let copiedEventObject = $.extend({}, originalEventObject);
 
-            // we need to copy it, so that multiple events don't have a reference to the same object
-            var copiedEventObject = $.extend({}, originalEventObject);
-
-            // assign it the date that was reported
             copiedEventObject.start = date;
             copiedEventObject.allDay = allDay;
 
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
             $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
-            // is the "remove after drop" checkbox checked?
             if ($('#drop-remove').is(':checked')) {
-                // if so, remove the element from the "Draggable Events" list
                 $(this).remove();
             }
-
+        },
+        dayClick: function (date, jsEvent, view) {
+            alert('开始时间: ' + date);
         },
         events: [
             {
                 title: '日事件',
                 start: new Date(y, m, 1)
-            },
-            {
-                title: '长事件',
-                start: new Date(y, m, d - 5),
-                end: new Date(y, m, d - 2),
             },
             {
                 id: 999,

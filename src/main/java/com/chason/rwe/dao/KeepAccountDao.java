@@ -13,6 +13,8 @@ public interface KeepAccountDao {
 
     List<KeepAccountDO> list(Map<String, Object> map);
 
+    List<KeepAccountDO> listByTime(Map<String, Object> map);
+
     int count(Map<String, Object> map);
 
     int save(KeepAccountDO keepAccountDO);

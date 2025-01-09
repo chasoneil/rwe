@@ -30,6 +30,23 @@
 		</if>
 	</select>
 
+	<select id="listByTime" resultType="com.chason.rwe.domain.KeepAccountDO">
+		select `id`, `user_id`, `amount`, `trade_time`, `in_out`, `trade_variety`, `trade_type`, `trade_period`, `trade_statistics`, `pay_for`, `trade_status`, `trade_comment`, `checked`
+		from tbl_keep_account
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
+			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
+			AND `trade_time` between #{startDate} AND #{endDate}
+		</where>
+		order by trade_time, id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
 	<select id="count" resultType="int">
 		select count(*)
 		from tbl_keep_account

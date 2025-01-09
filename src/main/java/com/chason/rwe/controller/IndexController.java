@@ -1,0 +1,85 @@
+package com.chason.rwe.controller;
+
+import com.chason.common.utils.R;
+import com.chason.common.utils.StringUtils;
+import com.chason.rwe.domain.KeepAccountDO;
+import com.chason.rwe.page.TradePiePage;
+import com.chason.rwe.service.KeepAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+@Controller
+@RequestMapping("/rwe/index")
+public class IndexController {
+
+    private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
+
+    @Autowired
+    private KeepAccountService keepAccountService;
+
+    @ResponseBody
+    @PostMapping("/pie/out")
+    public R initPieOut(@RequestParam("date") String date) {
+
+        Map<String, Object> data = new HashMap<>();
+        List<TradePiePage> piePages = new ArrayList<>();
+        if (!StringUtils.isNotNull(date)) {  // 初始化本月的数据
+            String month = MONTH_FORMAT.format(new Date());
+            List<KeepAccountDO> keepAccountDOList = keepAccountService.listMonthSpent(month);
+            Map<String, Double> statisticMap = new HashMap<>();
+            for (KeepAccountDO keepAccountDO : keepAccountDOList) {
+                statisticMap.put(keepAccountDO.getTradeVariety(),
+                        statisticMap.getOrDefault(keepAccountDO.getTradeVariety(), 0.0) + keepAccountDO.getAmount());
+            }
+
+            for (String key :statisticMap.keySet()) {
+                TradePiePage piePage = new TradePiePage();
+                piePage.setValue(statisticMap.get(key));
+                piePage.setName(key);
+                piePages.add(piePage);
+            }
+
+            data.put("data", piePages);
+        } else {    // 根据日期查询数据并返回
+
+        }
+        return R.ok(data);
+    }
+
+    @ResponseBody
+    @PostMapping("/pie/in")
+    public R initPieIn(@RequestParam("date") String date) {
+
+        Map<String, Object> data = new HashMap<>();
+        List<TradePiePage> piePages = new ArrayList<>();
+        if (!StringUtils.isNotNull(date)) {  // 初始化本月的数据
+            String month = MONTH_FORMAT.format(new Date());
+            List<KeepAccountDO> keepAccountDOList = keepAccountService.listMonthIncome(month);
+            Map<String, Double> statisticMap = new HashMap<>();
+            for (KeepAccountDO keepAccountDO : keepAccountDOList) {
+                statisticMap.put(keepAccountDO.getTradeVariety(),
+                        statisticMap.getOrDefault(keepAccountDO.getTradeVariety(), 0.0) + keepAccountDO.getAmount());
+            }
+
+            for (String key :statisticMap.keySet()) {
+                TradePiePage piePage = new TradePiePage();
+                piePage.setValue(statisticMap.get(key));
+                piePage.setName(key);
+                piePages.add(piePage);
+            }
+
+            data.put("data", piePages);
+        } else {    // 根据日期查询数据并返回
+
+        }
+        return R.ok(data);
+    }
+
+}

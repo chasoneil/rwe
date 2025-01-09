@@ -28,6 +28,28 @@ public class KeepAccountServiceImpl implements KeepAccountService {
     }
 
     @Override
+    public List<KeepAccountDO> listMonthSpent(String month) {
+        String startDate = month + "-01";
+        String endDate = month + "-31";
+        Map<String, Object> param = new HashMap<>();
+        param.put("startDate", startDate);
+        param.put("endDate", endDate);
+        param.put("inOut", "支出");
+        return keepAccountDao.listByTime(param);
+    }
+
+    @Override
+    public List<KeepAccountDO> listMonthIncome(String month) {
+        String startDate = month + "-01";
+        String endDate = month + "-31";
+        Map<String, Object> param = new HashMap<>();
+        param.put("startDate", startDate);
+        param.put("endDate", endDate);
+        param.put("inOut", "收入");
+        return keepAccountDao.listByTime(param);
+    }
+
+    @Override
     public int count(Map<String, Object> map) {
         return keepAccountDao.count(map);
     }

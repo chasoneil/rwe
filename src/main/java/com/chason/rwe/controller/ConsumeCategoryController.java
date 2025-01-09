@@ -86,7 +86,7 @@ public class ConsumeCategoryController extends BaseController {
             consumeCategoryDO.setUserId(getUserId());
             consumeCategoryDO.setLevel(1);
             consumeCategoryDO.setParentId(0);
-            consumeCategoryDO.setCategoryType("-");
+            consumeCategoryDO.setCategoryType(consumeCategoryDO.getCategoryName());
             consumeCategoryDO.setBillType("-");
             consumeCategoryDO.setDeepType("-");
             int save = consumeCategoryService.save(consumeCategoryDO);
