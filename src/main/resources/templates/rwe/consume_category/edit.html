@@ -62,20 +62,19 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">账本类型：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <select data-placeholder="选择账本类型..." name="billType" th:value="${consumeCategory.billType}" class="chosen-select" style="width:220px;" tabindex="2">
-                                        <option value="">选择账本类型</option>
-                                        <option value="年" hassubinfo="true">年</option>
-                                        <option value="半年" hassubinfo="true">半年</option>
-                                        <option value="月" hassubinfo="true">月</option>
-                                        <option value="一次性" hassubinfo="true">一次性</option>
+                                    <select data-placeholder="选择账单周期..." name="billType" th:value="${consumeCategory.billType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择账单周期</option>
+                                        <span th:each="period, index : ${periods}">
+											<option th:value="${period.dictValue}" th:text="${period.dictValue}"></option>
+										</span>
                                     </select>
                                 </div>
                                 <label class="col-sm-2 control-label">深度支出类型：</label>
                                 <div class="col-sm-4">
                                     <select data-placeholder="选择深度支出类型..." name="deepType" th:value="${consumeCategory.deepType}" class="chosen-select" style="width:220px;" tabindex="2">
                                         <option value="">选择深度支出类型</option>
-                                        <span th:each="deepTypeName, index : ${deepTypeNames}">
-                                            <option th:value="${deepTypeName}" th:text="${deepTypeName}"></option>
+                                        <span th:each="deep, index : ${deeps}">
+                                            <option th:value="${deep.dictValue}" th:text="${deep.dictValue}"></option>
                                         </span>
                                     </select>
                                 </div>

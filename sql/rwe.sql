@@ -462,14 +462,15 @@ CREATE TABLE `tbl_consume_category` (
     `user_id` int(11) NOT NULL COMMENT '用户ID',
     `category_name` varchar(32) NOT NULL COMMENT '一级分类',
     `category_type` varchar(32) NOT NULL COMMENT '二级分类',
-    `bill_type` varchar(32) NOT NULL COMMENT '账单周期',
+    `bill_period` varchar(32) NOT NULL COMMENT '账单周期',
     `deep_type` varchar(32) NOT NULL COMMENT '深度支出分类',
+    `budget` double  COMMENT '预算',
     `level` int(11) NOT NULL DEFAULT '1' COMMENT '菜单级别',
     `in_out` varchar(8) not null default '支出' comment '收入支出',
     PRIMARY KEY (`id`),
     KEY `user_id` (`user_id`),
     KEY `category_name` (`category_name`),
-    KEY `bill_type` (`bill_type`),
+    KEY `bill_period` (`bill_period`),
     KEY `in_out` (`in_out`),
     KEY `deep_type` (`deep_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
@@ -480,31 +481,23 @@ LOCK TABLES `tbl_consume_category` WRITE;
 /*!40000 ALTER TABLE `tbl_consume_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `tbl_deep_type`
---
 
-DROP TABLE IF EXISTS `tbl_deep_type`;
+
+--
+-- Table structure for table `tbl_account_dict`
+--
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_deep_type` (
+CREATE TABLE `tbl_account_dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `deep_type_name` varchar(32) NOT NULL COMMENT '深度支出名称',
+  `dict_name` varchar(32) NOT NULL COMMENT '数据字典名称',
+  `dict_value` varchar(32) NOT NULL COMMENT '选项值',
+  `dict_remark` varchar(128) COMMENT '字典备注',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_deep_type`
---
-
-LOCK TABLES `tbl_deep_type` WRITE;
-/*!40000 ALTER TABLE `tbl_deep_type` DISABLE KEYS */;
-INSERT INTO `tbl_deep_type` VALUES (5,1,'基本生存支出'),(6,1,'生活改善支出');
-/*!40000 ALTER TABLE `tbl_deep_type` ENABLE KEYS */;
-UNLOCK TABLES;
+  KEY `user_id` (`user_id`),
+  KEY `dict_name` (`dict_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Table structure for table `tbl_keep_account`
@@ -522,8 +515,11 @@ CREATE TABLE `tbl_keep_account` (
   `trade_type` varchar(32) NOT NULL COMMENT '交易所属二级菜单',
   `trade_statistics` text NOT NULL COMMENT '交易所属深度支出分类',
   `in_out` varchar(8) NOT NULL default '支出' COMMENT '收入支出',
-  `pay_for` varchar(32) NOT NULL COMMENT '消费人',
+  `consumer` varchar(32) NOT NULL COMMENT '消费人',
   `trade_status` varchar(16) NOT NULL COMMENT '交易状态',
+  `trade_detail` varchar(256) COMMENT '交易详情',
+  `pay_account` varchar(32) COMMENT '付款账户',
+  `pay_method` varchar(32) COMMENT '付款方式',
   `trade_comment` text NOT NULL COMMENT '备注',
   `checked` int(11) DEFAULT '0' COMMENT '是否checked', 
   `trade_period` varchar(8) DEFAULT NULL,
@@ -586,7 +582,6 @@ LOCK TABLES `tbl_trade` WRITE;
 /*!40000 ALTER TABLE `tbl_trade` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_trade` ENABLE KEYS */;
 UNLOCK TABLES;
-
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

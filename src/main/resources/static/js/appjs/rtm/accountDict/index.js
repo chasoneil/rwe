@@ -1,4 +1,4 @@
-const prefix = "/rwe/deepType";
+const prefix = "/rwe/account/dict";
 
 $(function () {
     load();
@@ -25,30 +25,33 @@ function load() {
                 sidePagination: "server",
                 queryParams: function (params) {
                     return {
-                        // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
                         offset: params.offset
                     };
                 },
-                // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-                // queryParamsType = 'limit' ,返回参数必须包含
-                // limit, offset, search, sort, order 否则, 需要包含:
-                // pageSize, pageNumber, searchText, sortName,
-                // sortOrder.
-                // 返回false将会终止请求
                 columns: [
                     {
                         checkbox: true
                     },
                     {
-                        field: 'deepTypeName',
-                        title: '深度支出分类',
+                        field: 'dictName',
+                        title: '字典名称',
                         align: 'center'
+                    },
+                    {
+                        field: 'dictValue',
+                        title: '选项值',
+                        align: 'center'
+                    },
+                    {
+                        field: 'optionMark',
+                        title: '选项备注',
+                        align: 'left'
                     },
                     {
                         visible: false,
                         field: 'id',
-                        title: '深度支出ID'
+                        title: '字典id'
                     },
                     {
                         title: '操作',
@@ -76,7 +79,7 @@ function reload() {
 function add() {
     layer.open({
         type: 2,
-        title: '新增深度支出',
+        title: '新增数据字典',
         maxmin: true,
         shadeClose: false, // 点击遮罩关闭层
         area: ['800px', '520px'],
@@ -87,7 +90,7 @@ function add() {
 function edit(id) {
     layer.open({
         type: 2,
-        title: '修改深度支出',
+        title: '修改数据字典',
         maxmin: true,
         shadeClose: false,
         area: ['800px', '520px'],

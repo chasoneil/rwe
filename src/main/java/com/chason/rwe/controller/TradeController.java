@@ -8,7 +8,6 @@ import com.chason.rwe.domain.TradeDO;
 import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.page.TradePage;
 import com.chason.rwe.service.ConsumeCategoryService;
-import com.chason.rwe.service.DeepTypeService;
 import com.chason.rwe.service.TradeService;
 import com.chason.system.service.RoleService;
 import org.springframework.beans.BeanUtils;
@@ -49,9 +48,6 @@ public class TradeController extends BaseController {
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private DeepTypeService deepTypeService;
 
     @GetMapping("/index")
     public String index() {

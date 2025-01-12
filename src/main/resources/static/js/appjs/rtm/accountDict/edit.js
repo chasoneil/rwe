@@ -1,5 +1,4 @@
-
-let prefix = '/rwe/deepType';
+const prefix = "/rwe/account/dict";
 
 $().ready(function() {
 	validateRule();
@@ -7,16 +6,15 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		update();
 	}
 });
 
-// 新增一级菜单
-function save() {
+function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : prefix + '/save',
+		url : prefix + "/update",
 		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
@@ -26,7 +24,7 @@ function save() {
 			if (data.code === 0) {
 				parent.layer.msg("操作成功");
 				parent.reload();
-				const index = parent.layer.getFrameIndex(window.name);
+				let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 			} else {
 				parent.layer.alert(data.msg)
@@ -39,18 +37,20 @@ function validateRule() {
 	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			deepTypeName : {
+			dictName : {
+				required : true
+			},
+			dictType : {
 				required : true
 			}
 		},
 		messages : {
-			deepTypeName : {
+			dictName : {
+				required : icon + "不能为空"
+			},
+			dictType : {
 				required : icon + "不能为空"
 			}
 		}
 	})
 }
-
-
-
-

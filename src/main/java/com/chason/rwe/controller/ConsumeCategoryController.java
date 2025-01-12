@@ -4,10 +4,11 @@ import com.chason.common.controller.BaseController;
 import com.chason.common.dict.AccountDict;
 import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
+import com.chason.rwe.domain.AccountDictDO;
 import com.chason.rwe.domain.ConsumeCategoryDO;
+import com.chason.rwe.service.AccountDictService;
 import com.chason.rwe.service.ConsumeCategoryService;
 
-import com.chason.rwe.service.DeepTypeService;
 import com.chason.system.service.RoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class ConsumeCategoryController extends BaseController {
     private ConsumeCategoryService consumeCategoryService;
 
     @Autowired
-    private DeepTypeService deepTypeService;
+    private RoleService roleService;
 
     @Autowired
-    private RoleService roleService;
+    private AccountDictService accountDictService;
 
     @GetMapping()
     public String index() {
@@ -70,11 +71,15 @@ public class ConsumeCategoryController extends BaseController {
             throw new RuntimeException("一级菜单不存在");
         }
 
-        long userId = getUserId();
-        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
-                roleService.getRoleLevel(userId), userId).get(userId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("dictName", "深度支出分类");
+        List<AccountDictDO> deeps = accountDictService.list(params);
+        params.put("dictName", "账单周期");
+        List<AccountDictDO> periods = accountDictService.list(params);
+
         model.addAttribute("consumeCategory", consumeCategoryDO);
-        model.addAttribute("deepTypeNames", deepTypeNames);
+        model.addAttribute("deeps", deeps);
+        model.addAttribute("periods", periods);
         return PREFIX + "/addType";
     }
 
@@ -132,8 +137,12 @@ public class ConsumeCategoryController extends BaseController {
         long userId = getUserId();
         HashSet<String> names = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
-        HashSet<String> deepTypeNames = AccountDict.getInstance().getDeepTypeDict(deepTypeService,
-                roleService.getRoleLevel(userId), getUserId()).get(userId);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("dictName", "深度支出分类");
+        List<AccountDictDO> deeps = accountDictService.list(params);
+        params.put("dictName", "账单周期");
+        List<AccountDictDO> periods = accountDictService.list(params);
 
         if (consumeCategoryDO == null) {
             throw new RuntimeException("类型不存在");
@@ -141,7 +150,8 @@ public class ConsumeCategoryController extends BaseController {
 
         model.addAttribute("consumeCategory", consumeCategoryDO);
         model.addAttribute("names", names);
-        model.addAttribute("deepTypeNames", deepTypeNames);
+        model.addAttribute("deeps", deeps);
+        model.addAttribute("periods", periods);
         return PREFIX + "/edit";
     }
 

@@ -9,7 +9,7 @@ import java.util.Date;
  * 交易账单 该账单是标准账单，从各大交易平台导入的信息
  */
 @Data
-public class TradeDO {
+public class TradeDO implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 

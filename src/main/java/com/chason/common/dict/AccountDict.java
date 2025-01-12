@@ -1,9 +1,7 @@
 package com.chason.common.dict;
 
 import com.chason.rwe.domain.ConsumeCategoryDO;
-import com.chason.rwe.domain.DeepTypeDO;
 import com.chason.rwe.service.ConsumeCategoryService;
-import com.chason.rwe.service.DeepTypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,24 +22,9 @@ public class AccountDict {
         return accountDict;
     }
 
-    private Map<Long, HashSet<String>> DEEP_TYPE_DICT = new HashMap<>();
-
     private Map<Long, HashSet<String>> CATEGORY_NAME_DICT = new HashMap<>();
 
     private Map<Long, HashSet<String>> CATEGORY_TYPE_DICT = new HashMap<>();
-
-    public Map<Long, HashSet<String>> getDeepTypeDict(DeepTypeService deepTypeService,int roleLevel,
-                                                      long userId) {
-        if (userId == 0) {
-            return null;
-        }
-
-        if (DEEP_TYPE_DICT.isEmpty() || DEEP_TYPE_DICT.get(userId).isEmpty()) {
-            initDeepTypeDict(deepTypeService, roleLevel, userId);
-        }
-
-        return DEEP_TYPE_DICT;
-    }
 
     public Map<Long, HashSet<String>> getCategoryNameDict(ConsumeCategoryService consumeCategoryService,int roleLevel,
                                                           long userId) {
@@ -67,29 +50,6 @@ public class AccountDict {
         }
 
         return CATEGORY_TYPE_DICT;
-    }
-
-    public void initDeepTypeDict(DeepTypeService deepTypeService, int roleLevel,
-                                 long userId) {
-        Map<String, Object> param = new HashMap<>();
-        if (roleLevel == 20  && userId != 0) {
-            param.put("userId", userId);
-        }
-        List<DeepTypeDO> list = deepTypeService.list(param);
-        HashSet<String> dicts = DEEP_TYPE_DICT.get(userId);
-        if (dicts == null) {
-            dicts = new HashSet<>();
-        } else {
-            dicts.clear();
-        }
-        for (DeepTypeDO deepTypeDO : list) {
-            if ("-".equals(deepTypeDO.getDeepTypeName())) {
-                continue;
-            }
-            dicts.add(deepTypeDO.getDeepTypeName());
-        }
-
-        DEEP_TYPE_DICT.put(userId, dicts);
     }
 
     public void initCategoryNameDict(ConsumeCategoryService consumeCategoryService, int roleLevel,

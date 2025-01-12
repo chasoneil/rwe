@@ -20,7 +20,7 @@ function load() {
                 expandColumn : '1',
                 striped : true,
                 bordered : true,
-                expandAll : true,
+                expandAll : false,
                 toolbar : '#exampleToolbar',
                 columns: [
                     {

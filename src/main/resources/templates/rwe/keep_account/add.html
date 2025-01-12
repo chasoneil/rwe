@@ -51,19 +51,11 @@
 								<label class="col-sm-2 control-label">消费人：</label>
 								<div class="col-sm-4">
 									<label>
-										<select data-placeholder="选择为谁消费..." name="payFor" class="chosen-select" style="width:220px;" tabindex="2">
+										<select data-placeholder="选择消费人..." name="payFor" class="chosen-select" style="width:220px;" tabindex="2">
 											<option value="">选择消费人</option>
-											<option value="自己" hassubinfo="true">自己</option>
-											<option value="妻子" hassubinfo="true">妻子</option>
-											<option value="丈夫" hassubinfo="true">丈夫</option>
-											<option value="父母" hassubinfo="true">父母</option>
-											<option value="岳父母" hassubinfo="true">岳父母</option>
-											<option value="公婆" hassubinfo="true">公婆</option>
-											<option value="兄弟姐妹" hassubinfo="true">兄弟姐妹</option>
-											<option value="朋友" hassubinfo="true">朋友</option>
-											<option value="子女" hassubinfo="true">子女</option>
-											<option value="同事" hassubinfo="true">同事</option>
-											<option value="其他" hassubinfo="true">其他</option>
+											<span th:each="consumer, index : ${consumers}">
+												<option th:value="${consumer.dictValue}" th:text="${consumer.dictValue}"></option>
+											</span>
 										</select>
 									</label>
 								</div>

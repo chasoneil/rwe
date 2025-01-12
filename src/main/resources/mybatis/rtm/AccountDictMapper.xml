@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.AccountDictDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.AccountDictDO">
+		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`
+		from tbl_account_dict
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.AccountDictDO">
+		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`
+		from tbl_account_dict
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
+			<if test="dictValue != null and dictValue != ''"> and dict_value = #{dictValue} </if>
+			<if test="dictRemark != null and dictRemark != ''">
+				AND dict_remark LIKE CONCAT(CONCAT('%',#{dictRemark},'%'))
+			</if>
+		</where>
+		order by dict_name, id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from tbl_account_dict
+		<where>
+			<if test="userId != null"> and user_id = #{userId} </if>
+			<if test="dictName != null and dictName != ''"> and dict_name = #{dictName} </if>
+			<if test="dictValue != null and dictValue != ''"> and dict_value = #{dictValue} </if>
+			<if test="dictRemark != null and dictRemark != ''">
+				AND dict_remark LIKE CONCAT(CONCAT('%',#{dictRemark},'%'))
+			</if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.AccountDictDO">
+		insert into tbl_account_dict
+		(
+			`user_id`,
+			`dict_name`,
+			`dict_value`,
+			`dict_remark`
+		)
+		values
+			(
+				#{userId},
+				#{dictName},
+				#{dictValue},
+				#{dictRemark}
+			)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.AccountDictDO">
+		update tbl_account_dict
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+		    <if test="dictName != null">`dict_name` = #{dictName}, </if>
+		    <if test="dictValue != null">`dict_value` = #{dictValue}, </if>
+		    <if test="dictRemark != null">`dict_remark` = #{dictRemark} </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_account_dict where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_account_dict where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -2,43 +2,7 @@
 $(document).ready(function () {
 
     initCalendar();
-
-    let data =[];
     initEchartsData();
-
-    var mapData = {
-        "US": 298,
-        "SA": 200,
-        "DE": 220,
-        "FR": 540,
-        "CN": 120,
-        "AU": 760,
-        "BR": 550,
-        "IN": 200,
-        "GB": 120,
-    };
-
-    $('#world-map').vectorMap({
-        map: 'world_mill_en',
-        backgroundColor: "transparent",
-        regionStyle: {
-            initial: {
-                fill: '#e4e4e4',
-                "fill-opacity": 0.9,
-                stroke: 'none',
-                "stroke-width": 0,
-                "stroke-opacity": 0
-            }
-        },
-
-        series: {
-            regions: [{
-                values: mapData,
-                scale: ["#1ab394", "#22d6b1"],
-                normalizeFunction: 'polynomial'
-            }]
-        },
-    });
 
 });
 
@@ -111,7 +75,6 @@ let pieOption2 = {
         data: []
     }]
 };
-
 
 pieChart1.setOption(pieOption1);
 pieChart2.setOption(pieOption2);
@@ -211,7 +174,8 @@ function initCalendar() {
         events: [
             {
                 title: '日事件',
-                start: new Date(y, m, 1)
+                start: new Date(y, m, 1),
+                description: '这是日事件的描述'
             },
             {
                 id: 999,
@@ -267,54 +231,6 @@ function updateClock() {
     const currentTime = `${hours}:${minutes}:${seconds}`;
     document.getElementById('clock').textContent = currentTime;
 }
-
-
-// function generateCalendar() {
-//     const calendar = document.getElementById('calendar');
-//     const now = new Date();
-//     const year = now.getFullYear();
-//     const month = now.getMonth();
-//
-//     // 获取当前月份的第一天和最后一天
-//     const firstDay = new Date(year, month, 1);
-//     const lastDay = new Date(year, month + 1, 0);
-//
-//     // 找到第一天是星期几，注意这里要调整为周一开始
-//     const startDay = (firstDay.getDay() + 6) % 7; // 将 Sunday (0) 转为 Saturday (6)
-//     const daysInMonth = lastDay.getDate();
-//
-//     // 添加表头
-//     const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-//     let headerRow = '<tr>';
-//     weekdays.forEach(day => {
-//         headerRow += `<th>${day}</th>`;
-//     });
-//     headerRow += '</tr>';
-//     calendar.innerHTML += headerRow;
-//
-//     // 填充日期
-//     let dateRow = '<tr>';
-//     // 填充前面的空白
-//     for (let i = 0; i < startDay; i++) {
-//         dateRow += '<td></td>';
-//     }
-//
-//     // 填充日期
-//     for (let day = 1; day <= daysInMonth; day++) {
-//         dateRow += `<td>${day}</td>`;
-//         if ((day + startDay) % 7 === 0) { // 每七天换行
-//             calendar.innerHTML += dateRow;
-//             dateRow = '<tr>'; // 换行
-//         }
-//     }
-//
-//     // 如果当前行没有结束，添加行
-//     if (dateRow !== '<tr>') {
-//         calendar.innerHTML += dateRow;
-//     }
-// }
-//
-// generateCalendar();
 
 setInterval(updateClock, 1000);
 updateClock(); // 初始调用以显示时钟

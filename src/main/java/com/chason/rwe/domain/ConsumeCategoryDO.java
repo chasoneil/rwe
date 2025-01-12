@@ -15,9 +15,11 @@ public class ConsumeCategoryDO {
 
     private String categoryType; // 二级菜单
 
-    private String billType; // 账本类型
+    private String billPeriod; // 账单周期
 
     private String deepType; // 深度支出分类
+
+    private double budget; // 预算金额
 
     private int level; // 分类层级
 

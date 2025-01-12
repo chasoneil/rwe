@@ -6,9 +6,10 @@ import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
+import com.chason.rwe.domain.AccountDictDO;
 import com.chason.rwe.domain.ConsumeCategoryDO;
 import com.chason.rwe.domain.KeepAccountDO;
-import com.chason.rwe.enums.PayForEnum;
+import com.chason.rwe.service.AccountDictService;
 import com.chason.rwe.service.ConsumeCategoryService;
 import com.chason.rwe.service.KeepAccountService;
 import com.chason.system.service.RoleService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,9 @@ public class KeepAccountController extends BaseController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private AccountDictService accountDictService;
 
     @GetMapping("/index")
     public String index() {
@@ -79,7 +84,13 @@ public class KeepAccountController extends BaseController {
         long userId = getUserId();
         HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("dictName", "消费人");
+        List<AccountDictDO> consumers = accountDictService.list(params);
+
         model.addAttribute("types", types);
+        model.addAttribute("consumers", consumers);
         return PREFIX + "/add";
     }
 
@@ -126,7 +137,13 @@ public class KeepAccountController extends BaseController {
         if (keepAccountDO == null) {
             throw new RuntimeException("记账信息不存在");
         }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("dictName", "消费人");
+        List<AccountDictDO> consumers = accountDictService.list(params);
+
         model.addAttribute("keepAccount", keepAccountDO);
+        model.addAttribute("consumers", consumers);
         return PREFIX + "/edit";
     }
 
