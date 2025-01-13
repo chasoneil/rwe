@@ -21,4 +21,6 @@ public class AccountDictDO implements java.io.Serializable {
     private String dictValue;
 
     private String dictRemark;
+
+    private int sys;
 }

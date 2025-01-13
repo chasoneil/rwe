@@ -57,7 +57,7 @@ function load() {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
+                            let e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
                                 + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + row.id + '\')"><i class="fa fa-remove"></i> 删除</a>';

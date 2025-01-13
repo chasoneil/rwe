@@ -112,16 +112,25 @@ public class AccountDictController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public R remove(Integer id) {
+        AccountDictDO accountDictDO = accountDictService.get(id);
+        if (accountDictDO.getSys() == 1) {
+            return R.error("系统字典不能删除");
+        }
         return accountDictService.remove(id) > 0 ? R.ok("删除成功") : R.error("删除失败");
     }
 
     @PostMapping("/batchRemove")
     @ResponseBody
     public R remove(@RequestParam("ids[]") int[] ids) {
+        for (int id : ids) {
+            AccountDictDO accountDictDO = accountDictService.get(id);
+            if (accountDictDO.getSys() == 1) {
+                return R.error("系统字典不能删除");
+            }
+        }
         int row = accountDictService.batchRemove(ids);
         return row > 0 ? R.ok("批量删除成功，共删除" + row + "条数据") : R.error();
     }
 
 }
-
 

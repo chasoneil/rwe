@@ -33,7 +33,8 @@ public class AccountDictServiceImpl implements AccountDictService {
         List<AccountDictDO> dictDOS = accountDictDao.list(params);
 
         for (AccountDictDO dictDO : dictDOS) {
-            if (dictDO.getDictValue().equalsIgnoreCase(accountDictDO.getDictValue())) {
+            if ( dictDO.getDictName().equalsIgnoreCase(accountDictDO.getDictName())
+                    && dictDO.getDictValue().equalsIgnoreCase(accountDictDO.getDictValue())) {
                 return true;
             }
         }

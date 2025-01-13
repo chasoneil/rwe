@@ -4,13 +4,13 @@
 <mapper namespace="com.chason.rwe.dao.AccountDictDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.AccountDictDO">
-		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`
+		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`, `sys`
 		from tbl_account_dict
 		where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.AccountDictDO">
-		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`
+		select `id`, `user_id`, `dict_name`, `dict_value`, `dict_remark`, `sys`
 		from tbl_account_dict
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
@@ -45,14 +45,16 @@
 			`user_id`,
 			`dict_name`,
 			`dict_value`,
-			`dict_remark`
+			`dict_remark`,
+		   	`sys`
 		)
 		values
 			(
 				#{userId},
 				#{dictName},
 				#{dictValue},
-				#{dictRemark}
+				#{dictRemark},
+			 	#{sys}
 			)
 	</insert>
 
@@ -68,7 +70,7 @@
 	</update>
 
 	<delete id="remove">
-		delete from tbl_account_dict where id = #{value}
+		delete from tbl_account_dict where id = #{value} and sys = 0
 	</delete>
 
 	<delete id="batchRemove">
