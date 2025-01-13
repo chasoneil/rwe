@@ -110,7 +110,7 @@ public class KeepAccountController extends BaseController {
 
             keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
             keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
-            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
+            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillPeriod());
             keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
             keepAccountDO.setUserId(getUserId());
             keepAccountDO.setTradeStatus("交易成功");
@@ -159,7 +159,7 @@ public class KeepAccountController extends BaseController {
 
             keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
             keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
-            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillType());
+            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillPeriod());
             keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
             int update = keepAccountService.update(keepAccountDO);
             if (update != 1) {
@@ -199,7 +199,7 @@ public class KeepAccountController extends BaseController {
             throw new RuntimeException("交易金额不能为零或者为空");
         }
 
-        if (!StringUtils.isNotNull(keepAccountDO.getPayFor())) {
+        if (!StringUtils.isNotNull(keepAccountDO.getConsumer())) {
             throw new RuntimeException("消费者不能为空");
         }
     }

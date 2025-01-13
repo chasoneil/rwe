@@ -4,26 +4,27 @@
 <mapper namespace="com.chason.rwe.dao.ConsumeCategoryDao">
 
 	<select id="get" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		where id = #{value}
 	</select>
 
 	<select id="getByType" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		where category_type = #{type}
 	</select>
 
 	<select id="list" resultType="com.chason.rwe.domain.ConsumeCategoryDO">
-		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_type`, `deep_type`, `level`, `in_out`
+		select `id`, `parent_id`, `user_id`, `category_name`, `category_type`, `bill_period`, `budget`, `deep_type`, `level`, `in_out`
 		from tbl_consume_category
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
 			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
 			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
-			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
+			<if test="billPeriod != null and billPeriod != ''"> and bill_period = #{billPeriod} </if>
+			<if test="budget != null and budget != ''"> and budget = #{budget} </if>
 			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
 			<if test="level != null and level != ''"> and `level` = #{level} </if>
 		    <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
@@ -42,10 +43,11 @@
 			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 			<if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
 			<if test="categoryType != null and categoryType != ''"> and category_type = #{categoryType} </if>
-			<if test="billType != null and billType != ''"> and bill_type = #{billType} </if>
+			<if test="billPeriod != null and billPeriod != ''"> and bill_period = #{billPeriod} </if>
+			<if test="budget != null and budget != ''"> and budget = #{budget} </if>
 			<if test="deepType != null and deepType != ''"> and deep_type = #{deepType} </if>
 			<if test="level != null and level != ''"> and `level` = #{level} </if>
-		    <if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
+			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 		</where>
 	</select>
 
@@ -56,7 +58,8 @@
 		 	`parent_id`,
 			`category_name`,
 			`category_type`,
-			`bill_type`,
+			`bill_period`,
+		 	`budget`,
 			`deep_type`,
 		 	`level`,
 		 	`in_out`
@@ -67,7 +70,8 @@
 			 	#{parentId},
 				#{categoryName},
 				#{categoryType},
-				#{billType},
+				#{billPeriod},
+			 	#{budget},
 				#{deepType},
 			 	#{level},
 			 	#{inOut}
@@ -81,7 +85,8 @@
 		    <if test="parentId != null">`parent_id` = #{parentId}, </if>
 			<if test="categoryName != null">`category_name` = #{categoryName}, </if>
 			<if test="categoryType != null">`category_type` = #{categoryType}, </if>
-			<if test="billType != null">`bill_type` = #{billType}, </if>
+			<if test="billPeriod != null">`bill_period` = #{billPeriod}, </if>
+		    <if test="budget != null">`budget` = #{budget}, </if>
 			<if test="deepType != null">`deep_type` = #{deepType}, </if>
 			<if test="level != null">`level` = #{level}, </if>
 			<if test="inOut != null">`in_out` = #{inOut} </if>

@@ -92,7 +92,7 @@ public class ConsumeCategoryController extends BaseController {
             consumeCategoryDO.setLevel(1);
             consumeCategoryDO.setParentId(0);
             consumeCategoryDO.setCategoryType(consumeCategoryDO.getCategoryName());
-            consumeCategoryDO.setBillType("-");
+            consumeCategoryDO.setBillPeriod("-");
             consumeCategoryDO.setDeepType("-");
             int save = consumeCategoryService.save(consumeCategoryDO);
             refreshNameDict();
@@ -111,8 +111,8 @@ public class ConsumeCategoryController extends BaseController {
         try {
             check(consumeCategoryDO,2);
             consumeCategoryDO.setLevel(2);
-            if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
-                consumeCategoryDO.setBillType("-");
+            if (!StringUtils.isNotNull(consumeCategoryDO.getBillPeriod())) {
+                consumeCategoryDO.setBillPeriod("-");
             }
 
             if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
@@ -162,7 +162,7 @@ public class ConsumeCategoryController extends BaseController {
             check(consumeCategoryDO, consumeCategoryDO.getLevel());
 
             if (consumeCategoryDO.getLevel() == 1) {
-                String oldName = consumeCategoryDO.getBillType();
+                String oldName = consumeCategoryDO.getBillPeriod();
                 String newName = consumeCategoryDO.getCategoryName();
                 if (!oldName.equals(newName)) {
                     Map<String, Object> params = new HashMap<>();
@@ -172,8 +172,8 @@ public class ConsumeCategoryController extends BaseController {
                     refreshNameDict();
                 }
             } else {
-                if (!StringUtils.isNotNull(consumeCategoryDO.getBillType())) {
-                    consumeCategoryDO.setBillType("-");
+                if (!StringUtils.isNotNull(consumeCategoryDO.getBillPeriod())) {
+                    consumeCategoryDO.setBillPeriod("-");
                 }
                 if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
                     consumeCategoryDO.setDeepType("-");
