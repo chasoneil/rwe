@@ -14,10 +14,11 @@
 		from tbl_keep_account
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
-			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
 			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
 			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="tradeStatistics != null and tradeStatistics != ''"> and trade_statistics = #{tradeStatistics} </if>
 			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
 			<if test="consumer != null and consumer != ''"> and consumer = #{consumer} </if>
 			<if test="payAccount != null and payAccount != ''"> and pay_account = #{payAccount} </if>
@@ -27,7 +28,7 @@
 			<if test="tradeComment != null and tradeComment != ''"> and trade_comment like concat('%', #{tradeComment}, '%') </if>
 			<if test="checked != null"> and checked = #{checked} </if>
 		</where>
-		order by trade_time, id
+		order by trade_time desc, id
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -55,10 +56,11 @@
 		from tbl_keep_account
 		<where>
 			<if test="userId != null"> and user_id = #{userId} </if>
-			<if test="tradeTime != null"> and trade_time = #{tradeTime} </if>
+			<if test="tradeTime != null and tradeTime != ''"> and trade_time = #{tradeTime} </if>
 			<if test="inOut != null and inOut != ''"> and in_out = #{inOut} </if>
 			<if test="tradeVariety != null and tradeVariety != ''"> and trade_variety = #{tradeVariety} </if>
 			<if test="tradeType != null and tradeType != ''"> and trade_type = #{tradeType} </if>
+			<if test="tradeStatistics != null and tradeStatistics != ''"> and trade_statistics = #{tradeStatistics} </if>
 			<if test="tradePeriod != null and tradePeriod != ''"> and trade_period = #{tradePeriod} </if>
 			<if test="consumer != null and consumer != ''"> and consumer = #{consumer} </if>
 			<if test="payAccount != null and payAccount != ''"> and pay_account = #{payAccount} </if>

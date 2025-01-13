@@ -3,7 +3,7 @@ package com.chason.rwe.domain;
 import lombok.Data;
 
 /**
- * 记账信息，用于记账表的持久化对象
+ * for table tbl_keep_account
  * @author Chason
  */
 @Data
@@ -29,9 +29,10 @@ public class KeepAccountDO implements java.io.Serializable {
 
     private String tradeStatistics;
 
+    private String tradeDetail;
+
     private String payAccount;
 
-    // 支付方式
     private String payMethod;
 
     private String consumer;

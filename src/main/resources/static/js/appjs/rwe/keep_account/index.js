@@ -1,6 +1,7 @@
 const prefix = "/rwe/keep_account";
 
 $(function () {
+    $(".chosen-select").chosen();
     load();
 });
 
@@ -11,8 +12,6 @@ function load() {
                 method: 'get',
                 url: prefix + "/list",
                 showRefresh : false,
-                // showToggle : true,
-                // showColumns : true,
                 iconSize: 'outline',
                 toolbar: '#exampleToolbar',
                 striped: true,
@@ -28,7 +27,10 @@ function load() {
                         // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
                         offset: params.offset,
-                        searchText: $('#searchText').val()
+                        searchText: $('#searchText').val(),
+                        consumer: $('#consumer').val(),
+                        tradeStatistics: $('#tradeStatistics').val(),
+                        tradeTime: $('#tradeDate').val()
                     };
                 },
                 // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -42,8 +44,13 @@ function load() {
                         checkbox: true
                     },
                     {
+                        visible: false,
+                        field: 'id',
+                        title: '交易ID'
+                    },
+                    {
                         field: 'tradeTime',
-                        title: '交易时间',
+                        title: '交易日期',
                         align: 'center',
                         formatter: function (value) {
                             if (value) {
@@ -63,22 +70,27 @@ function load() {
                     },
                     {
                         field: 'tradeVariety',
-                        title: '所属分类',
+                        title: '一级分类',
 						align : 'center'
                     },
                     {
                         field: 'tradeType',
-                        title: '交易类型',
+                        title: '二级分类',
                         align : 'center'
                     },
                     {
-                        visible: false,
-                        field: 'id',
-                        title: '交易ID'
+                        field: 'consumer',
+                        title: '消费人',
+                        align : 'center'
                     },
                     {
-                        field: 'payFor',
-                        title: '消费人',
+                        field: 'tradeStatistics',
+                        title: '深度支出分类',
+                        align : 'center'
+                    },
+                    {
+                        field: 'tradeDetail',
+                        title: '明细',
                         align : 'center'
                     },
                     {
@@ -89,7 +101,7 @@ function load() {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
+                            let e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
                                 + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + row.id + '\')"><i class="fa fa-remove"></i> 删除</a>';
@@ -101,6 +113,8 @@ function load() {
 
 function refreshPage() {
     $('#searchText').val('');
+    $('#consumer').val('');
+    $('#tradeStatistics').val('');
     reload();
     layer.msg("刷新成功");
 }
@@ -114,9 +128,9 @@ function add() {
         type: 2,
         title: '记账',
         maxmin: true,
-        shadeClose: false, // 点击遮罩关闭层
-        area: ['800px', '520px'],
-        content: prefix + '/add' // iframe的url
+        shadeClose: false,
+        area: ['900px', '620px'],
+        content: prefix + '/add'
     });
 }
 
@@ -126,8 +140,8 @@ function edit(id) {
         title: '修改记账',
         maxmin: true,
         shadeClose: false,
-        area: ['800px', '520px'],
-        content: prefix + '/edit/' + id // iframe的url
+        area: ['900px', '620px'],
+        content: prefix + '/edit/' + id
     });
 }
 

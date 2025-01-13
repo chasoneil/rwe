@@ -161,7 +161,10 @@ function validateRule() {
 			tradeType : {
 				required : true
 			},
-			payFor : {
+			tradeVariety : {
+				required : true
+			},
+			inOut : {
 				required : true
 			}
 		},
@@ -175,7 +178,10 @@ function validateRule() {
 			tradeType : {
 				required : icon + "不能为空"
 			},
-			payFor : {
+			tradeVariety : {
+				required : icon + "不能为空"
+			},
+			inOut : {
 				required : icon + "不能为空"
 			}
 		}

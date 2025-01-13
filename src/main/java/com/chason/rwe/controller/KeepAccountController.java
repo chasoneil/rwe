@@ -17,14 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 记账信息
  * keep account controller
  * @author Chason
  * @date 2024/12/30
@@ -35,8 +33,6 @@ import java.util.Map;
 public class KeepAccountController extends BaseController {
 
     private static final String PREFIX = "rwe/keep_account";
-
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     private KeepAccountService keepAccountService;
@@ -50,8 +46,16 @@ public class KeepAccountController extends BaseController {
     @Autowired
     private AccountDictService accountDictService;
 
-    @GetMapping("/index")
-    public String index() {
+    @GetMapping("")
+    public String index(Model model) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("dictName", "消费人");
+        List<AccountDictDO> consumers = accountDictService.list(params);
+        params.put("dictName", "深度支出分类");
+        List<AccountDictDO> tradeStatistics = accountDictService.list(params);
+
+        model.addAttribute("consumers", consumers);
+        model.addAttribute("tradeStatistics", tradeStatistics);
         return PREFIX + "/index";
     }
 
@@ -69,7 +73,19 @@ public class KeepAccountController extends BaseController {
         params.putIfAbsent("limit", 10);
 
         if (!StringUtils.isEmpty(params.get("searchText"))) {
-            params.put("tradeComment", params.get("searchText"));
+            params.put("tradeDetail", params.get("searchText"));
+        }
+
+        if (!StringUtils.isEmpty(params.get("consumer"))) {
+            params.put("consumer", params.get("consumer"));
+        }
+
+        if (!StringUtils.isEmpty(params.get("tradeStatistics"))) {
+            params.put("tradeStatistics", params.get("tradeStatistics"));
+        }
+
+        if (!StringUtils.isEmpty(params.get("tradeTime"))) {
+            params.put("tradeTime", params.get("tradeTime"));
         }
 
         Query query = new Query(params);
@@ -80,7 +96,6 @@ public class KeepAccountController extends BaseController {
 
     @GetMapping("/add")
     String add(Model model) {
-
         long userId = getUserId();
         HashSet<String> types = AccountDict.getInstance().getCategoryTypeDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
@@ -89,8 +104,20 @@ public class KeepAccountController extends BaseController {
         params.put("dictName", "消费人");
         List<AccountDictDO> consumers = accountDictService.list(params);
 
+        params.put("dictName", "账单周期");
+        List<AccountDictDO> tradePeriods = accountDictService.list(params);
+
+        params.put("dictName", "支付账户");
+        List<AccountDictDO> payAccounts = accountDictService.list(params);
+
+        params.put("dictName", "支付方式");
+        List<AccountDictDO> payMethods = accountDictService.list(params);
+
         model.addAttribute("types", types);
         model.addAttribute("consumers", consumers);
+        model.addAttribute("tradePeriods", tradePeriods);
+        model.addAttribute("payAccounts", payAccounts);
+        model.addAttribute("payMethods", payMethods);
         return PREFIX + "/add";
     }
 
@@ -107,11 +134,13 @@ public class KeepAccountController extends BaseController {
 //            if (!keepAccountService.checkKeepAccount(keepAccountDO)) {
 //                throw new RuntimeException("记账信息重复");
 //            }
+            if (!StringUtils.isNotNull(keepAccountDO.getTradePeriod())) {
+                keepAccountDO.setTradePeriod(consumeCategoryDO.getBillPeriod());
+            }
+            if (!StringUtils.isNotNull(keepAccountDO.getTradeStatistics())) {
+                keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
+            }
 
-            keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
-            keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
-            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillPeriod());
-            keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
             keepAccountDO.setUserId(getUserId());
             keepAccountDO.setTradeStatus("交易成功");
             int save = keepAccountService.save(keepAccountDO);
@@ -142,8 +171,20 @@ public class KeepAccountController extends BaseController {
         params.put("dictName", "消费人");
         List<AccountDictDO> consumers = accountDictService.list(params);
 
+        params.put("dictName", "账单周期");
+        List<AccountDictDO> tradePeriods = accountDictService.list(params);
+
+        params.put("dictName", "支付账户");
+        List<AccountDictDO> payAccounts = accountDictService.list(params);
+
+        params.put("dictName", "支付方式");
+        List<AccountDictDO> payMethods = accountDictService.list(params);
+
         model.addAttribute("keepAccount", keepAccountDO);
         model.addAttribute("consumers", consumers);
+        model.addAttribute("tradePeriods", tradePeriods);
+        model.addAttribute("payAccounts", payAccounts);
+        model.addAttribute("payMethods", payMethods);
         return PREFIX + "/edit";
     }
 
@@ -156,11 +197,6 @@ public class KeepAccountController extends BaseController {
             if (consumeCategoryDO == null) {
                 throw new RuntimeException("未定义的分类");
             }
-
-            keepAccountDO.setTradeVariety(consumeCategoryDO.getCategoryName());
-            keepAccountDO.setTradeType(consumeCategoryDO.getCategoryType());
-            keepAccountDO.setTradePeriod(consumeCategoryDO.getBillPeriod());
-            keepAccountDO.setTradeStatistics(consumeCategoryDO.getDeepType());
             int update = keepAccountService.update(keepAccountDO);
             if (update != 1) {
                 return R.error("修改记账信息失败");
@@ -191,17 +227,28 @@ public class KeepAccountController extends BaseController {
             throw new RuntimeException("交易时间不能为空");
         }
 
+        if (!StringUtils.isNotNull(keepAccountDO.getTradeVariety())) {
+            throw new RuntimeException("一级分类不能为空");
+        }
+
         if (!StringUtils.isNotNull(keepAccountDO.getTradeType())) {
-            throw new RuntimeException("交易类型不能为空");
+            throw new RuntimeException("二级分类不能为空");
         }
 
         if (keepAccountDO.getAmount() == 0) {
             throw new RuntimeException("交易金额不能为零或者为空");
         }
 
-        if (!StringUtils.isNotNull(keepAccountDO.getConsumer())) {
-            throw new RuntimeException("消费者不能为空");
+        if (keepAccountDO.getAmount() < 0) {
+            throw new RuntimeException("交易金额不能为负数");
         }
+
+        if (!StringUtils.isNotNull(keepAccountDO.getInOut())) {
+            throw new RuntimeException("收支类型不能为空");
+        }
+
+
+
     }
 }
 

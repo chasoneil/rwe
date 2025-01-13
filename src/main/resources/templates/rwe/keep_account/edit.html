@@ -9,7 +9,7 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="signupForm">
-						<input id="keepAccountId" name="id" th:value="${keepAccount.id}" type="hidden">
+						<input name="id" th:value="${keepAccount.id}" type="hidden">
 						<input name="userId" th:value="${keepAccount.userId}" type="hidden">
 						<input name="checked" th:value="${keepAccount.checked}" type="hidden">
 
@@ -17,7 +17,7 @@
                             <label class="col-sm-2 control-label">交易日期：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
                                 <input id="tradeTime" class="laydate-icon form-control layer-date" th:value="${keepAccount.tradeTime}"
-                                       placeholder="YYYY-MM-DD" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
+                                       placeholder="交易日期(YYYY-MM-DD)" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
                             </div>
                             <label class="col-sm-2 control-label">金额：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
@@ -38,16 +38,16 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">一级分类：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
-                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeVariety}" id="tradeVariety" name="tradeVariety"
+                                <select data-placeholder="选择一级分类..." th:value="${keepAccount.tradeVariety}" id="tradeVariety" name="tradeVariety"
                                         onchange="changeTradeType()" class="chosen-select" style="width:220px;" tabindex="2">
-                                    <option value="">选择一级菜单</option>
+                                    <option value="">选择一级分类</option>
                                 </select>
                             </div>
                             <label class="col-sm-2 control-label">二级分类：<span class="text-danger">*</span></label>
                             <div class="col-sm-4">
-                                <select data-placeholder="选择交易类型..." th:value="${keepAccount.tradeType}" id="tradeType" name="tradeType"
+                                <select data-placeholder="选择二级分类..." th:value="${keepAccount.tradeType}" id="tradeType" name="tradeType"
                                         class="chosen-select" style="width:220px;" tabindex="2">
-                                    <option value="">选择二级菜单</option>
+                                    <option value="">选择二级分类</option>
                                 </select>
                             </div>
                         </div>
@@ -55,18 +55,65 @@
                             <label class="col-sm-2 control-label">消费人：</label>
                             <div class="col-sm-4">
                                 <label>
-                                    <select data-placeholder="选择消费人..." th:value="${keepAccount.payFor}" name="payFor"
+                                    <select data-placeholder="选择消费人..." th:value="${keepAccount.consumer}" multiple name="consumer"
                                             class="chosen-select" style="width:220px;" tabindex="2">
                                         <option value="">选择消费人</option>
                                         <span th:each="consumer, index : ${consumers}">
-                                            <option th:value="${consumer.dictValue}" th:text="${consumer.dictValue}"></option>
+                                            <option th:value="${consumer.dictValue}" th:text="${consumer.dictValue}"
+                                                    th:selected="${keepAccount.consumer.contains(consumer.dictValue)}">
+                                            </option>
+                                        </span>
+                                    </select>
+                                </label>
+                            </div>
+                            <label class="col-sm-2 control-label">账单周期：</label>
+                            <div class="col-sm-4">
+                                <label>
+                                    <select data-placeholder="选择账单周期..." name="tradePeriod"
+                                            th:value="${keepAccount.tradePeriod}" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <option value="">选择账单周期</option>
+                                        <span th:each="tradePeriod, index : ${tradePeriods}">
+												<option th:value="${tradePeriod.dictValue}" th:text="${tradePeriod.dictValue}"></option>
+											</span>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付账户：</label>
+                            <div class="col-sm-4">
+                                <label>
+                                    <select data-placeholder="选择支付账户..." name="payAccount" class="chosen-select"
+                                            th:value="${keepAccount.payAccount}" style="width:220px;" tabindex="2">
+                                        <option value="">选择支付账户</option>
+                                        <span th:each="payAccount, index : ${payAccounts}">
+                                            <option th:value="${payAccount.dictValue}" th:text="${payAccount.dictValue}"></option>
+                                        </span>
+                                    </select>
+                                </label>
+                            </div>
+                            <label class="col-sm-2 control-label">支付方式：</label>
+                            <div class="col-sm-4">
+                                <label>
+                                    <select data-placeholder="选择支付方式..." name="payMethod" class="chosen-select"
+                                            th:value="${keepAccount.payMethod}" style="width:220px;" tabindex="2">
+                                        <option value="">选择支付方式</option>
+                                        <span th:each="payMethod, index : ${payMethods}">
+                                            <option th:value="${payMethod.dictValue}" th:text="${payMethod.dictValue}"></option>
                                         </span>
                                     </select>
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">备注：</label>
+                            <label class="col-sm-2 control-label">账单明细：</label>
+                            <div class="col-sm-10">
+                                <input th:value="${keepAccount.tradeDetail}" name="tradeDetail"
+                                       placeholder="请输入账单明细" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">账单备注：</label>
                             <div class="col-sm-8">
                                 <input th:value="${keepAccount.tradeComment}" placeholder="请输入交易备注"
                                        name="tradeComment" class="form-control" type="text">

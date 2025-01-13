@@ -1,8 +1,7 @@
 
-let prefix = '/rwe/keep_account';
+const prefix = '/rwe/keep_account';
 
 $().ready(function() {
-
 	$(".chosen-select").chosen();
 	validateRule();
 });
@@ -36,10 +35,10 @@ function changeTradeType(categoryName) {
 		success : function(data) {
 			if (data.code === 0) {
 				if (data.types.length === 0) {
-					secondLevelSelect.innerHTML = "<option value=''>选择类型</option>";
+					secondLevelSelect.innerHTML = "<option value=''>选择二级分类</option>";
 					$(secondLevelSelect).trigger("chosen:updated");
 				} else {
-					secondLevelSelect.innerHTML = "<option value=''>选择类型</option>";
+					secondLevelSelect.innerHTML = "<option value=''>选择二级分类</option>";
 					$(secondLevelSelect).trigger("chosen:updated");
 					data.types.forEach(type => {
 						const option = document.createElement("option");
@@ -82,10 +81,10 @@ function changeInOut(inOut) {
 			if (data.code === 0) {
 				if (data.names.length === 0) {
 					// 将分类类型下拉框清空
-					firstLevelSelect.innerHTML = "<option value=''>选择一级菜单</option>";
+					firstLevelSelect.innerHTML = "<option value=''>选择一级分类</option>";
 					$(firstLevelSelect).trigger("chosen:updated");
 				} else {
-					firstLevelSelect.innerHTML = "<option value=''>选择一级菜单</option>";
+					firstLevelSelect.innerHTML = "<option value=''>选择一级分类</option>";
 					$(firstLevelSelect).trigger("chosen:updated");
 					data.names.forEach(name => {
 						const option = document.createElement("option");
@@ -136,10 +135,13 @@ function validateRule() {
 			amount : {
 				required : true
 			},
+			tradeVariety : {
+				required : true
+			},
 			tradeType : {
 				required : true
 			},
-			payFor : {
+			inOut : {
 				required : true
 			}
 		},
@@ -150,10 +152,13 @@ function validateRule() {
 			amount : {
 				required : icon + "不能为空"
 			},
+			tradeVariety : {
+				required : icon + "不能为空"
+			},
 			tradeType : {
 				required : icon + "不能为空"
 			},
-			payFor : {
+			inOut : {
 				required : icon + "不能为空"
 			}
 		}
