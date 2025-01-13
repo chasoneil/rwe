@@ -107,4 +107,37 @@ public class ConsumeCategoryServiceImpl implements ConsumeCategoryService {
     public int batchRemove(int[] ids) {
         return consumeCategoryDao.batchRemove(ids);
     }
+
+    /**
+     * if consumeCategory is first level category, return son's sum of budget,
+     * else return parent's budget - son's sum of budget
+     * @param consumeCategoryDO
+     * @return
+     */
+    @Override
+    public double remainBudget(ConsumeCategoryDO consumeCategoryDO) {
+
+        Map<String, Object> param = new HashMap<>();
+        double sonBudget = 0;
+
+        if (consumeCategoryDO.getLevel() == 1) {
+            param.put("parentId", consumeCategoryDO.getId());
+        } else if (consumeCategoryDO.getLevel() == 2) {
+            param.put("parentId", consumeCategoryDO.getParentId());
+        }
+
+        List<ConsumeCategoryDO> list = consumeCategoryDao.list(param);
+        for (ConsumeCategoryDO categoryDO : list) {
+            sonBudget += categoryDO.getBudget();
+        }
+
+        if (consumeCategoryDO.getLevel() == 1) {
+            return sonBudget;
+        } else if (consumeCategoryDO.getLevel() == 2) {
+            ConsumeCategoryDO parent = consumeCategoryDao.get(consumeCategoryDO.getParentId());
+            return parent.getBudget() - sonBudget;
+        }
+
+        return 0;
+    }
 }

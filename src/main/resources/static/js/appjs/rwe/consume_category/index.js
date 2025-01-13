@@ -51,8 +51,13 @@ function load() {
                         }
                     },
                     {
-                        field: 'billType',
-                        title: '账本类型',
+                        field: 'budget',
+                        title: '预算(元)',
+                        align : 'center'
+                    },
+                    {
+                        field: 'billPeriod',
+                        title: '账单周期',
 						align : 'center'
                     },
                     {

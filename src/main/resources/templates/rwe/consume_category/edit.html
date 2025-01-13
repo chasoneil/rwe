@@ -15,16 +15,18 @@
 						<input name="level" th:value="${consumeCategory.level}" type="hidden">
 
                         <div th:if="${consumeCategory.level} == '1'">
-                            <input name="billType" th:value="${consumeCategory.categoryName}" type="hidden">
+                            <input name="billPeriod" th:value="${consumeCategory.categoryName}" type="hidden">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 control-label">一级分类：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <input name="categoryName" class="form-control" th:value="${consumeCategory.categoryName}" placeholder="请输入分类名称" type="text">
+                                    <input name="categoryName" class="form-control" th:value="${consumeCategory.categoryName}"
+                                           placeholder="请输入一级分类名称" type="text">
                                 </div>
                                 <label class="col-sm-2 control-label">收支类型：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
                                     <div class="col-sm-4">
-                                        <select data-placeholder="选择收支类型..." id="inOut1" name="inOut" th:value="${consumeCategory.inOut}" class="chosen-select" style="width:220px;" tabindex="2">
+                                        <select data-placeholder="选择收支类型..." id="inOut" name="inOut" th:value="${consumeCategory.inOut}"
+                                                class="chosen-select" style="width:220px;" tabindex="2">
                                             <option value="">选择收支类型</option>
                                             <option value="收入">收入</option>
                                             <option value="支出">支出</option>
@@ -32,13 +34,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">预算：</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" placeholder="请输入预算，单位：元"
+                                           th:value="${consumeCategory.budget}" name="budget" id="budget">
+                                </div>
+                            </div>
                         </div>
 
                         <div th:if="${consumeCategory.level} == '2'">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">分类名称：<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 control-label">一级分类：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <select data-placeholder="请选择分类" class="chosen-select" style="width:220px;" tabindex="4" th:value="${consumeCategory.categoryName}" name="categoryName" id="categoryName">
+                                    <select data-placeholder="请选择一级分类" class="chosen-select" style="width:220px;"
+                                            tabindex="4" th:value="${consumeCategory.categoryName}" name="categoryName" id="categoryName">
                                         <span th:each="name, index : ${names}">
                                             <option th:value="${name}" th:text="${name}"></option>
                                         </span>
@@ -46,7 +56,8 @@
                                 </div>
                                 <label class="col-sm-2 control-label">收支类型：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <select data-placeholder="选择收支类型..." id="inOut2" name="inOut" th:value="${consumeCategory.inOut}" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <select data-placeholder="选择收支类型..." id="inOut" name="inOut" th:value="${consumeCategory.inOut}"
+                                            class="chosen-select" style="width:220px;" tabindex="2">
                                         <option value="">选择收支类型</option>
                                         <option value="收入">收入</option>
                                         <option value="支出">支出</option>
@@ -54,15 +65,22 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">细类名称：<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 control-label">二级分类：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <input name="categoryType" class="form-control" th:value="${consumeCategory.categoryType}" placeholder="请输入细类名称" type="text">
+                                    <input name="categoryType" class="form-control" th:value="${consumeCategory.categoryType}"
+                                           placeholder="请输入二级分类名称" type="text">
+                                </div>
+                                <label class="col-sm-2 control-label">预算：</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" placeholder="请输入预算，单位：元"
+                                           th:value="${consumeCategory.budget}" name="budget" id="budget">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">账本类型：<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 control-label">账单周期：<span class="text-danger">*</span></label>
                                 <div class="col-sm-4">
-                                    <select data-placeholder="选择账单周期..." name="billType" th:value="${consumeCategory.billType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <select data-placeholder="选择账单周期..." name="billPeriod" th:value="${consumeCategory.billPeriod}"
+                                            class="chosen-select" style="width:220px;" tabindex="2">
                                         <option value="">选择账单周期</option>
                                         <span th:each="period, index : ${periods}">
 											<option th:value="${period.dictValue}" th:text="${period.dictValue}"></option>
@@ -71,7 +89,8 @@
                                 </div>
                                 <label class="col-sm-2 control-label">深度支出类型：</label>
                                 <div class="col-sm-4">
-                                    <select data-placeholder="选择深度支出类型..." name="deepType" th:value="${consumeCategory.deepType}" class="chosen-select" style="width:220px;" tabindex="2">
+                                    <select data-placeholder="选择深度支出类型..." name="deepType" th:value="${consumeCategory.deepType}"
+                                            class="chosen-select" style="width:220px;" tabindex="2">
                                         <option value="">选择深度支出类型</option>
                                         <span th:each="deep, index : ${deeps}">
                                             <option th:value="${deep.dictValue}" th:text="${deep.dictValue}"></option>

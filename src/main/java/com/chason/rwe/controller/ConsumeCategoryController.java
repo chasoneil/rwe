@@ -91,6 +91,8 @@ public class ConsumeCategoryController extends BaseController {
             consumeCategoryDO.setUserId(getUserId());
             consumeCategoryDO.setLevel(1);
             consumeCategoryDO.setParentId(0);
+
+            // 新增一级菜单时，同时新增二级菜单
             consumeCategoryDO.setCategoryType(consumeCategoryDO.getCategoryName());
             consumeCategoryDO.setBillPeriod("-");
             consumeCategoryDO.setDeepType("-");
@@ -110,6 +112,12 @@ public class ConsumeCategoryController extends BaseController {
     public R saveType(ConsumeCategoryDO consumeCategoryDO) {
         try {
             check(consumeCategoryDO,2);
+
+            double remainBudget = consumeCategoryService.remainBudget(consumeCategoryDO);
+            if (remainBudget < consumeCategoryDO.getBudget()) {
+                throw new RuntimeException("预算超出总预算");
+            }
+
             consumeCategoryDO.setLevel(2);
             if (!StringUtils.isNotNull(consumeCategoryDO.getBillPeriod())) {
                 consumeCategoryDO.setBillPeriod("-");
@@ -160,27 +168,38 @@ public class ConsumeCategoryController extends BaseController {
     public R update(ConsumeCategoryDO consumeCategoryDO) {
         try {
             check(consumeCategoryDO, consumeCategoryDO.getLevel());
-
+            double remainBudget = consumeCategoryService.remainBudget(consumeCategoryDO);
             if (consumeCategoryDO.getLevel() == 1) {
                 String oldName = consumeCategoryDO.getBillPeriod();
                 String newName = consumeCategoryDO.getCategoryName();
+                consumeCategoryDO.setBillPeriod("-");
+
+                if (consumeCategoryDO.getBudget() - remainBudget < 0) {
+                    throw new RuntimeException("预算超出总预算");
+                }
+
                 if (!oldName.equals(newName)) {
                     Map<String, Object> params = new HashMap<>();
                     params.put("oldName", oldName);
                     params.put("newName", newName);
                     consumeCategoryService.updateCategory(params);
+
                     refreshNameDict();
                 }
             } else {
+                if (remainBudget < consumeCategoryDO.getBudget()) {
+                    throw new RuntimeException("预算超出总预算");
+                }
                 if (!StringUtils.isNotNull(consumeCategoryDO.getBillPeriod())) {
                     consumeCategoryDO.setBillPeriod("-");
                 }
                 if (!StringUtils.isNotNull(consumeCategoryDO.getDeepType())) {
                     consumeCategoryDO.setDeepType("-");
                 }
-                consumeCategoryService.update(consumeCategoryDO);
+
                 refreshTypeDict();
             }
+            consumeCategoryService.update(consumeCategoryDO);
         }
         catch (Exception e) {
             return R.error("修改字典失败：" + e.getMessage());
@@ -215,6 +234,10 @@ public class ConsumeCategoryController extends BaseController {
             throw new RuntimeException("收支类型不能为空");
         }
 
+        if (consumeCategoryDO.getBudget() < 0) {
+            throw new RuntimeException("预算必须大于0");
+        }
+
         long userId = getUserId();
         HashSet<String> categoryNameDict = AccountDict.getInstance().getCategoryNameDict(consumeCategoryService,
                 roleService.getRoleLevel(userId), userId).get(userId);
@@ -225,9 +248,9 @@ public class ConsumeCategoryController extends BaseController {
             if (categoryNameDict.contains(consumeCategoryDO.getCategoryName())) {
                 throw new RuntimeException("一级菜单名称已存在");
             }
-            if (categoryTypeDict.contains(consumeCategoryDO.getCategoryName())) {
-                throw new RuntimeException("存在同名二级菜单");
-            }
+//            if (categoryTypeDict.contains(consumeCategoryDO.getCategoryName())) {
+//                throw new RuntimeException("存在同名二级菜单");
+//            }
         }
 
         if (level == 2) {

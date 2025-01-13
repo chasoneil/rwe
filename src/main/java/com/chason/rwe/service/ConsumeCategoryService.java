@@ -34,4 +34,6 @@ public interface ConsumeCategoryService {
 
     int batchRemove(int[] ids);
 
+    double remainBudget(ConsumeCategoryDO consumeCategoryDO);
+
 }

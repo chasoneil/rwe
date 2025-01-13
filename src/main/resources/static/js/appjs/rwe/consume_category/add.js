@@ -8,6 +8,22 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
+		// set default value for budget
+		if ($("#budget").val() === '') {
+			$("#budget").val(0.0);
+		} else {
+			let value = $("#budget").val();
+			if (isNaN(value) || parseFloat(value) < 0) {
+				parent.layer.alert("预算必须为大于0的数字");
+				return;
+			}
+		}
+
+		if ($('#inOut').val() === '收入' && $('#budget').val() !== 0) {
+			parent.layer.alert("收入不能设置预算");
+			return;
+		}
+
 		save();
 	}
 });
@@ -37,15 +53,22 @@ function save() {
 }
 
 function validateRule() {
+
 	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
 			categoryName : {
 				required : true
+			},
+			inOut : {
+				required : true
 			}
 		},
 		messages : {
 			categoryName : {
+				required : icon + "不能为空"
+			},
+			inOut : {
 				required : icon + "不能为空"
 			}
 		}

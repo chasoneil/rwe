@@ -1,5 +1,5 @@
 
-let prefix = '/rwe/consume_category';
+const prefix = '/rwe/consume_category';
 
 $().ready(function() {
 	validateRule();
@@ -26,6 +26,22 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
+
+		if ($("#budget").val() === '') {
+			$("#budget").val(0.0);
+		} else {
+			let value = $("#budget").val();
+			if (isNaN(value) || parseFloat(value) < 0) {
+				parent.layer.alert("预算必须为大于0的数字");
+				return;
+			}
+		}
+
+		if ($('#inOut').val() === '收入' && $('#budget').val() !== 0) {
+			parent.layer.alert("收入不能设置预算");
+			return;
+		}
+
 		saveType();
 	}
 });
