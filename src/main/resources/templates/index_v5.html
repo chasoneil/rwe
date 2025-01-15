@@ -9,8 +9,18 @@
 
     <style>
         .clock {
-            font-size: 48px;
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: #ecf0f1;
+            background-color: #979ca1;
+            margin-left: 40px;
+            width: 80%;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', Courier, monospace;
         }
         .date {
             font-size: 24px;
@@ -31,6 +41,8 @@
     <link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
     <link href="/css/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet">
 
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+
     <!-- Morris -->
     <link href="/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
@@ -43,13 +55,27 @@
     <!-- 头部 展示 当前时钟 月份选择框 收入支出年月信息 -->
     <div class="row">
         <div class="col-sm-4">
-            <h2 class="m-b-xs" style="margin-bottom: 40px;">
-                <span class="date" id="date"></span><br/>
-                <span class="clock" id="clock"></span>
-            </h2>
+            <div class="clock" id="clock"></div>
         </div>
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
+            <div class="row" style="padding-top: 40px;">
+                <div class="col-sm-4">
+                    <select data-placeholder="选择消费人..." multiple class="chosen-select"
+                            style="width:220px;" tabindex="2">
+                        <option value="">选择消费人</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select data-placeholder="选择月份..." multiple class="chosen-select"
+                            style="width:220px;" tabindex="2">
+                        <option value="">选择月份</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-2">
             <span class="pull-right text-right">
                 <a class="btn btn-xs btn-primary" onclick="window.location.href='/index_v1';">我的账单</a>
             </span>
@@ -57,7 +83,7 @@
     </div>
 
     <!-- 日历和图表  -->
-    <div class="row">
+    <div class="row" style="margin-top: 50px;">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
 
@@ -126,21 +152,18 @@
 </div>
 
 
-<!-- 全局js -->
 <script src="/js/jquery.min.js?v=2.1.4"></script>
 <script src="/js/bootstrap.min.js?v=3.3.6"></script>
 
-<!-- 自定义js -->
 <script src="/js/content.js?v=1.0.0"></script>
 
 <!-- jQuery UI -->
 <script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
 <script src="/js/appjs/index/index_v5.js"></script>
-
+<script src="/js/plugins/chosen/chosen.jquery.js"></script>
 <!-- Full Calendar -->
 <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
 
 </body>
-
 </html>

@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
 
+    $(".chosen-select").chosen();
     initCalendar();
     initEchartsData();
 
@@ -147,10 +148,12 @@ function initCalendar() {
     let y = date.getFullYear();
 
     $('#calendar').fullCalendar({
+        height: 600,
+        contentHeight: 500,
         header: {
             left: 'prev,next',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            right: 'month'
         },
         editable: true,
         droppable: true,
@@ -171,48 +174,33 @@ function initCalendar() {
         dayClick: function (date, jsEvent, view) {
             alert('开始时间: ' + date);
         },
-        events: [
-            {
-                title: '日事件',
-                start: new Date(y, m, 1),
-                description: '这是日事件的描述'
-            },
-            {
-                id: 999,
-                title: '重复事件',
-                start: new Date(y, m, d - 3, 16, 0),
-                allDay: false,
-            },
-            {
-                id: 999,
-                title: '重复事件',
-                start: new Date(y, m, d + 4, 16, 0),
-                allDay: false
-            },
-            {
-                title: '会议',
-                start: new Date(y, m, d, 10, 30),
-                allDay: false
-            },
-            {
-                title: '午餐',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                title: '生日',
-                start: new Date(y, m, d + 1, 19, 0),
-                end: new Date(y, m, d + 1, 22, 30),
-                allDay: false
-            },
-            {
-                title: '打开百度',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://baidu.com/'
-            }
-        ],
+        dayRender: function (date, cell) {
+            let cDate = new Date(date);
+            let year = cDate.getFullYear();
+            let month = String(cDate.getMonth() + 1).padStart(2, '0');
+            let day = String(cDate.getDate()).padStart(2, '0');
+            let dateStr = `${year}-${month}-${day}`;
+            $.ajax({
+                cache : true,
+                type : "POST",
+                url : "rwe/index/calendar",
+                data : {
+                    "date" : dateStr
+                },
+                async : false,
+                error : function(request) {
+                    parent.layer.alert("Connection error");
+                },
+                success : function(data) {
+                    console.log(data);
+                    if (data.code === 0) {
+                        cell.append('<span style="font-weight: bold; color: lightskyblue; margin-left: 5px;"> 收入: ' + data.income + '</span><br/>');
+                        cell.append('<span style="font-weight: bold; color: indianred; margin-left: 5px;"> 支出: ' + data.spent + '</span>');
+                    }
+                }
+            });
+        },
+        events: []
     });
 }
 
@@ -220,16 +208,15 @@ function updateClock() {
     const now = new Date();
 
     // 格式化日期
-    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-    const currentDate = now.toLocaleDateString('zh-CN', options);
-    document.getElementById('date').textContent = currentDate;
+    // const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    // const currentDate = now.toLocaleDateString('zh-CN', options);
+    // document.getElementById('date').textContent = currentDate;
 
     // 格式化时间
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
-    const currentTime = `${hours}:${minutes}:${seconds}`;
-    document.getElementById('clock').textContent = currentTime;
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
 }
 
 setInterval(updateClock, 1000);

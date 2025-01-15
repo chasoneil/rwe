@@ -115,6 +115,7 @@ function refreshPage() {
     $('#searchText').val('');
     $('#consumer').val('');
     $('#tradeStatistics').val('');
+    $('#tradeDate').val('');
     reload();
     layer.msg("刷新成功");
 }

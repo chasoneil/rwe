@@ -82,4 +82,29 @@ public class IndexController {
         return R.ok(data);
     }
 
+    @ResponseBody
+    @PostMapping("/calendar")
+    public R initCalendar(@RequestParam("date") String date) {
+
+        Map<String, Object> params = new HashMap<>();
+        double income = 0.0;
+        double spent = 0.0;
+
+        if (StringUtils.isNotNull(date)) {
+
+            params.put("tradeTime", date);
+            List<KeepAccountDO> list = keepAccountService.list(params);
+            for (KeepAccountDO keepAccountDO : list) {
+                if (keepAccountDO.getInOut().equals("收入")) {
+                    income += keepAccountDO.getAmount();
+                } else if (keepAccountDO.getInOut().equals("支出")) {
+                    spent += keepAccountDO.getAmount();
+                }
+            }
+        }
+        return R.ok().put("income", income).put("spent", spent);
+    }
+
+
+
 }
