@@ -15,6 +15,10 @@ public interface KeepAccountService {
 
     List<KeepAccountDO> listMonthIncome(String month);
 
+    List<KeepAccountDO> listYearSpent(String year);
+
+    List<KeepAccountDO> listYearIncome(String year);
+
     int count(Map<String, Object> map);
 
     int save(KeepAccountDO keepAccountDO);

@@ -5,7 +5,40 @@ $(document).ready(function () {
     initCalendar();
     initEchartsData();
 
+    initStatistic();
+
 });
+
+
+function initStatistic() {
+
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+
+    $.ajax({
+        cache : true,
+        type : "POST",
+        url : "rwe/index/statistic",
+        data : {
+            "year" : year,
+            "month" : month
+        },
+        async : false,
+        error : function(request) {
+            parent.layer.alert("Connection error");
+        },
+        success : function(data) {
+            if (data.code === 0) {
+
+            } else {
+                parent.layer.msg("获取支出数据失败");
+
+            }
+        }
+    });
+
+
+}
 
 // echarts
 let pieChart1 = echarts.init(document.getElementById('pieChart1'));
@@ -26,7 +59,7 @@ let pieOption1 = {
     series: [{
         name: '所占比例',
         type: 'pie',
-        radius: ['40%', '70%'],     // 饼图的直径 40% - 70% ->内层40% - 70%外层
+        radius: ['50%', '70%'],     // 饼图的直径 50% - 70% ->内层50% - 70%外层
         avoidLabelOverlap: false,
         itemStyle: {        // 定义边框样式
             borderRadius: 10,
@@ -59,7 +92,7 @@ let pieOption2 = {
     series: [{
         name: '所占比例',
         type: 'pie',
-        radius: ['40%', '70%'],     // 饼图的直径 40% - 70% ->内层40% - 70%外层
+        radius: ['50%', '70%'],     // 饼图的直径 50% - 70% ->内层50% - 70%外层
         avoidLabelOverlap: false,
         itemStyle: {        // 定义边框样式
             borderRadius: 10,

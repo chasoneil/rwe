@@ -54,6 +54,46 @@ public class IndexController {
     }
 
     @ResponseBody
+    @PostMapping("/statistic")
+    public R initStatistic(@RequestParam("year") String year,
+                           @RequestParam("month") String month) {
+        double monthSpent = 0.0;
+        double monthIncome = 0.0;
+
+        double yearSpent = 0.0;
+        double yearIncome = 0.0;
+
+        List<KeepAccountDO> monthSpentList = keepAccountService.listMonthSpent(year + "-" + month);
+        for (KeepAccountDO keepAccountDO : monthSpentList) {
+            monthSpent += keepAccountDO.getAmount();
+        }
+
+        List<KeepAccountDO> monthIncomeList = keepAccountService.listMonthIncome(year + "-" + month);
+        for (KeepAccountDO keepAccountDO : monthIncomeList) {
+            monthIncome += keepAccountDO.getAmount();
+        }
+
+        List<KeepAccountDO> yearSpentList = keepAccountService.listYearSpent(year);
+        for (KeepAccountDO keepAccountDO : yearSpentList) {
+            yearSpent += keepAccountDO.getAmount();
+        }
+
+        List<KeepAccountDO> yearIncomeList = keepAccountService.listYearIncome(year);
+        for (KeepAccountDO keepAccountDO : yearIncomeList) {
+            yearIncome += keepAccountDO.getAmount();
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("monthSpent", monthSpent);
+        data.put("monthIncome", monthIncome);
+        data.put("yearSpent", yearSpent);
+        data.put("yearIncome", yearIncome);
+
+        return R.ok(data);
+    }
+
+
+    @ResponseBody
     @PostMapping("/pie/in")
     public R initPieIn(@RequestParam("date") String date) {
 

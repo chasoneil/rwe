@@ -7,6 +7,7 @@ import com.chason.rwe.service.KeepAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,38 @@ public class KeepAccountServiceImpl implements KeepAccountService {
         param.put("endDate", endDate);
         param.put("inOut", "收入");
         return keepAccountDao.listByTime(param);
+    }
+
+    @Override
+    public List<KeepAccountDO> listYearSpent(String year) {
+
+        List<KeepAccountDO> result = new ArrayList<>();
+        if (StringUtils.isNotNull(year)) {
+            String startDate = year + "-01-01";
+            String endDate = year + "-12-31";
+            Map<String, Object> param = new HashMap<>();
+            param.put("startDate", startDate);
+            param.put("endDate", endDate);
+            param.put("inOut", "支出");
+            result = keepAccountDao.listByTime(param);
+        }
+        return result;
+    }
+
+    @Override
+    public List<KeepAccountDO> listYearIncome(String year) {
+
+        List<KeepAccountDO> result = new ArrayList<>();
+        if (StringUtils.isNotNull(year)) {
+            String startDate = year + "-01-01";
+            String endDate = year + "-12-31";
+            Map<String, Object> param = new HashMap<>();
+            param.put("startDate", startDate);
+            param.put("endDate", endDate);
+            param.put("inOut", "收入");
+            result = keepAccountDao.listByTime(param);
+        }
+        return result;
     }
 
     @Override
