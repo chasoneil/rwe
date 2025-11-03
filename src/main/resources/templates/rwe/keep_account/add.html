@@ -9,15 +9,15 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="signupForm">
-							<div class="form-group" >
+							<div class="form-group">
 								<label class="col-sm-2 control-label">交易日期：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<input id="tradeTime" class="laydate-icon form-control layer-date" autocomplete="off"
+									<input id="tradeTime" class="laydate-icon form-control layer-date" autocomplete="off" style="width:220px;"
 										   placeholder="交易日期(YYYY-MM-DD)" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})" name="tradeTime">
 								</div>
 								<label class="col-sm-2 control-label">金额：<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<input name="amount" class="form-control" placeholder="请输入大于0的金额" type="text">
+									<input name="amount" class="form-control" placeholder="请输入大于0的金额" style="width:220px;" type="text">
 								</div>
 							</div>
 							<div class="form-group" >
@@ -84,6 +84,19 @@
 									</label>
 								</div>
 								<label class="col-sm-2 control-label">支付方式：</label>
+								<div class="col-sm-4">
+									<label>
+										<select data-placeholder="选择支付方式..." name="payMethod" class="chosen-select" style="width:220px;" tabindex="2">
+											<option value="">选择支付方式</option>
+											<span th:each="payMethod, index : ${payMethods}">
+												<option th:value="${payMethod.dictValue}" th:text="${payMethod.dictValue}"></option>
+											</span>
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">深度支出分类：</label>
 								<div class="col-sm-4">
 									<label>
 										<select data-placeholder="选择支付方式..." name="payMethod" class="chosen-select" style="width:220px;" tabindex="2">

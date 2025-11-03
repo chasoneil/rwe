@@ -1,39 +1,38 @@
 package com.chason.rwe.service.impl;
 
-import com.chason.rwe.dao.WordDao;
-import com.chason.rwe.domain.LessonDO;
-import com.chason.rwe.domain.WordDO;
-import com.chason.rwe.service.LessonService;
-import com.chason.rwe.service.WordService;
+import com.chason.rwe.dao.JpWordDao;
+import com.chason.rwe.domain.JpLessonDO;
+import com.chason.rwe.domain.JpWordDO;
+import com.chason.rwe.service.JpLessonService;
+import com.chason.rwe.service.JpWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
-public class WordServiceImpl implements WordService {
+public class JpWordServiceImpl implements JpWordService {
 
     @Autowired
-    private WordDao wordDao;
+    private JpWordDao wordDao;
 
     @Autowired
-    private LessonService lessonService;
+    private JpLessonService lessonService;
 
     @Override
-    public WordDO get(String id) {
+    public JpWordDO get(Integer id) {
         return wordDao.get(id);
     }
 
     @Override
-    public WordDO findWord(String word, String wordType) {
+    public JpWordDO findWord(String word, String wordType) {
         return wordDao.findWord(word, wordType);
     }
 
     @Override
-    public List<WordDO> list(Map<String, Object> map) {
+    public List<JpWordDO> list(Map<String, Object> map) {
         return wordDao.list(map);
     }
 
@@ -43,9 +42,9 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public int save(WordDO word) {
+    public int save(JpWordDO word) {
 
-        LessonDO lessonDO = lessonService.get(word.getLesson());
+        JpLessonDO lessonDO = lessonService.get(word.getLessonId());
 
         if (lessonDO == null) {
             throw new RuntimeException("课程不存在");
@@ -54,24 +53,22 @@ public class WordServiceImpl implements WordService {
         int count = lessonDO.getCount();
         lessonDO.setCount(++count);
         lessonService.update(lessonDO);
-
-        word.setId(UUID.randomUUID().toString());
         word.setCreateTime(new Date());
         return wordDao.save(word);
     }
 
     @Override
-    public int update(WordDO word) {
+    public int update(JpWordDO word) {
         return wordDao.update(word);
     }
 
     @Override
-    public int remove(String id) {
+    public int remove(Integer id) {
         return wordDao.remove(id);
     }
 
     @Override
-    public int batchRemove(String[] ids) {
+    public int batchRemove(Integer[] ids) {
         return wordDao.batchRemove(ids);
     }
 }

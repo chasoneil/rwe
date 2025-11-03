@@ -11,10 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 @MapperScan("com.chason.*.dao")
 @SpringBootApplication
-public class RweApplication
-{
-    public static void main(String[] args)
-    {
+public class RweApplication {
+    public static void main(String[] args) {
         SpringApplication.run(RweApplication.class, args);
         System.out.println("ヾ(◍°∇°◍)ﾉﾞ   家庭助手启动成功     ヾ(◍°∇°◍)ﾉﾞ\n");
     }

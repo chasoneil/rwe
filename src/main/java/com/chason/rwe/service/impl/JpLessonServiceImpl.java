@@ -1,33 +1,32 @@
 package com.chason.rwe.service.impl;
 
 import com.chason.common.utils.StringUtils;
-import com.chason.rwe.dao.LessonDao;
-import com.chason.rwe.dao.WordDao;
-import com.chason.rwe.domain.LessonDO;
-import com.chason.rwe.service.LessonService;
+import com.chason.rwe.dao.JpLessonDao;
+import com.chason.rwe.dao.JpWordDao;
+import com.chason.rwe.domain.JpLessonDO;
+import com.chason.rwe.service.JpLessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
-public class LessonServiceImpl implements LessonService {
+public class JpLessonServiceImpl implements JpLessonService {
 
     @Autowired
-    private LessonDao lessonDao;
+    private JpLessonDao lessonDao;
 
     @Autowired
-    private WordDao wordDao;
+    private JpWordDao wordDao;
 
     @Override
-    public LessonDO get(String lessonId) {
-        return lessonDao.get(lessonId);
+    public JpLessonDO get(Integer id) {
+        return lessonDao.get(id);
     }
 
     @Override
-    public List<LessonDO> list(Map<String, Object> map) {
+    public List<JpLessonDO> list(Map<String, Object> map) {
         return lessonDao.list(map);
     }
 
@@ -37,54 +36,51 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public int save(LessonDO lesson) {
+    public int save(JpLessonDO lesson) {
 
         if (!StringUtils.isNotNull(lesson.getLesson())) {
             throw new RuntimeException("课程名称不能为空");
         }
 
-        LessonDO lessonDO = lessonDao.findByName(lesson.getLesson());
+        JpLessonDO lessonDO = lessonDao.findByName(lesson.getLesson());
         if (lessonDO != null) {
             throw new RuntimeException("课程：" + lesson.getLesson() + "已经存在");
         }
 
         lesson.setCount(0);
-        lesson.setLearned(0);
         lesson.setPassed(0);
-        lesson.setLearnedTime(0);
-        lesson.setLessonId(UUID.randomUUID().toString());
         return lessonDao.save(lesson);
     }
 
     @Override
-    public int update(LessonDO lesson) {
+    public int update(JpLessonDO lesson) {
         return lessonDao.update(lesson);
     }
 
     @Override
-    public int remove(String lessonId) {
+    public int remove(Integer id) {
 
-        LessonDO lessonDO = lessonDao.get(lessonId);
+        JpLessonDO lessonDO = lessonDao.get(id);
         if (lessonDO == null) {
             throw new RuntimeException("课程不存在");
         }
-        wordDao.removeByLesson(lessonId);
-        return lessonDao.remove(lessonId);
+        wordDao.removeByLesson(id);
+        return lessonDao.remove(id);
     }
 
     @Override
-    public int delete(String lesson) {
-        LessonDO lessonDO = lessonDao.findByName(lesson);
+    public int delete(Integer lesson) {
+        JpLessonDO lessonDO = lessonDao.get(lesson);
         if (lessonDO == null) {
             throw new RuntimeException("课程:" + lesson + "不存在");
         }
 
-        wordDao.removeByLesson(lessonDO.getLessonId());
-        return lessonDao.remove(lessonDO.getLessonId());
+        wordDao.removeByLesson(lessonDO.getId());
+        return lessonDao.remove(lessonDO.getId());
     }
 
     @Override
-    public int batchRemove(String[] lessonIds) {
+    public int batchRemove(Integer[] lessonIds) {
         return lessonDao.batchRemove(lessonIds);
     }
 }

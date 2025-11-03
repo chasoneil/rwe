@@ -1,5 +1,7 @@
 const prefix = "/rwe/keep_account";
 
+let conditionFlag = 0;
+
 $(function () {
     $(".chosen-select").chosen();
     load();
@@ -27,7 +29,7 @@ function load() {
                         // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
                         offset: params.offset,
-                        searchText: $('#searchText').val(),
+                        tradeDetail: $('#tradeDetail').val(),
                         consumer: $('#consumer').val(),
                         tradeStatistics: $('#tradeStatistics').val(),
                         tradeTime: $('#tradeDate').val()
@@ -89,6 +91,21 @@ function load() {
                         align : 'center'
                     },
                     {
+                        field: 'tradePeriod',
+                        title: '账单周期',
+                        align : 'center'
+                    },
+                    {
+                        field: 'payAccount',
+                        title: '支付账户',
+                        align : 'center'
+                    },
+                    {
+                        field: 'payMethod',
+                        title: '支付方式',
+                        align : 'center'
+                    },
+                    {
                         field: 'tradeDetail',
                         title: '明细',
                         align : 'center'
@@ -111,13 +128,85 @@ function load() {
             });
 }
 
-function refreshPage() {
-    $('#searchText').val('');
-    $('#consumer').val('');
-    $('#tradeStatistics').val('');
-    $('#tradeDate').val('');
+function addSearchContent(content) {
+
+    if (conditionFlag === 0) {
+        $('#conditionBox').append('<div class="ibox ibox-content"> '
+            + '<div class="fixed-table-toolbar"> '
+            + '<div class="columns pull-left"> '
+            + '<div id="searchBox"></div> '
+            + '</div> '
+            + '</div> '
+            + '</div> ');
+        conditionFlag++;
+    }
+
+    let tmpVal = '';
+    if (content === 'consumer') {
+        tmpVal = $('#consumer').val();
+        $('#consumer_tmp').remove();
+        $('#searchBox').append('<button type="button" id="consumer_tmp" style="margin-right: 10px;" '
+            + 'class="btn btn-primary btn-rounded btn-outline btn-sm" onclick="clearSearchContent(\'consumer\')">'
+            + tmpVal + '<i class="fa fa-remove" aria-hidden="true"></i>'
+            + '</button>');
+    } else if (content === 'statistics') {
+        tmpVal = $('#tradeStatistics').val();
+        $('#statistics_tmp').remove();
+        $('#searchBox').append('<button type="button" id="statistics_tmp" style="margin-right: 10px;" '
+            + 'class="btn btn-primary btn-rounded btn-outline btn-sm" onclick="clearSearchContent(\'statistics\')">'
+            + tmpVal + '<i class="fa fa-remove" aria-hidden="true"></i>'
+            + '</button>');
+    } else if (content === 'tradeDate') {
+        tmpVal = $('#tradeDate').val();
+        $('#tradeDate_tmp').remove();
+        $('#searchBox').append('<button type="button" id="tradeDate_tmp" style="margin-right: 10px;" '
+            + 'class="btn btn-primary btn-rounded btn-outline btn-sm" onclick="clearSearchContent(\'tradeDate\')">'
+            + tmpVal + '<i class="fa fa-remove" aria-hidden="true"></i>'
+            + '</button>');
+    } else if (content === 'tradeDetail') {
+        tmpVal = $('#tradeDetail').val();
+        $('#tradeDetail_tmp').remove();
+        $('#searchBox').append('<button type="button" id="tradeDetail_tmp" style="margin-right: 10px;" '
+            + 'class="btn btn-primary btn-rounded btn-outline btn-sm" onclick="clearSearchContent(\'tradeDetail\')">'
+            + tmpVal + '<i class="fa fa-remove" aria-hidden="true"></i>'
+            + '</button>');
+    }
     reload();
-    layer.msg("刷新成功");
+}
+
+function clearSearchContent(content) {
+    conditionFlag--;
+    if (conditionFlag === 0) {
+        $('#conditionBox').html('');
+    }
+
+    if (content === 'consumer') {
+        $('#consumer').val('').trigger('chosen:updated');
+        $('#consumer_tmp').remove();
+    } else if (content === 'statistics') {
+        $('#tradeStatistics').val('').trigger('chosen:updated');
+        $('#statistics_tmp').remove();
+    } else if (content === 'tradeDate') {
+        $('#tradeDate').val('');
+        $('#tradeDate').trigger('change');
+        $('#tradeDate_tmp').remove();
+    } else if (content === 'tradeDetail') {
+        $('#tradeDetail').val('');
+        $('#tradeDetail_tmp').remove();
+    }
+    reload();
+}
+
+function refreshPage() {
+    $('#searchBox').html('')
+    $('#tradeDetail').val('');
+    $('#consumer').val('').trigger('chosen:updated');
+    $('#tradeStatistics').val('').trigger('chosen:updated');
+    $('#tradeDate').val('');
+    $('#conditionBox').html('');
+    conditionFlag = 0;
+    reload();
+    layer.msg("重置搜索条件成功");
 }
 
 function reload() {

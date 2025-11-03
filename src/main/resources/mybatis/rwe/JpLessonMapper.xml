@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chason.rwe.dao.JpLessonDao">
+
+	<select id="get" resultType="com.chason.rwe.domain.JpLessonDO">
+		select `id`, `user_id`, `lesson`,`count`,`passed`,`last_learn_time` from tbl_jp_lesson where id = #{value}
+	</select>
+
+	<select id="findByName" resultType="com.chason.rwe.domain.JpLessonDO">
+		select `id`, `user_id`, `lesson`,`count`,`passed`,`last_learn_time` from tbl_jp_lesson where lesson = #{value}
+	</select>
+
+	<select id="list" resultType="com.chason.rwe.domain.JpLessonDO">
+		select `id`, `user_id`, `lesson`,`count`,`passed`,`last_learn_time` from tbl_jp_lesson
+        <where>
+			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+            and user_id in (#{userId}, 1)
+		</where>
+        <choose>
+	        <when test="sort != null and sort.trim() != ''">
+	            order by ${sort} ${order}
+	        </when>
+			<otherwise>
+			    order by last_learn_time
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int" parameterType="int">
+		select count(*) from tbl_jp_lesson
+		<where>
+			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
+			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+            and user_id = #{userId}
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.chason.rwe.domain.JpLessonDO">
+		insert into tbl_jp_lesson
+		(
+			`id`,
+			`lesson`,
+            `user_id`,
+			`count`,
+			`passed`,
+			`last_learn_time`
+		)
+		values
+		(
+			#{id},
+			#{lesson},
+            #{userId},
+			#{count},
+			#{passed},
+			#{lastLearnTime}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.chason.rwe.domain.JpLessonDO">
+		update tbl_jp_lesson
+		<set>
+		    <if test="count != null">`count` = #{count}, </if>
+			<if test="passed != null">`passed` = #{passed}</if>
+			<if test="lastLearnTime != null">`last_learn_time` = #{lastLearnTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from tbl_jp_lesson where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from tbl_jp_lesson where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

@@ -387,67 +387,47 @@ INSERT INTO `sys_user_role` VALUES (73,30,48),(74,30,49),(75,30,50),(76,31,48),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `tbl_lesson`
+-- Table structure for table `tbl_jp_lesson`
 --
 
-DROP TABLE IF EXISTS `tbl_lesson`;
+DROP TABLE IF EXISTS `tbl_jp_lesson`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_lesson` (
-  `lesson_id` int(11) NOT NULL COMMENT '主键',
+CREATE TABLE `tbl_jp_lesson` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `lesson` varchar(32) NOT NULL UNIQUE COMMENT 'lesson 名称',
   `count` int(11) NOT NULL COMMENT '一共有多少单词',
-  `learned` int(11) NOT NULL COMMENT '已经掌握的单词数',
-  `learned_time` int(11) NOT NULL COMMENT '课程被学习的次数',
-  `passed` int(11) NOT NULL COMMENT '已经通过考试的单词数',
-  `pass_time` datetime DEFAULT NULL COMMENT '整个课程通过考试的时间',
-  `lesson` varchar(32) NOT NULL COMMENT 'lesson 名称',
+  `passed` int(11) NOT NULL COMMENT '已经掌握的考试单词数',
   `last_learn_time` datetime DEFAULT NULL COMMENT '上次学习时间',
-  PRIMARY KEY (`lesson_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_lesson`
+-- Table structure for table `tbl_jp_word`
 --
 
-LOCK TABLES `tbl_lesson` WRITE;
-/*!40000 ALTER TABLE `tbl_lesson` DISABLE KEYS */;
-INSERT INTO `tbl_lesson` VALUES ('064426c9-5d61-4c2a-80be-ad480822fe52',0,0,0,0,NULL,'Lesson4',NULL),('aeb95fae-73f8-4a40-bf6a-2e8d257b3b15',0,0,0,0,NULL,'Lesson2',NULL),('d64aa83b-980a-4a95-81ed-ef66290ee5f6',0,0,0,0,NULL,'Lesson1',NULL),('ec09ad30-9b89-46ba-b2fc-4de85553f168',0,0,0,0,NULL,'Lesson3',NULL);
-/*!40000 ALTER TABLE `tbl_lesson` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tbl_word`
---
-
-DROP TABLE IF EXISTS `tbl_word`;
+DROP TABLE IF EXISTS `tbl_jp_word`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_word` (
-  `word` varchar(255) NOT NULL COMMENT '英语单词',
-  `type` varchar(32) NOT NULL COMMENT '类型',
-  `lesson` int(11) DEFAULT NULL COMMENT '第几课',
+CREATE TABLE `tbl_jp_word` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `word` varchar(255) NOT NULL COMMENT '日语单词',
+  `word_cn` varchar(255) COMMENT '正式单词',
+  `word_type` varchar(32) NOT NULL COMMENT '词性',
+  `word_voice` varchar(8) COMMENT '音型',
   `zh_mean` varchar(255) NOT NULL COMMENT '中文含义',
+  `lesson_id` int(11) DEFAULT NULL COMMENT '所属课程ID',
   `learn_time` int(11) NOT NULL DEFAULT '0' COMMENT '学习次数',
-  `learned` int(11) NOT NULL COMMENT '是否学会',
+  `learned` int(11) NOT NULL DEFAULT '0' COMMENT '是否学会',
   `last_review_time` datetime DEFAULT NULL COMMENT '上次复习时间',
   `create_time` datetime DEFAULT NULL COMMENT '录入时间',
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  KEY `idx_lesson` (`lesson`),
+  KEY `idx_lesson` (`lesson_id`),
   KEY `idx_review` (`last_review_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_word`
---
-
-LOCK TABLES `tbl_word` WRITE;
-/*!40000 ALTER TABLE `tbl_word` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_word` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
 -- Table structure for table `tbl_consume_category`

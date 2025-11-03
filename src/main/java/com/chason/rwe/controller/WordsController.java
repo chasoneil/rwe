@@ -3,8 +3,8 @@ package com.chason.rwe.controller;
 import com.chason.common.controller.BaseController;
 
 import com.chason.common.utils.R;
-import com.chason.rwe.domain.WordDO;
-import com.chason.rwe.service.WordService;
+import com.chason.rwe.domain.JpWordDO;
+import com.chason.rwe.service.JpWordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class WordsController extends BaseController {
     private static final String PREFIX = "rwe/word";
 
     @Autowired
-    private WordService wordService;
+    private JpWordService wordService;
 
     @GetMapping("/index")
     @RequiresPermissions("rwe:word")
@@ -35,7 +35,7 @@ public class WordsController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    public R save(WordDO word) {
+    public R save(JpWordDO word) {
 
         try {
             if (wordService.save(word) > 0) {

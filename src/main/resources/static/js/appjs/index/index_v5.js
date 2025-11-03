@@ -32,12 +32,9 @@ function initStatistic() {
 
             } else {
                 parent.layer.msg("获取支出数据失败");
-
             }
         }
     });
-
-
 }
 
 // echarts

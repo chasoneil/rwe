@@ -72,8 +72,8 @@ public class KeepAccountController extends BaseController {
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
 
-        if (!StringUtils.isEmpty(params.get("searchText"))) {
-            params.put("tradeDetail", params.get("searchText"));
+        if (!StringUtils.isEmpty(params.get("tradeDetail"))) {
+            params.put("tradeDetail", params.get("tradeDetail"));
         }
 
         if (!StringUtils.isEmpty(params.get("consumer"))) {

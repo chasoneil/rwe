@@ -17,19 +17,19 @@
 								<i class="fa fa-trash" aria-hidden="true"></i> 删除
 							</button>
 							<button type="button" class="btn btn-default" onclick="refreshPage()">
-								<i class="fa fa-refresh" aria-hidden="true"></i> 刷新
+								<i class="fa fa-bars" aria-hidden="true"></i> 全部
 							</button>
 						</div>
 						<div class="columns pull-right" style="margin-left: 5px;">
-							<button class="btn btn-success" onclick="reload()"> 查询</button>
+							<button class="btn btn-success" onclick="addSearchContent('tradeDetail')"> 查询</button>
 						</div>
 						<div class="columns pull-right" style="margin-left: 5px;">
-							<input id="searchText" type="text" class="form-control" placeholder="输入明细">
+							<input id="tradeDetail" type="text" class="form-control" placeholder="输入明细">
 						</div>
 
 						<div class="columns pull-right" style="margin-left: 5px;">
 							<select data-placeholder="选择消费人..." id="consumer" class="chosen-select" style="width:200px;"
-									onchange="reload()" tabindex="2">
+									onchange="addSearchContent('consumer')" tabindex="2">
 								<option value="">选择消费人</option>
 								<span th:each="consumer, index : ${consumers}">
 									<option th:value="${consumer.dictValue}" th:text="${consumer.dictValue}"></option>
@@ -39,7 +39,7 @@
 
 						<div class="columns pull-right" style="margin-left: 5px;">
 							<select data-placeholder="选择深度支出..." id="tradeStatistics" class="chosen-select" style="width:200px;"
-									onchange="reload()" tabindex="2">
+									onchange="addSearchContent('statistics')" tabindex="2">
 								<option value="">选择深度分类</option>
 								<span th:each="tradeStatistic, index : ${tradeStatistics}">
 									<option th:value="${tradeStatistic.dictValue}" th:text="${tradeStatistic.dictValue}"></option>
@@ -48,10 +48,13 @@
 						</div>
 
 						<div class="columns pull-right" style="margin-left: 5px;margin-top: 2px;">
-							<input id="tradeDate" class="laydate-icon form-control layer-date" autocomplete="off"
-								   onchange="reload()" placeholder="选择交易日期" onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD'})">
+							<input id="tradeDate" class="laydate-icon form-control layer-date" autocomplete="off" placeholder="选择交易日期"
+								   onclick="laydate({istime: true,istoday: true, format: 'YYYY-MM-DD', choose: function(data){ addSearchContent('tradeDate') }})">
 						</div>
 					</div>
+
+					<div id="conditionBox"></div>
+
 					<table id="exampleTable" data-mobile-responsive="true"></table>
 				</div>
 			</div>
