@@ -9,6 +9,8 @@ public interface JpLessonService {
 
     JpLessonDO get(Integer id);
 
+    JpLessonDO find(String lesson);
+
     List<JpLessonDO> list(Map<String, Object> map);
 
     int count(Map<String, Object> map);

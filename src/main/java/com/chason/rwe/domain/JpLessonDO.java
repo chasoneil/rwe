@@ -14,7 +14,7 @@ public class JpLessonDO {
      公共课程只有管理员能创建
      普通用户创建的都是私有课程
      */
-    private Integer userId;
+    private Long userId;
 
     // 课程名称
     private String lesson;

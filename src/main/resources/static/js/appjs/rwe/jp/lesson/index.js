@@ -67,6 +67,17 @@ function load() {
             });
 }
 
+function add() {
+    layer.open({
+        type: 2,
+        title: '新增课程',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '520px'],
+        content: prefix + '/add'
+    });
+}
+
 function edit(id) {
     layer.open({
         type: 2,
@@ -141,16 +152,5 @@ function batchRemove() {
         });
     }, function () {
 
-    });
-}
-
-function importTrade() {
-    layer.open({
-        type: 2,
-        title: '导入单词',
-        maxmin: true,
-        shadeClose: false,
-        area: ['520px', '320px'],
-        content: prefix + '/import'
     });
 }

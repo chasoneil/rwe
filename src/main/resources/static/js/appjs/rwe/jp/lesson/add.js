@@ -1,5 +1,5 @@
 
-var prefix = '/rwe/lesson';
+var prefix = '/rwe/jp/lesson';
 
 $().ready(function() {
 	validateRule();

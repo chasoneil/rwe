@@ -15,24 +15,29 @@ import java.util.Map;
 public class JpLessonServiceImpl implements JpLessonService {
 
     @Autowired
-    private JpLessonDao lessonDao;
+    private JpLessonDao jpLessonDao;
 
     @Autowired
     private JpWordDao wordDao;
 
     @Override
     public JpLessonDO get(Integer id) {
-        return lessonDao.get(id);
+        return jpLessonDao.get(id);
+    }
+
+    @Override
+    public JpLessonDO find(String lesson) {
+        return jpLessonDao.findByName(lesson);
     }
 
     @Override
     public List<JpLessonDO> list(Map<String, Object> map) {
-        return lessonDao.list(map);
+        return jpLessonDao.list(map);
     }
 
     @Override
     public int count(Map<String, Object> map) {
-        return lessonDao.count(map);
+        return jpLessonDao.count(map);
     }
 
     @Override
@@ -42,45 +47,45 @@ public class JpLessonServiceImpl implements JpLessonService {
             throw new RuntimeException("课程名称不能为空");
         }
 
-        JpLessonDO lessonDO = lessonDao.findByName(lesson.getLesson());
+        JpLessonDO lessonDO = jpLessonDao.findByName(lesson.getLesson());
         if (lessonDO != null) {
             throw new RuntimeException("课程：" + lesson.getLesson() + "已经存在");
         }
 
         lesson.setCount(0);
         lesson.setPassed(0);
-        return lessonDao.save(lesson);
+        return jpLessonDao.save(lesson);
     }
 
     @Override
     public int update(JpLessonDO lesson) {
-        return lessonDao.update(lesson);
+        return jpLessonDao.update(lesson);
     }
 
     @Override
     public int remove(Integer id) {
 
-        JpLessonDO lessonDO = lessonDao.get(id);
+        JpLessonDO lessonDO = jpLessonDao.get(id);
         if (lessonDO == null) {
             throw new RuntimeException("课程不存在");
         }
         wordDao.removeByLesson(id);
-        return lessonDao.remove(id);
+        return jpLessonDao.remove(id);
     }
 
     @Override
     public int delete(Integer lesson) {
-        JpLessonDO lessonDO = lessonDao.get(lesson);
+        JpLessonDO lessonDO = jpLessonDao.get(lesson);
         if (lessonDO == null) {
             throw new RuntimeException("课程:" + lesson + "不存在");
         }
 
         wordDao.removeByLesson(lessonDO.getId());
-        return lessonDao.remove(lessonDO.getId());
+        return jpLessonDao.remove(lessonDO.getId());
     }
 
     @Override
     public int batchRemove(Integer[] lessonIds) {
-        return lessonDao.batchRemove(lessonIds);
+        return jpLessonDao.batchRemove(lessonIds);
     }
 }
