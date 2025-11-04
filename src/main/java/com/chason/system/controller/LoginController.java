@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
     }
 
     @Log("请求访问主页")
-    @GetMapping({ "/index" })
+    @GetMapping({ "/index_v5" })
     String index(Model model) {
 //        List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
 //        model.addAttribute("menus", menus);
@@ -61,7 +61,7 @@ public class LoginController extends BaseController {
     }
 
     @Log("请求访问后台主页")
-    @GetMapping({ "/index_v1" })
+    @GetMapping({ "/index" })
     String indexV1(Model model) {
         List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
         model.addAttribute("menus", menus);

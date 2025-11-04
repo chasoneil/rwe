@@ -13,13 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/rwe/word")
-public class WordsController extends BaseController {
+@RequestMapping("/rwe/jp/word")
+public class JpWordsController extends BaseController {
 
-    private static final String PREFIX = "rwe/word";
+    private static final String PREFIX = "rwe/jp/word";
 
     @Autowired
-    private JpWordService wordService;
+    private JpWordService jpWordService;
 
     @GetMapping("/index")
     @RequiresPermissions("rwe:word")
@@ -38,7 +38,7 @@ public class WordsController extends BaseController {
     public R save(JpWordDO word) {
 
         try {
-            if (wordService.save(word) > 0) {
+            if (jpWordService.save(word) > 0) {
                 return R.ok();
             }
         } catch (Exception e) {
