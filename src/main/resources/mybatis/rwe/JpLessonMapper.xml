@@ -65,7 +65,8 @@
 		update tbl_jp_lesson
 		<set>
 		    <if test="count != null">`count` = #{count}, </if>
-			<if test="passed != null">`passed` = #{passed}</if>
+            <if test="lesson != null"> `lesson` = #{lesson}, </if>
+			<if test="passed != null">`passed` = #{passed}, </if>
 			<if test="lastLearnTime != null">`last_learn_time` = #{lastLearnTime}</if>
 		</set>
 		where id = #{id}

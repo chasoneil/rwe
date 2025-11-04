@@ -7,7 +7,6 @@ import com.chason.common.utils.R;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.system.service.RoleService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/rwe/jp/lesson")
-public class LessonController extends BaseController {
+public class JpLessonController extends BaseController {
 
     private static final String PREFIX = "rwe/jp/lesson";
 
@@ -60,10 +59,15 @@ public class LessonController extends BaseController {
         return PREFIX + "/add";
     }
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("lesson", jpLessonService.get(id));
+        return PREFIX + "/edit";
+    }
+
     @ResponseBody
     @PostMapping("/save")
     public R save(JpLessonDO lesson) {
-
         try {
             lesson.setUserId(getUserId());
             jpLessonService.save(lesson);
@@ -74,18 +78,27 @@ public class LessonController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("/remove")
-    @RequiresPermissions("rwe:lesson:delete")
-    public R remove(Integer lessonId) {
+    @PostMapping("/update")
+    public R update(JpLessonDO jpLessonDO) {
+
         try {
-            int result = jpLessonService.remove(lessonId);
-            if (result > 0) {
-                return R.ok();
-            }
+            jpLessonService.update(jpLessonDO, getUserId());
+            return R.ok();
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
-        return R.error();
+    }
+
+    @ResponseBody
+    @PostMapping("/remove")
+    public R remove(Integer id) {
+        try {
+            Long userId = getUserId();
+            jpLessonService.remove(id, userId);
+            return R.ok();
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
     }
 
 }

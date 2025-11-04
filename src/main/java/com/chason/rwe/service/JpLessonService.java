@@ -17,11 +17,9 @@ public interface JpLessonService {
 
     int save(JpLessonDO lesson);
 
-    int update(JpLessonDO lesson);
+    int update(JpLessonDO lesson, Long userId);
 
-    int remove(Integer id);
-
-    int delete(Integer lesson);
+    int remove(Integer id, Long userId);
 
     int batchRemove(Integer[] ids);
 

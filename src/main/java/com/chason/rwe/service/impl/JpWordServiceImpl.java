@@ -52,7 +52,7 @@ public class JpWordServiceImpl implements JpWordService {
 
         int count = lessonDO.getCount();
         lessonDO.setCount(++count);
-        lessonService.update(lessonDO);
+        // lessonService.update(lessonDO);
         word.setCreateTime(new Date());
         return wordDao.save(word);
     }

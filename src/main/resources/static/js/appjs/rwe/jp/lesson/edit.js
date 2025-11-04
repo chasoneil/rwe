@@ -1,5 +1,4 @@
-
-var prefix = '/rwe/jp/lesson';
+const PREFIX = "/rwe/jp/lesson";
 
 $().ready(function() {
 	validateRule();
@@ -7,40 +6,45 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		update();
 	}
 });
 
-function save() {
+function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : prefix + '/save',
+		url : PREFIX + "/update",
 		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-			console.log(data);
-			if (data.code == 0) {
+			if (data.code === 0) {
 				parent.layer.msg("操作成功");
 				parent.reload();
-				var index = parent.layer.getFrameIndex(window.name);
+				let index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			} else {
-				parent.layer.msg(data.msg)
+				parent.layer.alert(data.msg)
 			}
 		}
 	});
 }
 
 function validateRule() {
+	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
-
+		rules : {
+			lesson : {
+				required : true
+			}
+		},
+		messages : {
+			lesson : {
+				required : icon + "不能为空"
+			}
+		}
 	})
 }
-
-
-
-

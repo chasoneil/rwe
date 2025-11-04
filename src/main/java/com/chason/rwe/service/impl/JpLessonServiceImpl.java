@@ -18,7 +18,7 @@ public class JpLessonServiceImpl implements JpLessonService {
     private JpLessonDao jpLessonDao;
 
     @Autowired
-    private JpWordDao wordDao;
+    private JpWordDao jpWordDao;
 
     @Override
     public JpLessonDO get(Integer id) {
@@ -58,34 +58,55 @@ public class JpLessonServiceImpl implements JpLessonService {
     }
 
     @Override
-    public int update(JpLessonDO lesson) {
-        return jpLessonDao.update(lesson);
+    public int update(JpLessonDO lesson, Long userId) {
+
+        if (!checkPrivilege(lesson, userId)) {
+            throw new RuntimeException("权限校验失败");
+        }
+
+        if (StringUtils.isEmpty(lesson.getLesson())) {
+            throw new RuntimeException("课程名称不能为空");
+        }
+
+        JpLessonDO jpLessonDO = jpLessonDao.get(lesson.getId());
+        if (lesson.getLesson().equals(jpLessonDO.getLesson())) {        // 相同的名称
+            return 1;
+        }
+
+        JpLessonDO existLesson = jpLessonDao.findByName(lesson.getLesson());
+        if (existLesson != null) {
+            throw new RuntimeException("已存在该课程名");
+        }
+
+        jpLessonDO.setLesson(lesson.getLesson());
+        return jpLessonDao.update(jpLessonDO);
     }
 
     @Override
-    public int remove(Integer id) {
+    public int remove(Integer id, Long userId) {
 
-        JpLessonDO lessonDO = jpLessonDao.get(id);
-        if (lessonDO == null) {
+        JpLessonDO jpLessonDO = jpLessonDao.get(id);
+        if (jpLessonDO == null) {
             throw new RuntimeException("课程不存在");
         }
-        wordDao.removeByLesson(id);
-        return jpLessonDao.remove(id);
-    }
-
-    @Override
-    public int delete(Integer lesson) {
-        JpLessonDO lessonDO = jpLessonDao.get(lesson);
-        if (lessonDO == null) {
-            throw new RuntimeException("课程:" + lesson + "不存在");
+        if (!checkPrivilege(jpLessonDO, userId)) {
+            throw new RuntimeException("权限校验失败，无法删除该课程");
         }
-
-        wordDao.removeByLesson(lessonDO.getId());
-        return jpLessonDao.remove(lessonDO.getId());
+        jpWordDao.removeByLesson(id);
+        return jpLessonDao.remove(id);
     }
 
     @Override
     public int batchRemove(Integer[] lessonIds) {
         return jpLessonDao.batchRemove(lessonIds);
+    }
+
+    private boolean checkPrivilege(JpLessonDO jpLessonDO, Long userId) {
+
+        if (userId == 1 || jpLessonDO.getUserId() == userId) {
+            return true;
+        }
+
+        return false;
     }
 }
