@@ -25,6 +25,8 @@ function load() {
                     return {
                         limit: params.limit,
                         offset: params.offset,
+                        word:$('#searchWord').val(),
+                        lesson:$('#searchLesson').val()
                     };
                 },
                 columns: [

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,15 @@ public class JpWordsController extends BaseController {
 
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
+
+        if (params.get("lesson") != null) {
+            String lesson = (String) params.get("lesson");
+            JpLessonDO jpLessonDO = jpLessonService.find(lesson);
+            if (jpLessonDO != null) {
+                params.put("lessonId", jpLessonDO.getId());
+                params.remove("lesson");
+            }
+        }
 
         Query query = new Query(params);
         List<JpWordDO> words = jpWordService.list(query);
@@ -96,5 +107,20 @@ public class JpWordsController extends BaseController {
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
+    }
+
+    @GetMapping("/import")
+    String importPage(Model model) {
+        Map<String, Object> params = new HashMap<>();
+        List<JpLessonDO> jpLessonLists = jpLessonService.list(params);
+        model.addAttribute("lessons", jpLessonLists);
+        return PREFIX + "/import";
+    }
+
+    @ResponseBody
+    @PostMapping("/import/word")
+    public R doImport(@RequestParam("file") MultipartFile file, @RequestParam("lessonId") Integer lessonId) {
+        System.out.println("lessonId:" + lessonId);
+        return R.ok();
     }
 }

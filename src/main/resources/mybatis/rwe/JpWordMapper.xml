@@ -14,7 +14,7 @@
 		<where>
 			<if test="word != null and word != ''"> and word = #{word} </if>
 			<if test="word_type != null and word_type != ''"> and wordType = #{wordType} </if>
-			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+			<if test="lessonId != null and lessonId != ''"> and lesson_id = #{lessonId} </if>
 			<if test="learned != null and learned != ''"> and learned = #{learned} </if>
 			<if test="learn_time != null and learn_time != ''"> and learnTime = #{learnTime} </if>
 			<if test="last_review_time != null and last_review_time != ''"> and lastReviewTime = #{lastReviewTime} </if>
@@ -37,7 +37,7 @@
 		<where>
 			<if test="word != null and word != ''"> and word = #{word} </if>
 			<if test="word_type != null and word_type != ''"> and wordType = #{wordType} </if>
-			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
+			<if test="lessonId != null and lessonId != ''"> and lesson_id = #{lessonId} </if>
 			<if test="learned != null and learned != ''"> and learned = #{learned} </if>
 			<if test="learn_time != null and learn_time != ''"> and learnTime = #{learnTime} </if>
 			<if test="last_review_time != null and last_review_time != ''"> and lastReviewTime = #{lastReviewTime} </if>

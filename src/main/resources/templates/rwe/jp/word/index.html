@@ -10,9 +10,23 @@
             <div class="ibox-body">
                 <div class="fixed-table-toolbar">
                     <div class="columns pull-left">
-                        <button type="button" class="btn btn-primary" onclick="batchRemove()">
-                            <i class="fa fa-plus"></i> 批量删除
+                        <button type="button" class="btn btn-danger" onclick="batchRemove()">
+                            <i class="fa fa-remove"></i> 批量删除
                         </button>
+                        <button type="button" class="btn btn-default" onclick="refreshPage()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> 刷新
+                        </button>
+                    </div>
+
+                    <div class="columns pull-right" style="margin-left: 5px;">
+                        <button class="btn btn-success" onclick="reload()"> 查询</button>
+                    </div>
+                    <div class="columns pull-right" style="margin-left: 5px;">
+                        <input id="searchWord" type="text" class="form-control" placeholder="请输入单词">
+                    </div>
+
+                    <div class="columns pull-right input-group">
+                        <input id="searchLesson" type="text" class="form-control" placeholder="请输入课程名">
                     </div>
                 </div>
             </div>

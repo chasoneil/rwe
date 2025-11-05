@@ -57,13 +57,15 @@ function load() {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            let e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="添加单词" onclick="addWord(\''
+                            let e = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="添加单词" onclick="addWord(\''
                                 + row.id + '\')"><i class="fa fa-plus"></i> 添加单词</a> ';
+                            let c = '<a class="btn btn-success btn-sm" href="#" mce_href="#" title="导入单词" onclick="importJpWord(\''
+                                + row.id + '\')"><i class="fa fa-upload"></i> 导入单词</a> ';
                             let f = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
                                 + row.id + '\')"><i class="fa fa-edit"></i> 编辑</a> ';
                             let d = '<a class="btn btn-danger btn-sm" href="#" mce_href="#" title="删除" onclick="singleRemove(\''
                                 + row.id + '\')"><i class="fa fa-remove"></i> 删除</a>';
-                            return e + f + d;
+                            return e + c + f + d;
                         }
                     }]
             });
@@ -99,6 +101,17 @@ function edit(id) {
         shadeClose: false,
         area: ['800px', '520px'],
         content: prefix + '/edit/' + id
+    });
+}
+
+function importJpWord() {
+    layer.open({
+        type: 2,
+        title: '导入单词',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '520px'],
+        content: '/rwe/jp/word/import'
     });
 }
 

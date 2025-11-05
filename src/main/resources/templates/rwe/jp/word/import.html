@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="alert alert-success">
+							通过文件直接导入单词信息
+							<p><a class="alert-link">注意：你必须按照指定的格式填写导入的文件</a></p>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<div id="file-pretty">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">请选择课程：</label>
+                                    <div class="col-sm-8">
+                                        <select data-placeholder="选择课程..." id="lesson" class="chosen-select" style="width:220px;" tabindex="2">
+                                            <option value="">选择课程</option>
+                                            <span th:each="lesson, index : ${lessons}">
+                                                <option th:value="${lesson.id}" th:text="${lesson.lesson}"></option>
+                                            </span>
+                                        </select>
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<input id="file" type="file" class="form-control">
+									<button type="submit" class="btn btn-primary" style="margin-top: 10px;" onclick="importData()">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rwe/jp/word/import.js"></script>
+	<!-- Prettyfile -->
+	<script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+</body>
+</html>
