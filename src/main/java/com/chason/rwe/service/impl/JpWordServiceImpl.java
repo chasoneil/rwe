@@ -1,5 +1,6 @@
 package com.chason.rwe.service.impl;
 
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.dao.JpWordDao;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
@@ -55,6 +56,10 @@ public class JpWordServiceImpl implements JpWordService {
         lessonDO.setCount(++count);
         jpLessonService.update(lessonDO);
 
+        if (StringUtils.isEmpty(jpWordDO.getWordCn())) {
+            jpWordDO.setWordCn(jpWordDO.getWord());
+        }
+
         jpWordDO.setLearned(0);
         jpWordDO.setLearnTime(0);
         jpWordDO.setCreateTime(new Date());
@@ -67,7 +72,12 @@ public class JpWordServiceImpl implements JpWordService {
     }
 
     @Override
+    @Transactional
     public int remove(Integer id) {
+        JpWordDO jpWordDO = jpWordDao.get(id);
+        JpLessonDO jpLessonDO = jpLessonService.get(jpWordDO.getLessonId());
+        jpLessonDO.setCount(jpLessonDO.getCount()-1);
+        jpLessonService.update(jpLessonDO);
         return jpWordDao.remove(id);
     }
 
