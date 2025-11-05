@@ -3,7 +3,9 @@ package com.chason.rwe.controller;
 import com.chason.common.controller.BaseController;
 
 import com.chason.common.utils.R;
+import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
+import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
@@ -21,31 +23,31 @@ public class JpWordsController extends BaseController {
     @Autowired
     private JpWordService jpWordService;
 
+    @Autowired
+    private JpLessonService jpLessonService;
+
     @GetMapping("/index")
     @RequiresPermissions("rwe:word")
-    public String index() {
+    String index() {
         return PREFIX + "/index";
     }
 
-    @GetMapping("/add/{lessonId}")
-    public String add(@PathVariable("lessonId") String lessonId, Model model) {
-        model.addAttribute("lessonId", lessonId);
+    @GetMapping("/add/{id}")
+    String add(@PathVariable("id") Integer id, Model model) {
+        JpLessonDO jpLessonDO = jpLessonService.get(id);
+        model.addAttribute("lesson", jpLessonDO);
         return PREFIX + "/add";
     }
 
     @ResponseBody
     @PostMapping("/save")
-    public R save(JpWordDO word) {
-
+    R save(JpWordDO jpWordDO) {
         try {
-            if (jpWordService.save(word) > 0) {
-                return R.ok();
-            }
+            jpWordService.save(jpWordDO);
+            return R.ok();
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
-
-        return R.error();
     }
 
 

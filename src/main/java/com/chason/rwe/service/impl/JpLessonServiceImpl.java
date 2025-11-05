@@ -83,6 +83,11 @@ public class JpLessonServiceImpl implements JpLessonService {
     }
 
     @Override
+    public int update(JpLessonDO jpLessonDO) {
+        return jpLessonDao.update(jpLessonDO);
+    }
+
+    @Override
     public int remove(Integer id, Long userId) {
 
         JpLessonDO jpLessonDO = jpLessonDao.get(id);

@@ -7,6 +7,7 @@ import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -16,59 +17,62 @@ import java.util.Map;
 public class JpWordServiceImpl implements JpWordService {
 
     @Autowired
-    private JpWordDao wordDao;
+    private JpWordDao jpWordDao;
 
     @Autowired
-    private JpLessonService lessonService;
+    private JpLessonService jpLessonService;
 
     @Override
     public JpWordDO get(Integer id) {
-        return wordDao.get(id);
+        return jpWordDao.get(id);
     }
 
     @Override
     public JpWordDO findWord(String word, String wordType) {
-        return wordDao.findWord(word, wordType);
+        return jpWordDao.findWord(word, wordType);
     }
 
     @Override
     public List<JpWordDO> list(Map<String, Object> map) {
-        return wordDao.list(map);
+        return jpWordDao.list(map);
     }
 
     @Override
     public int count(Map<String, Object> map) {
-        return wordDao.count(map);
+        return jpWordDao.count(map);
     }
 
     @Override
-    public int save(JpWordDO word) {
+    @Transactional
+    public int save(JpWordDO jpWordDO) {
 
-        JpLessonDO lessonDO = lessonService.get(word.getLessonId());
-
+        JpLessonDO lessonDO = jpLessonService.get(jpWordDO.getLessonId());
         if (lessonDO == null) {
             throw new RuntimeException("课程不存在");
         }
 
         int count = lessonDO.getCount();
         lessonDO.setCount(++count);
-        // lessonService.update(lessonDO);
-        word.setCreateTime(new Date());
-        return wordDao.save(word);
+        jpLessonService.update(lessonDO);
+
+        jpWordDO.setLearned(0);
+        jpWordDO.setLearnTime(0);
+        jpWordDO.setCreateTime(new Date());
+        return jpWordDao.save(jpWordDO);
     }
 
     @Override
     public int update(JpWordDO word) {
-        return wordDao.update(word);
+        return jpWordDao.update(word);
     }
 
     @Override
     public int remove(Integer id) {
-        return wordDao.remove(id);
+        return jpWordDao.remove(id);
     }
 
     @Override
     public int batchRemove(Integer[] ids) {
-        return wordDao.batchRemove(ids);
+        return jpWordDao.batchRemove(ids);
     }
 }

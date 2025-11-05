@@ -16,10 +16,10 @@ public class JpWordDO implements Serializable {
 
     private Integer id;
 
-    // 假名
+    // 假名 例如:わたし
     private String word;
 
-    // 日文单词对应的中文
+    // 单词 以常用为标准 例如：私
     private String wordCn;
 
     // 词性

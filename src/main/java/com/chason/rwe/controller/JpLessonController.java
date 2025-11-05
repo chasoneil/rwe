@@ -29,12 +29,12 @@ public class JpLessonController extends BaseController {
     private RoleService roleService;
 
     @GetMapping("")
-    public String index() {
+    String index() {
         return PREFIX + "/index";
     }
 
     @GetMapping("/lesson")
-    public String lessons(Model model) {
+    String lessons(Model model) {
         List<JpLessonDO> lessons = jpLessonService.list(new HashMap<>());
         model.addAttribute("lessons", lessons);
         return PREFIX + "/lesson";
@@ -42,7 +42,7 @@ public class JpLessonController extends BaseController {
 
     @GetMapping("/list")
     @ResponseBody
-    public PageUtils list(@RequestParam Map<String, Object> params) {
+    PageUtils list(@RequestParam Map<String, Object> params) {
 
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
@@ -55,19 +55,19 @@ public class JpLessonController extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    String add() {
         return PREFIX + "/add";
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    String edit(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("lesson", jpLessonService.get(id));
         return PREFIX + "/edit";
     }
 
     @ResponseBody
     @PostMapping("/save")
-    public R save(JpLessonDO lesson) {
+    R save(JpLessonDO lesson) {
         try {
             lesson.setUserId(getUserId());
             jpLessonService.save(lesson);
@@ -79,7 +79,7 @@ public class JpLessonController extends BaseController {
 
     @ResponseBody
     @PostMapping("/update")
-    public R update(JpLessonDO jpLessonDO) {
+    R update(JpLessonDO jpLessonDO) {
 
         try {
             jpLessonService.update(jpLessonDO, getUserId());
@@ -91,7 +91,7 @@ public class JpLessonController extends BaseController {
 
     @ResponseBody
     @PostMapping("/remove")
-    public R remove(Integer id) {
+    R remove(Integer id) {
         try {
             Long userId = getUserId();
             jpLessonService.remove(id, userId);

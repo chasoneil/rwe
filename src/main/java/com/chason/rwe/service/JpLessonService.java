@@ -15,9 +15,11 @@ public interface JpLessonService {
 
     int count(Map<String, Object> map);
 
-    int save(JpLessonDO lesson);
+    int save(JpLessonDO jpLessonDO);
 
-    int update(JpLessonDO lesson, Long userId);
+    int update(JpLessonDO jpLessonDO, Long userId);
+
+    int update(JpLessonDO jpLessonDO);
 
     int remove(Integer id, Long userId);
 

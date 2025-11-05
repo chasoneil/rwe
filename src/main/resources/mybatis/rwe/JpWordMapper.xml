@@ -45,7 +45,6 @@
 	</select>
 
 	<insert id="save" parameterType="com.chason.rwe.domain.JpWordDO">
-        `learn_time`, `learned`,`last_review_time`,`create_time`
 		insert into tbl_jp_word
 		(
 			`id`, `word`, `word_cn`, `word_type`, `word_voice`, `zh_mean`, `lesson_id`,
