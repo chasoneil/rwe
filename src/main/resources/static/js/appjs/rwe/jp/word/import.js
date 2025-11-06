@@ -15,6 +15,9 @@ function importData() {
 	}
 
     let lessonId = $('#lesson').val();
+    if (lessonId === -1) {
+        alert("需要选择课程才能导入单词");
+    }
 
 	const formData = new FormData();
 	formData.append("file", file);

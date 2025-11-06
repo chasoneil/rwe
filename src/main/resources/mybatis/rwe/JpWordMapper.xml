@@ -8,6 +8,11 @@
         `learn_time`, `learned`,`last_review_time`,`create_time` from tbl_jp_word where id = #{value}
 	</select>
 
+    <select id="checkExist" resultType="com.chason.rwe.domain.JpWordDO">
+        select `id`, `word`, `word_cn`, `word_type`, `word_voice`, `zh_mean`, `lesson_id`,
+        `learn_time`, `learned`,`last_review_time`,`create_time` from tbl_jp_word where word = #{word} and word_voice = #{wordVoice}
+    </select>
+
 	<select id="list" resultType="com.chason.rwe.domain.JpWordDO">
 		select `id`, `word`, `word_cn`, `word_type`, `word_voice`, `zh_mean`, `lesson_id`,
         `learn_time`,`learned`, `last_review_time`,`create_time` from tbl_jp_word

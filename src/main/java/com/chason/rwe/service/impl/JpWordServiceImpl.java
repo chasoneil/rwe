@@ -39,6 +39,12 @@ public class JpWordServiceImpl implements JpWordService {
     }
 
     @Override
+    public boolean checkExist(String word, String wordVoice) {
+        JpWordDO jpWordDO = jpWordDao.checkExist(word, wordVoice);
+        return jpWordDO != null;
+    }
+
+    @Override
     public int count(Map<String, Object> map) {
         return jpWordDao.count(map);
     }
@@ -50,6 +56,10 @@ public class JpWordServiceImpl implements JpWordService {
         JpLessonDO lessonDO = jpLessonService.get(jpWordDO.getLessonId());
         if (lessonDO == null) {
             throw new RuntimeException("课程不存在");
+        }
+
+        if (checkExist(jpWordDO.getWord(), jpWordDO.getWordVoice())) {
+            throw new RuntimeException("单词已存在");
         }
 
         int count = lessonDO.getCount();

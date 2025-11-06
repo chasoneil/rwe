@@ -2,6 +2,7 @@ package com.chason.rwe.dao;
 
 import com.chason.rwe.domain.JpWordDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ public interface JpWordDao {
     JpWordDO findWord(String word, String wordType);
 
     List<JpWordDO> list(Map<String,Object> map);
+
+    JpWordDO checkExist(@Param("word") String word, @Param("wordVoice") String wordVoice);
 
     int count(Map<String,Object> map);
 

@@ -415,7 +415,7 @@ CREATE TABLE `tbl_jp_word` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `word` varchar(255) NOT NULL COMMENT '日语单词',
   `word_cn` varchar(255) COMMENT '正式单词',
-  `word_type` varchar(32) NOT NULL COMMENT '词性',
+  `word_type` varchar(32) COMMENT '词性',
   `word_voice` varchar(8) COMMENT '音型',
   `zh_mean` varchar(255) NOT NULL COMMENT '中文含义',
   `lesson_id` int(11) DEFAULT NULL COMMENT '所属课程ID',

@@ -5,8 +5,11 @@ import com.chason.common.controller.BaseController;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
+import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
+import com.chason.rwe.domain.TradeDO;
+import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 
@@ -16,9 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
 
 @Controller
 @RequestMapping("/rwe/jp/word")
@@ -120,7 +123,67 @@ public class JpWordsController extends BaseController {
     @ResponseBody
     @PostMapping("/import/word")
     public R doImport(@RequestParam("file") MultipartFile file, @RequestParam("lessonId") Integer lessonId) {
-        System.out.println("lessonId:" + lessonId);
-        return R.ok();
+
+
+        if (!(file.getOriginalFilename().endsWith(".txt") ||  file.getOriginalFilename().endsWith(".TXT"))) {
+            return R.error("请上传TXT格式的文件！");
+        }
+
+        if (file.getSize() == 0) {
+            return R.error("文件内容为空！");
+        }
+
+        if (lessonId == -1) {
+            return R.error("请选择课程后再执行导入！");
+        }
+
+        int count = doWordImport(file, lessonId);
+        return R.ok("导入单词成功，本次导入" + count + "个单词");
+    }
+
+    private int doWordImport(MultipartFile file, Integer lessonId) {
+
+        String delimiter = "-";
+        int rowCount = 0;
+        String encoding = "UTF-8";
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
+
+            List<JpWordDO> jpWords = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (StringUtils.isEmpty(line)) {
+                    continue;
+                }
+
+                String[] columns = line.split(delimiter);
+                if (jpWordService.checkExist(columns[0], columns[3])) {
+                    continue;
+                }
+                JpWordDO jpWordDO = new JpWordDO();
+                jpWordDO.setWord(columns[0]);
+                if (StringUtils.isEmpty(columns[1])) {
+                    jpWordDO.setWordCn(columns[0]);
+                } else {
+                    jpWordDO.setWordCn(columns[1]);
+                }
+                jpWordDO.setWordCn(columns[1]);
+                jpWordDO.setWordVoice(columns[3]);
+                jpWordDO.setZhMean(columns[2]);
+                jpWordDO.setLessonId(lessonId);
+                jpWordDO.setLearnTime(0);
+                jpWordDO.setLearned(0);
+                jpWordDO.setCreateTime(new Date());
+
+                jpWordService.save(jpWordDO);
+                rowCount++;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return rowCount;
     }
 }
