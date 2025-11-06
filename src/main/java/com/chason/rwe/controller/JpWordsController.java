@@ -8,8 +8,6 @@ import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
-import com.chason.rwe.domain.TradeDO;
-import com.chason.rwe.enums.TradePlatform;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 
