@@ -2,12 +2,17 @@ package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
 
+import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -26,7 +31,9 @@ public class JpRemberController extends BaseController {
     private JpLessonService jpLessonService;
 
     @GetMapping("")
-    String index() {
+    String index(Model model) {
+        List<JpLessonDO> jpLessonDOS = jpLessonService.list(new HashMap<>());
+        model.addAttribute("lessons", jpLessonDOS);
         return PREFIX + "/index";
     }
 

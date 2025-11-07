@@ -24,98 +24,27 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-                <div class="contact-box">
+                <div class="contact-box" th:each="lesson, index: ${lessons}">
                     <a href="profile.html">
                         <div class="col-sm-4">
                             <div class="text-center">
-                                <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">
-                                <div class="m-t-xs font-bold">CTO</div>
+                                <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/jp.jpeg">
+                                <div class="m-t-xs font-bold">日本语</div>
                             </div>
                         </div>
                         <div class="col-sm-8">
-                            <h3><strong>奔波儿灞</strong></h3>
-                            <p><i class="fa fa-map-marker"></i> 甘肃·兰州</p>
+                            <h3><strong th:text="${lesson.lesson}"></strong></h3>
+                            <p><i class="fa fa-map-book"></i> 本课单词数：36</p>
                             <address>
-                                <strong>Baidu, Inc.</strong><br>
-                                E-mail:xxx@baidu.com<br>
-                                Weibo:<a href="">http://weibo.com/xxx</a><br>
-                                <abbr title="Phone">Tel:</abbr> (123) 456-7890
+                                <strong>本课状态：<div class="btn btn-danger btn-xs btn-">未学习</div></strong><br>
+                                上次学习：2025-11-07 12:30:31<br>
+                                <abbr title="Phone">已学会单词:</abbr> 25
                             </address>
                         </div>
                         <div class="clearfix"></div>
                     </a>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="contact-box">
-                    <a href="profile.html">
-                        <div class="col-sm-3">
-                            <div class="text-center">
-                                <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">
-                                <div class="m-t-xs font-bold">CTO</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <h3><strong>奔波儿灞</strong></h3>
-                            <p><i class="fa fa-map-marker"></i> 甘肃·兰州</p>
-                            <address>
-                                <strong>Baidu, Inc.</strong><br>
-                                E-mail:xxx@baidu.com<br>
-                                Weibo:<a href="">http://weibo.com/xxx</a><br>
-                                <abbr title="Phone">Tel:</abbr> (123) 456-7890
-                            </address>
-                        </div>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="contact-box">
-                    <a href="profile.html">
-                        <div class="col-sm-4">
-                            <div class="text-center">
-                                <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">
-                                <div class="m-t-xs font-bold">CTO</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <h3><strong>奔波儿灞</strong></h3>
-                            <p><i class="fa fa-map-marker"></i> 甘肃·兰州</p>
-                            <address>
-                                <strong>Baidu, Inc.</strong><br>
-                                E-mail:xxx@baidu.com<br>
-                                Weibo:<a href="">http://weibo.com/xxx</a><br>
-                                <abbr title="Phone">Tel:</abbr> (123) 456-7890
-                            </address>
-                        </div>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="contact-box">
-                    <a href="profile.html">
-                        <div class="col-sm-4">
-                            <div class="text-center">
-                                <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">
-                                <div class="m-t-xs font-bold">CTO</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <h3><strong>奔波儿灞</strong></h3>
-                            <p><i class="fa fa-map-marker"></i> 甘肃·兰州</p>
-                            <address>
-                                <strong>Baidu, Inc.</strong><br>
-                                E-mail:xxx@baidu.com<br>
-                                Weibo:<a href="">http://weibo.com/xxx</a><br>
-                                <abbr title="Phone">Tel:</abbr> (123) 456-7890
-                            </address>
-                        </div>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-            </div>
-
         </div>
 
     </div>
