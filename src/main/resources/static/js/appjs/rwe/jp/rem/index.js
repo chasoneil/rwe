@@ -28,6 +28,17 @@ function add() {
     });
 }
 
+function doRem(id) {
+    layer.confirm('开始背单词？', {
+        btn: ['确定', '取消']
+    }, function () {
+        $.ajax({
+            url: prefix + "/rem/" + id,
+            type: "get"
+        });
+    })
+}
+
 
 function refreshPage() {
     reload();
