@@ -54,9 +54,14 @@ public class JpRemberController extends BaseController {
 
         model.addAttribute("jpWords", jpWords);
         model.addAttribute("jpLesson", jpLessonDO);
+        model.addAttribute("lessonId", id);
         return PREFIX + "/rem";
     }
 
+    @GetMapping("/dorem")
+    String doRem() {
+        return PREFIX + "/dorem";
+    }
 
 
 

@@ -34,7 +34,15 @@ function doRem(id) {
     }, function () {
         $.ajax({
             url: prefix + "/rem/" + id,
-            type: "get"
+            type: "get",
+            success: function (response) {
+                let element = document.getElementById('rem-content');
+                element.innerHTML = response;
+                layer.msg('开始背单词');
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX请求失败：', error);
+            }
         });
     })
 }
