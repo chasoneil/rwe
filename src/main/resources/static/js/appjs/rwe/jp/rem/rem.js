@@ -58,7 +58,6 @@ function setText(jpword, testType) {
     $('#testType').val(testType);
     $('#word_voice').text(jpword.wordVoice);
     $('#word_type').text(jpword.wordType);
-    console.log(testType);
     // 中文含义测试
     if (testType === 1) {
         $('#word_jia').text(jpword.word);
@@ -77,12 +76,16 @@ function setText(jpword, testType) {
 
 function next() {
     if (index === length-1) {
-        parent.layer.msg("已经是最后一个单词啦");
+
+        // 练习结束 将数据传回后台
+        parent.layer.msg("已经是最后一个单词啦")
+        console.log(wordsArray);
         return;
     }
 
     checkExercise();
     let testType = Math.floor(Math.random() * 3) + 1;
+    $('#testType').val(testType);
     let jpword = wordsArray[++index];
     setText(jpword, testType);
 }
@@ -90,7 +93,8 @@ function next() {
 function checkExercise() {
 
     let testType = $('#testType').val();
-    if (testType === 1) {
+    let jpword = wordsArray[index];
+    if (testType === '1') {
         let means = jpword.zhMean;
         let res = 0;
         let ans = $('#mean').val();
@@ -98,8 +102,9 @@ function checkExercise() {
             parent.layer.msg("回答错误");
             return;
         }
-        means.split(';').forEach(element=>{
-            if (element.textContent === ans) {
+        means.split(';').forEach(item=>{
+            console.log(item);
+            if (item === ans) {
                 res = 1;
             }
         });
@@ -110,7 +115,8 @@ function checkExercise() {
             parent.layer.msg("回答正确");
             return;
         }
-    } else if (testType === 2) {
+
+    } else if (testType === '2') {
         let jia = jpword.word;
         let ans = $('#jia').val();
         if (ans === 'undefined') {
@@ -124,7 +130,7 @@ function checkExercise() {
             parent.layer.msg("回答错误");
             return;
         }
-    } else if (testType === 3) {
+    } else if (testType === '3') {
         let cn = jpword.wordCn;
         let ans = $('#cn').val();
         if (ans === 'undefined') {
@@ -139,7 +145,9 @@ function checkExercise() {
             return;
         }
     }
-
+    jpword.learned = 1;
+    jpword.learnTime = ++(jpword.learnTime);
+    wordsArray[index] = jpword;
 }
 
 function prev() {
