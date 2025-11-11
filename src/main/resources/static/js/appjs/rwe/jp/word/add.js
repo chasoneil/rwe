@@ -22,7 +22,6 @@ function save() {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-			console.log(data);
 			if (data.code == 0) {
 				parent.layer.msg("操作成功");
 				parent.reload();

@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<style>
+    .word-content {
+        font-size: 16px;
+        font-weight: bold;
+        text-align:center;
+    }
+    .word-title {
+        font-size: 14px;
+        text-align:center;
+    }
+    .word-container {
+        margin-top:100px;
+    }
+</style>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" style="margin-top:200px;">
+        <input th:value="${lessonId}" type="hidden" id="lessonId">
+        <div class="word-container">
+            <div class="word-title">わたし [2]</div>
+            <div class="word-content">私</div>
+            <div>主语、名词</div>
+            <div>
+                中文含义:<input type="text" name="zhMean">
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-success" onclick="before()">
+                <i class="fa fa-undo" aria-hidden="true"></i> 上一个
+            </button>
+            <button type="button" class="btn btn-success" onclick="passed()">
+                <i class="fa fa-undo" aria-hidden="true"></i> 已学会
+            </button>
+            <button type="button" class="btn btn-success" onclick="next()">
+                <i class="fa fa-undo" aria-hidden="true"></i> 下一个
+            </button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/rwe/jp/rem/start.js"></script>
+</body>
+</html>
+
+
+
+

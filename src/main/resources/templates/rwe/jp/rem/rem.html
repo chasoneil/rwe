@@ -1,69 +1,71 @@
 
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
 <style>
-    .rem-btn {
-        width: 100px;
-        height: 80px;
-        border: 1px solid #fff;
-        border-radius : 10px;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        padding: 30px;
+    .word-content {
+        font-size: 20px;
+        font-weight: bold;
+        text-align:center;
+    }
+    .word-title {
+        font-size: 14px;
+        text-align:center;
     }
 </style>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" style="margin-top:100px;">
         <div class="col-sm-12">
-            <div class="ibox-body">
-                <div class="fixed-table-toolbar">
-                    <div class="columns pull-left">
-                        <button type="button" class="btn btn-success" onclick="window.location.href='/rwe/jp/rem'">
-                            <i class="fa fa-undo" aria-hidden="true"></i> 重新选择课程
-                        </button>
+            <div class="ibox float-e-margins">
+                <input th:value="${lessonId}" type="hidden" id="lessonId">
+                <input type="hidden" id="testType">
+                <form class="form-horizontal m-t" id="signupForm">
+                    <div class="form-group" style="text-align:center;">
+                        <div class="word-title">
+                            <span id="word_jia">わたし</span>
+                            [<span id="word_voice">-</span>]
+                        </div>
+                        <div class="word-content">
+                            <div id="word_cn">私</div>
+                        </div>
+                        <div>
+                            <div id="word_mean">我</div>
+                        </div>
+                        <div>
+                            <div id="word_type">--</div>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="text-align:center;margin-top: 20px;">
+                            <button type="button" class="btn btn-default" onclick="prev()">
+                                <i class="fa fa-step-backward" aria-hidden="true"></i> 上一个
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="passed()">
+                                <i class="fa fa-angellist" aria-hidden="true"></i> 已学会
+                            </button>
+                            <button type="button" class="btn btn-default" onclick="next()">
+                                <i class="fa fa-step-forward" aria-hidden="true"></i> 下一个
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row" style="margin-top:200px;">
-            <input th:value="${lessonId}" type="hidden" id="lessonId">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                <div class="row" id="do-rem-container">
-                    <div class="col-sm-4">
-                        <a onclick="listWords()">
-                            <div class="rem-btn">
-                                <div style="text-align:center;font-size:14px;">
-                                    <i class="fa fa-book"></i>
-                                </div>
-                                <div style="margin-top:5px;"><strong>本课单词</strong></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-4">
-                        <a onclick="remWord()">
-                            <div class="rem-btn">
-                                <div style="text-align:center;font-size:14px;">
-                                    <i class="fa fa-book"></i>
-                                </div>
-                                <div style="margin-top:5px;"><strong>背单词</strong></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-4">
-                        <a onclick="doTest()">
-                            <div class="rem-btn">
-                                <div style="text-align:center;font-size:14px;">
-                                    <i class="fa fa-book"></i>
-                                </div>
-                                <div style="margin-top:5px;"><strong>单词测试</strong></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4"></div>
-        </div>
-
     </div>
-    <script type="text/javascript" src="/js/appjs/rwe/jp/rem/rem.js"></script>
+</div>
+
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/rwe/jp/rem/rem.js"></script>
 </body>
+</html>
+
+
+
+
+
+
 

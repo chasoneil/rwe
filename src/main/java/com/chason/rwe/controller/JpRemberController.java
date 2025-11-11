@@ -1,7 +1,9 @@
 package com.chason.rwe.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.chason.common.controller.BaseController;
 
+import com.chason.common.utils.R;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
 import com.chason.rwe.service.JpLessonService;
@@ -32,6 +34,7 @@ public class JpRemberController extends BaseController {
     @Autowired
     private JpLessonService jpLessonService;
 
+
     @GetMapping("")
     String index(Model model) {
         List<JpLessonDO> jpLessonDOS = jpLessonService.list(new HashMap<>());
@@ -41,28 +44,24 @@ public class JpRemberController extends BaseController {
 
     @GetMapping("/rem/{id}")
     String rem(@PathVariable("id") Integer id, Model model) {
-        JpLessonDO jpLessonDO = jpLessonService.get(id);
+        model.addAttribute("lessonId", id);
+        return PREFIX + "/rem";
+    }
+
+    @ResponseBody
+    @PostMapping("/rem/load/words")
+    R doRem(@RequestParam("lessonId") Integer lessonId) {
+        JpLessonDO jpLessonDO = jpLessonService.get(lessonId);
 
         Map<String, Object> param = new HashMap<>();
-        param.put("lessonId", id);
+        param.put("lessonId", lessonId);
         List<JpWordDO> jpWords = jpWordService.list(param);
         for (JpWordDO jpWord : jpWords) {
             if (jpWord.getLearned() == 2) {
                 jpWords.remove(jpWord);
             }
         }
-
-        model.addAttribute("jpWords", jpWords);
-        model.addAttribute("jpLesson", jpLessonDO);
-        model.addAttribute("lessonId", id);
-        return PREFIX + "/rem";
+        String res = JSON.toJSONString(jpWords);
+        return R.ok(res);
     }
-
-    @GetMapping("/dorem")
-    String doRem() {
-        return PREFIX + "/dorem";
-    }
-
-
-
 }

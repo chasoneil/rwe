@@ -29,7 +29,16 @@ function add() {
 }
 
 function doRem(id) {
-    layer.confirm('开始背单词？', {
+
+    layer.open({
+        type: 2,
+        title: '背单词',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '520px'],
+        content: prefix + '/rem/' + id,
+    });
+    /*layer.confirm('开始背单词？', {
         btn: ['确定', '取消']
     }, function () {
         $.ajax({
@@ -44,7 +53,7 @@ function doRem(id) {
                 console.error('AJAX请求失败：', error);
             }
         });
-    })
+    })*/
 }
 
 
