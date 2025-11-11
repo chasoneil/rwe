@@ -81,10 +81,10 @@ function next() {
         return;
     }
 
-
-
+    checkExercise();
+    let testType = Math.floor(Math.random() * 3) + 1;
     let jpword = wordsArray[++index];
-    setText(jpword);
+    setText(jpword, testType);
 }
 
 function checkExercise() {
@@ -111,9 +111,33 @@ function checkExercise() {
             return;
         }
     } else if (testType === 2) {
-
+        let jia = jpword.word;
+        let ans = $('#jia').val();
+        if (ans === 'undefined') {
+            parent.layer.msg("回答错误");
+            return;
+        }
+        if (jia === ans) {
+            parent.layer.msg("回答正确");
+            return;
+        } else {
+            parent.layer.msg("回答错误");
+            return;
+        }
     } else if (testType === 3) {
-
+        let cn = jpword.wordCn;
+        let ans = $('#cn').val();
+        if (ans === 'undefined') {
+            parent.layer.msg("回答错误");
+            return;
+        }
+        if (cn === ans) {
+            parent.layer.msg("回答正确");
+            return;
+        } else {
+            parent.layer.msg("回答错误");
+            return;
+        }
     }
 
 }
