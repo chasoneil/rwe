@@ -31,13 +31,7 @@ function loadData() {
                 // js 处理单词数据
                 wordsArray = JSON.parse(data.msg);
                 length = wordsArray.length;
-                // 默认设置第一个单词数据
-//                index = 0;
-//                let jpword = wordsArray[index];
-//                setText(jpword);
-
                 exercise();
-
             } else {
                 parent.layer.msg("加载单词数据失败");
             }
@@ -47,8 +41,12 @@ function loadData() {
 }
 
 function exercise() {
-
-    // 产生随机数表示练习的类型 1. 写出中文含义 2. 写出假名 3. 写出中文表达的日语
+    /*
+     产生随机数表示练习的类型
+     1. 根据日文写出中文含义
+     2. 根据日文汉字写出假名
+     3. 根据假名写出日语的中文
+    */
     let testType = Math.floor(Math.random() * 3) + 1;
     let jpword = wordsArray[index];
     setText(jpword, testType);
@@ -75,18 +73,40 @@ function setText(jpword, testType) {
 }
 
 function next() {
-    if (index === length-1) {
 
+    index++;
+    if (index === length) {
         // 练习结束 将数据传回后台
-        parent.layer.msg("已经是最后一个单词啦")
-        console.log(wordsArray);
+        parent.layer.msg("本课学习完成")
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url : prefix + "/learn",
+            async: false,
+            data : {
+                "data": JSON.stringify(wordsArray)
+            },
+            error : function(request) {
+                parent.layer.alert("更新单词数据失败");
+            },
+            success : function(data) {
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                    parent.layer.close(index);
+                } else {
+                    parent.layer.msg("更新单词数据失败");
+                }
+            }
+        });
         return;
     }
 
     checkExercise();
     let testType = Math.floor(Math.random() * 3) + 1;
     $('#testType').val(testType);
-    let jpword = wordsArray[++index];
+    let jpword = wordsArray[index];
     setText(jpword, testType);
 }
 
@@ -94,6 +114,10 @@ function checkExercise() {
 
     let testType = $('#testType').val();
     let jpword = wordsArray[index];
+    if (jpword.learned === 0) {
+        jpword.learned = 1;
+    }
+    jpword.learnTime = jpword.learnTime + 1;
     if (testType === '1') {
         let means = jpword.zhMean;
         let res = 0;
@@ -103,7 +127,6 @@ function checkExercise() {
             return;
         }
         means.split(';').forEach(item=>{
-            console.log(item);
             if (item === ans) {
                 res = 1;
             }
@@ -145,9 +168,6 @@ function checkExercise() {
             return;
         }
     }
-    jpword.learned = 1;
-    jpword.learnTime = ++(jpword.learnTime);
-    wordsArray[index] = jpword;
 }
 
 function prev() {
@@ -160,10 +180,12 @@ function prev() {
     setText(jpword);
 }
 
+// 点击已学会
 function passed() {
-    parent.layer.msg("开发中");
+    let jpword = wordsArray[index];
+    jpword.learned = 2;
+    next();
 }
-
 
 function remWord() {
 

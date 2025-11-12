@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +64,16 @@ public class JpRemberController extends BaseController {
         }
         String res = JSON.toJSONString(jpWords);
         return R.ok(res);
+    }
+
+    @ResponseBody
+    @PostMapping("/learn")
+    R learn(@RequestParam("data") String data) {
+        try {
+            jpWordService.updateRem(data);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
     }
 }

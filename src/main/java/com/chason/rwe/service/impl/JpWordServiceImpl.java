@@ -1,5 +1,6 @@
 package com.chason.rwe.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.dao.JpWordDao;
 import com.chason.rwe.domain.JpLessonDO;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,5 +96,34 @@ public class JpWordServiceImpl implements JpWordService {
     @Override
     public int batchRemove(Integer[] ids) {
         return jpWordDao.batchRemove(ids);
+    }
+
+    @Override
+    @Transactional
+    public void updateRem(String data) {
+
+        List<JpWordDO> words = JSON.parseArray(data, JpWordDO.class);
+        Date d = new Date();
+        for (JpWordDO jpWordDO : words) {
+            jpWordDO.setLastReviewTime(d);
+            jpWordDao.update(jpWordDO);
+        }
+
+        JpLessonDO lessonDO;
+        if (!words.isEmpty()) {
+            lessonDO = jpLessonService.get(words.get(0).getLessonId());
+            lessonDO.setLastLearnTime(d);
+            Map<String, Object> param = new HashMap<>();
+            param.put("lessonId", words.get(0).getLessonId());
+            List<JpWordDO> allWords = jpWordDao.list(param);
+            int passed = 0;
+            for (JpWordDO wordDO : allWords) {
+                if (wordDO.getLearned() == 2) {
+                    passed++;
+                }
+            }
+            lessonDO.setPassed(passed);
+            jpLessonService.update(lessonDO);
+        }
     }
 }

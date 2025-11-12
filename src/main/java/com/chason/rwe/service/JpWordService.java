@@ -25,4 +25,6 @@ public interface JpWordService {
 
     int batchRemove(Integer[] ids);
 
+    void updateRem(String data);
+
 }
