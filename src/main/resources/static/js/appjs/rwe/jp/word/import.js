@@ -2,7 +2,6 @@ const PREFIX = "/rwe/jp/word"
 
 $().ready(function() {
 	$( 'input[type="file"]' ).prettyFile();
-	$(".chosen-select").chosen();
 });
 
 function importData() {
@@ -15,8 +14,9 @@ function importData() {
 	}
 
     let lessonId = $('#lesson').val();
-    if (lessonId === -1) {
-        alert("需要选择课程才能导入单词");
+    if (lessonId === 'undefined') {
+        layer.alert("未发现课程信息");
+        return;
     }
 
 	const formData = new FormData();

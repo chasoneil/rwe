@@ -110,11 +110,10 @@ public class JpWordsController extends BaseController {
         }
     }
 
-    @GetMapping("/import")
-    String importPage(Model model) {
-        Map<String, Object> params = new HashMap<>();
-        List<JpLessonDO> jpLessonLists = jpLessonService.list(params);
-        model.addAttribute("lessons", jpLessonLists);
+    @GetMapping("/import/{id}")
+    String importPage(@PathVariable("id") Integer id, Model model) {
+        JpLessonDO jpLessonDO = jpLessonService.get(id);
+        model.addAttribute("lesson", jpLessonDO);
         return PREFIX + "/import";
     }
 

@@ -25,7 +25,7 @@ function load() {
                     return {
                         limit: params.limit,
                         offset: params.offset,
-                        // username:$('#searchName').val()
+                        lesson:$('#searchName').val()
                     };
                 },
                 columns: [
@@ -104,14 +104,14 @@ function edit(id) {
     });
 }
 
-function importJpWord() {
+function importJpWord(id) {
     layer.open({
         type: 2,
         title: '导入单词',
         maxmin: true,
         shadeClose: false,
         area: ['800px', '520px'],
-        content: '/rwe/jp/word/import'
+        content: '/rwe/jp/word/import/' + id
     });
 }
 
@@ -125,7 +125,7 @@ function reload() {
 }
 
 function singleRemove(id) {
-    layer.confirm('确定要删除选中的记录？', {
+    layer.confirm('删除课程将同时删除该课程的所有单词，是否删除?', {
         btn: ['确定', '取消']
     }, function () {
         $.ajax({
