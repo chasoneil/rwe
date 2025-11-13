@@ -22,11 +22,15 @@
                         <button class="btn btn-success" onclick="reload()"> 查询</button>
                     </div>
                     <div class="columns pull-right" style="margin-left: 5px;">
-                        <input id="searchWord" type="text" class="form-control" placeholder="请输入单词">
+                        <select data-placeholder="选择课程..." id="lesson" class="chosen-select" style="width:220px;" tabindex="2">
+                            <option value="-1">选择课程</option>
+                            <option th:each="lesson, index : ${lessons}" th:value="${lesson.id}"
+                                    th:text="${lesson.lesson}"></option>
+                        </select>
                     </div>
 
                     <div class="columns pull-right input-group">
-                        <input id="searchLesson" type="text" class="form-control" placeholder="请输入课程名">
+                        <input id="searchWord" type="text" class="form-control" placeholder="请输入单词">
                     </div>
                 </div>
             </div>

@@ -34,7 +34,12 @@ public class JpWordsController extends BaseController {
     private JpLessonService jpLessonService;
 
     @GetMapping("")
-    String index() {
+    String index(Model model) {
+        Map<String, Object> param = new HashMap<>();
+        Long userId = getUserId();
+        param.put("userId", userId);
+        List<JpLessonDO> jpLessonDOS = jpLessonService.list(param);
+        model.addAttribute("lessons", jpLessonDOS);
         return PREFIX + "/index";
     }
 
@@ -45,18 +50,25 @@ public class JpWordsController extends BaseController {
         params.putIfAbsent("offset", 0);
         params.putIfAbsent("limit", 10);
 
-        if (params.get("lesson") != null) {
-            String lesson = (String) params.get("lesson");
-            JpLessonDO jpLessonDO = jpLessonService.find(lesson);
-            if (jpLessonDO != null) {
-                params.put("lessonId", jpLessonDO.getId());
-                params.remove("lesson");
+        List<JpWordDO> words = new ArrayList<>();
+        int total = 0;
+
+        Integer lessonId = Integer.parseInt((String) params.get("lessonId"));
+        if (lessonId == -1) {
+            params.remove("lessonId");
+        } else {
+            JpLessonDO jpLessonDO = jpLessonService.get(lessonId);
+
+            // 选择的课程不属于当前用户
+            if (jpLessonDO != null &&
+                    jpLessonDO.getUserId() != 1 && jpLessonDO.getUserId() != getUserId()) {
+                return new PageUtils(words, total);
             }
         }
 
         Query query = new Query(params);
-        List<JpWordDO> words = jpWordService.list(query);
-        int total = jpWordService.count(query);
+        words = jpWordService.list(query);
+        total = jpWordService.count(query);
         return new PageUtils(words, total);
     }
 

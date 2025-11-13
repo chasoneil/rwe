@@ -1,6 +1,7 @@
 const prefix = "/rwe/jp/word";
 
 $(function () {
+    $(".chosen-select").chosen();
     load();
 });
 
@@ -26,7 +27,7 @@ function load() {
                         limit: params.limit,
                         offset: params.offset,
                         word:$('#searchWord').val(),
-                        lesson:$('#searchLesson').val()
+                        lessonId:$('#lesson').val()
                     };
                 },
                 columns: [
@@ -98,6 +99,8 @@ function edit(id) {
 }
 
 function refreshPage() {
+    $('#lesson').val('-1');
+    $('#searchWord').val();
     reload();
     layer.msg("刷新成功");
 }
