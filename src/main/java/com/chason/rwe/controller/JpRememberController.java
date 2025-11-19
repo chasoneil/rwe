@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/rwe/jp/rem")
-public class JpRemberController extends BaseController {
+public class JpRememberController extends BaseController {
 
     private static final String PREFIX = "rwe/jp/rem";
 

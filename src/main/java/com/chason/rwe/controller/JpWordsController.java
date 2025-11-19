@@ -8,6 +8,7 @@ import com.chason.common.utils.R;
 import com.chason.common.utils.StringUtils;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
+import com.chason.rwe.enums.WordTypeEnum;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 
@@ -53,7 +54,7 @@ public class JpWordsController extends BaseController {
         List<JpWordDO> words = new ArrayList<>();
         int total = 0;
 
-        Integer lessonId = Integer.parseInt((String) params.get("lessonId"));
+        int lessonId = Integer.parseInt((String) params.get("lessonId"));
         if (lessonId == -1) {
             params.remove("lessonId");
         } else {
@@ -68,6 +69,13 @@ public class JpWordsController extends BaseController {
 
         Query query = new Query(params);
         words = jpWordService.list(query);
+        for (JpWordDO w : words) {
+            if (!StringUtils.isEmpty(w.getWordType())) {
+                String t = w.getWordType();
+                w.setWordType(WordTypeEnum.getNameFromSign(t));
+            }
+        }
+
         total = jpWordService.count(query);
         return new PageUtils(words, total);
     }
@@ -150,6 +158,7 @@ public class JpWordsController extends BaseController {
         return R.ok("导入单词成功，本次导入" + count + "个单词");
     }
 
+    // 假名 - 单词 - 含义 - 音型 - 词型
     private int doWordImport(MultipartFile file, Integer lessonId) {
 
         String delimiter = "-";
@@ -158,7 +167,6 @@ public class JpWordsController extends BaseController {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
 
-            List<JpWordDO> jpWords = new ArrayList<>();
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -180,6 +188,9 @@ public class JpWordsController extends BaseController {
                 jpWordDO.setWordCn(columns[1]);
                 jpWordDO.setWordVoice(columns[3]);
                 jpWordDO.setZhMean(columns[2]);
+                if (columns.length == 5 && !StringUtils.isEmpty(columns[4])) {
+                    jpWordDO.setWordType(columns[4].toLowerCase());
+                }
                 jpWordDO.setLessonId(lessonId);
                 jpWordDO.setLearnTime(0);
                 jpWordDO.setLearned(0);
