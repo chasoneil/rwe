@@ -9,12 +9,15 @@ import java.util.HashSet;
 public class RandomFlagValue
 {
     private HashSet<String> activeFlag = new HashSet<String>();
-    public HashSet<String> getActiveFlag()
-    {
+
+    public HashSet<String> getActiveFlag() {
         return activeFlag;
     }
+
     private static RandomFlagValue instance = new RandomFlagValue();
+
     private RandomFlagValue(){}
+
     public static RandomFlagValue getInstance() {
         return instance;
     }

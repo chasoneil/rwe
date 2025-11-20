@@ -1,5 +1,6 @@
 package com.chason.common.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public interface LogDao {
 	int update(LogDO log);
 
 	int remove(Long id);
+
+    int removeBeforeDate(Date date);
 
 	int batchRemove(Long[] ids);
 }

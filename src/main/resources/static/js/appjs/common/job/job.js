@@ -25,19 +25,11 @@ function load() {
                 sidePagination: "server",
                 queryParams: function (params) {
                     return {
-                        // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                         limit: params.limit,
                         offset: params.offset,
                         jobName:$('#searchJobName').val()
-                        // username:$('#searchName').val()
                     };
                 },
-                // //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-                // queryParamsType = 'limit' ,返回参数必须包含
-                // limit, offset, search, sort, order 否则, 需要包含:
-                // pageSize, pageNumber, searchText, sortName,
-                // sortOrder.
-                // 返回false将会终止请求
                 columns: [
                     {
                         checkbox: true
@@ -84,8 +76,6 @@ function load() {
                         field: 'createDate',
                         title: '创建时间'
                     },
-
-
                     {
                         visible: false,
                         field: 'updateDate',
@@ -101,7 +91,6 @@ function load() {
                         field: 'springBean',
                         title: 'Spring bean'
                     },
-
                     {
                         field: 'jobStatus',
                         title: '停起操作',
@@ -121,7 +110,6 @@ function load() {
 
                         }
                     },
-
                     {
                         title: '操作',
                         field: 'id',
@@ -143,6 +131,11 @@ function reload() {
     $('#exampleTable').bootstrapTable('refresh');
 }
 
+function refreshPage() {
+    $('#searchJobName').val();
+    reload();
+}
+
 function add() {
     layer.open({
         type: 2,
@@ -159,6 +152,7 @@ function edit(id, status) {
         layer.alert('修改之前请先停止任务');
         return;
     }
+
     layer.open({
         type: 2,
         title: '编辑',

@@ -1,5 +1,6 @@
 package com.chason.common.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.chason.common.utils.Query;
 @SuppressWarnings("AlibabaRemoveCommentedCode")
 @Service
 public class LogServiceImpl implements LogService {
+
 	@Autowired
 	LogDao logMapper;
 
@@ -30,19 +32,21 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public int remove(Long id) {
-		int count = logMapper.remove(id);
-		return count;
+		return logMapper.remove(id);
 	}
 
 	@Override
-	public int batchRemove(Long[] ids){
+	public int batchRemove(Long[] ids) {
 		return logMapper.batchRemove(ids);
 	}
 
     @Override
-    public List<LogDO> list(Map<String, Object> param)
-    {
-        List<LogDO> logs = logMapper.list(param);
-        return logs;
+    public int removeBeforeDate(Date date) {
+        return logMapper.removeBeforeDate(date);
+    }
+
+    @Override
+    public List<LogDO> list(Map<String, Object> param) {
+        return logMapper.list(param);
     }
 }

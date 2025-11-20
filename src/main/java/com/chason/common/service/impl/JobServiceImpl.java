@@ -58,9 +58,8 @@ public class JobServiceImpl implements JobService {
 			return taskScheduleJobMapper.remove(id);
 		} catch (SchedulerException e) {
 			e.printStackTrace();
-			return 0;
 		}
-
+        return 0;
 	}
 
 	@Override
@@ -71,9 +70,9 @@ public class JobServiceImpl implements JobService {
 				quartzManager.deleteJob(ScheduleJobUtils.entityToData(scheduleJob));
 			} catch (SchedulerException e) {
 				e.printStackTrace();
-				return 0;
-			}
-		}
+                return 0;
+            }
+        }
 		return taskScheduleJobMapper.batchRemove(ids);
 	}
 

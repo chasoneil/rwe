@@ -6,11 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Calendar;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -20,8 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.chason.common.annotation.Log;
 import com.chason.common.config.RtmdoConfig;
-import com.chason.common.domain.LogDO;
-import com.chason.common.service.LogService;
+
 import com.chason.common.utils.CompressUtils;
 import com.chason.rwe.value.RandomFlagValue;
 
@@ -38,72 +34,43 @@ public class JobBackupDb implements Job
     @Autowired
     private RtmdoConfig _rtmdoConfig;
 
-    @Autowired
-    private LogService logService;
-
     @Log("数据库备份任务")
     @Override
-    public void execute(JobExecutionContext arg0) throws JobExecutionException
-    {
+    public void execute(JobExecutionContext arg0) throws JobExecutionException {
         //清除今日随机策略
         RandomFlagValue value = RandomFlagValue.getInstance();
         value.getActiveFlag().clear();
 
-        String fPath    = this._rtmdoConfig.getDbRepoPath() + "/zmanager.sql";
-        String destPath = this._rtmdoConfig.getDbRepoPath() + "/zmanager_" + new Date().getTime()+".zip";
-        deleteLog();
+        String fPath    = this._rtmdoConfig.getDbRepoPath() + "/rwe.sql";
+        String destPath = this._rtmdoConfig.getDbRepoPath() + "/rwe_" + new Date().getTime()+".zip";
         dumpFile(fPath);
-        CompressUtils.zip(fPath, destPath, false, "zmanager");
-    }
-
-    /**
-     * 定时删除一个月之前的Log数据
-     */
-    private void deleteLog()
-    {
-        Map<String, Object> param = new HashMap<>();
-        List<LogDO> allLists = logService.list(param);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.MONTH, -1);
-        Date lastTime = cal.getTime();
-
-        for (LogDO theLog : allLists)
-        {
-            if(theLog.getGmtCreate().before(lastTime))
-            {
-                logService.remove(theLog.getId());
-            }
-        }
+        CompressUtils.zip(fPath, destPath, false, "rwe");
     }
 
     /**
      * 生成数据库备份文件
      * */
-    private void dumpFile(String fPath)
-    {
-        String strCommand = "mysqldump -hlocalhost -uroot -p54363751 --default-character-set=utf8 zmanager";
+    private void dumpFile(String fPath) {
+        String strCommand = "mysqldump -hlocalhost -uroot -p54363751 --default-character-set=utf8 rwe";
 
         Runtime rt = Runtime.getRuntime();
-        try
-        {
+        try {
             Process child = rt.exec(strCommand);
             InputStream in = child.getInputStream();
-            InputStreamReader input = new InputStreamReader(in, "utf8");
+            InputStreamReader input = new InputStreamReader(in, StandardCharsets.UTF_8);
 
             String inStr;
-            StringBuffer sb = new StringBuffer("");
+            StringBuilder sb = new StringBuilder();
             String outStr;
 
             BufferedReader br = new BufferedReader(input);
-            while ((inStr = br.readLine()) != null)
-            {
+            while ((inStr = br.readLine()) != null) {
                 sb.append(inStr + "\r\n");
             }
             outStr = sb.toString();
 
             FileOutputStream fout = new FileOutputStream(fPath);
-            OutputStreamWriter writer = new OutputStreamWriter(fout, "utf8");
+            OutputStreamWriter writer = new OutputStreamWriter(fout, StandardCharsets.UTF_8);
             writer.write(outStr);
             writer.flush();
 
@@ -113,8 +80,7 @@ public class JobBackupDb implements Job
             writer.close();
             fout.close();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,5 +1,6 @@
 package com.chason.common.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ public interface LogService {
 	int remove(Long id);
 
 	int batchRemove(Long[] ids);
+
+    int removeBeforeDate(Date date);
 
 	List<LogDO> list(Map<String, Object> param);
 }
