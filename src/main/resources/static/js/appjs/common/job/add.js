@@ -7,6 +7,7 @@ $.validator.setDefaults({
 		save();
 	}
 });
+
 function save() {
 	$.ajax({
 		cache : true,
@@ -15,13 +16,13 @@ function save() {
 		data : $('#signupForm').serialize(),
 		async : false,
 		error : function(request) {
-			laryer.alert("Connection error");
+			layer.alert("Connection error");
 		},
 		success : function(data) {
 			if (data.code == 0) {
 				parent.layer.msg("保存成功");
-				parent.reLoad();
-				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				parent.reload();
+				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 
 			} else {
