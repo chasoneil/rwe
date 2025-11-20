@@ -2,12 +2,12 @@ package com.chason.rwe.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.chason.common.controller.BaseController;
-
 import com.chason.common.utils.R;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.domain.JpWordDO;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -18,12 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * 背单词
+ * @author chason
  */
 @Controller
 @RequestMapping("/rwe/jp/rem")
+@Slf4j
 public class JpRememberController extends BaseController {
 
     private static final String PREFIX = "rwe/jp/rem";
@@ -33,7 +34,6 @@ public class JpRememberController extends BaseController {
 
     @Autowired
     private JpLessonService jpLessonService;
-
 
     @GetMapping("")
     String index(Model model) {
@@ -70,7 +70,9 @@ public class JpRememberController extends BaseController {
     R learn(@RequestParam("data") String data) {
         try {
             jpWordService.updateRem(data);
+            log.info("success to get lesson words.");
         } catch (Exception e) {
+            log.warn("failed to get lesson words:{}", e.getMessage());
             return R.error(e.getMessage());
         }
         return R.ok();

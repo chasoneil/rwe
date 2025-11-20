@@ -7,6 +7,7 @@ import com.chason.common.utils.R;
 import com.chason.rwe.domain.JpLessonDO;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.system.service.RoleService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/rwe/jp/lesson")
+@Slf4j
 public class JpLessonController extends BaseController {
 
     private static final String PREFIX = "rwe/jp/lesson";
@@ -71,7 +73,9 @@ public class JpLessonController extends BaseController {
         try {
             lesson.setUserId(getUserId());
             jpLessonService.save(lesson);
+            log.info("add lesson:{}", lesson.getLesson());
         } catch (Exception e) {
+            log.warn("add lesson caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
         return R.ok();
@@ -80,13 +84,14 @@ public class JpLessonController extends BaseController {
     @ResponseBody
     @PostMapping("/update")
     R update(JpLessonDO jpLessonDO) {
-
         try {
             jpLessonService.update(jpLessonDO, getUserId());
-            return R.ok();
+            log.info("update lesson:{}", jpLessonDO.getLesson());
         } catch (Exception e) {
+            log.warn("update lesson caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
+        return R.ok();
     }
 
     @ResponseBody
@@ -95,10 +100,12 @@ public class JpLessonController extends BaseController {
         try {
             Long userId = getUserId();
             jpLessonService.remove(id, userId);
-            return R.ok();
+            log.info("remove lesson, lessonId : {}", id);
         } catch (Exception e) {
+            log.warn("remove lesson caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
+        return R.ok();
     }
 
 }

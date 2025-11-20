@@ -1,7 +1,6 @@
 package com.chason.rwe.controller;
 
 import com.chason.common.controller.BaseController;
-
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
 import com.chason.common.utils.R;
@@ -12,6 +11,7 @@ import com.chason.rwe.enums.WordTypeEnum;
 import com.chason.rwe.service.JpLessonService;
 import com.chason.rwe.service.JpWordService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/rwe/jp/word")
+@Slf4j
 public class JpWordsController extends BaseController {
 
     private static final String PREFIX = "rwe/jp/word";
@@ -92,10 +93,12 @@ public class JpWordsController extends BaseController {
     R save(JpWordDO jpWordDO) {
         try {
             jpWordService.save(jpWordDO);
-            return R.ok();
+            log.info("add word:{}", jpWordDO.getWord());
         } catch (Exception e) {
+            log.warn("add word caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
+        return R.ok();
     }
 
     @GetMapping("/edit/{id}")
@@ -110,13 +113,14 @@ public class JpWordsController extends BaseController {
     @ResponseBody
     @PostMapping("/update")
     R update(JpWordDO jpWordDO) {
-
         try {
             jpWordService.update(jpWordDO);
-            return R.ok();
+            log.info("update word:{}", jpWordDO.getWord());
         } catch (Exception e) {
+            log.warn("update word caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
+        return R.ok();
     }
 
     @ResponseBody
@@ -124,10 +128,12 @@ public class JpWordsController extends BaseController {
     R remove(Integer id) {
         try {
             jpWordService.remove(id);
-            return R.ok();
+            log.info("remove word:{}", id);
         } catch (Exception e) {
+            log.warn("remove word caught error:{}", e.getMessage());
             return R.error(e.getMessage());
         }
+        return R.ok();
     }
 
     @GetMapping("/import/{id}")
@@ -141,7 +147,6 @@ public class JpWordsController extends BaseController {
     @PostMapping("/import/word")
     public R doImport(@RequestParam("file") MultipartFile file, @RequestParam("lessonId") Integer lessonId) {
 
-
         if (!(file.getOriginalFilename().endsWith(".txt") ||  file.getOriginalFilename().endsWith(".TXT"))) {
             return R.error("请上传TXT格式的文件！");
         }
@@ -154,7 +159,15 @@ public class JpWordsController extends BaseController {
             return R.error("请选择课程后再执行导入！");
         }
 
-        int count = doWordImport(file, lessonId);
+        int count = 0;
+        try {
+            count = doWordImport(file, lessonId);
+            log.info("import words, import {} words", count);
+        } catch (Exception e) {
+            log.warn("import words caught error:{}", e.getMessage());
+            return R.error(e.getMessage());
+        }
+
         return R.ok("导入单词成功，本次导入" + count + "个单词");
     }
 
