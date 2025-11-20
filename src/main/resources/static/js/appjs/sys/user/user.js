@@ -87,8 +87,13 @@ function reload() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
 
+function refreshPage() {
+    $('#searchName').val('');
+	reload();
+    layer.msg('刷新成功');
+}
+
 function add() {
-	// iframe层
 	layer.open({
 		type : 2,
 		title : '增加用户',
@@ -98,6 +103,7 @@ function add() {
 		content : prefix + '/add'
 	});
 }
+
 function singleRemove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
@@ -119,6 +125,7 @@ function singleRemove(id) {
 		});
 	})
 }
+
 function edit(id) {
 	layer.open({
 		type : 2,
@@ -126,28 +133,29 @@ function edit(id) {
 		maxmin : true,
 		shadeClose : false,
 		area : [ '800px', '520px' ],
-		content : prefix + '/edit/' + id // iframe的url
+		content : prefix + '/edit/' + id
 	});
 }
+
 function resetPwd(id) {
 	layer.open({
 		type : 2,
 		title : '重置密码',
 		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
+		shadeClose : false,
 		area : [ '400px', '260px' ],
-		content : prefix + '/resetPwd/' + id // iframe的url
+		content : prefix + '/resetPwd/' + id
 	});
 }
+
 function batchRemove() {
-	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+	var rows = $('#exampleTable').bootstrapTable('getSelections');
 	if (rows.length == 0) {
 		layer.msg("请选择要删除的数据");
 		return;
 	}
 	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
 		btn : [ '确定', '取消' ]
-	// 按钮
 	}, function() {
 		var ids = new Array();
 		// 遍历所有选择的行数据，取每条数据对应的ID
@@ -171,6 +179,7 @@ function batchRemove() {
 		});
 	}, function() {});
 }
+
 function getTreeData() {
 	$.ajax({
 		type : "GET",
@@ -180,6 +189,7 @@ function getTreeData() {
 		}
 	});
 }
+
 function loadTree(tree) {
 	$('#jstree').jstree({
 		'core' : {
@@ -189,6 +199,7 @@ function loadTree(tree) {
 	});
 	$('#jstree').jstree().open_all();
 }
+
 $('#jstree').on("changed.jstree", function(e, data) {
 	if (data.selected == -1) {
 		var opt = {
