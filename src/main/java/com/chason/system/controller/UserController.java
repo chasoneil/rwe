@@ -48,12 +48,10 @@ public class UserController extends BaseController {
     @GetMapping("/list")
     @ResponseBody
     PageUtils list(@RequestParam Map<String, Object> params) {
-        // 查询列表数据
         Query query = new Query(params);
         List<UserDO> sysUserList = userService.list(query);
         int total = userService.count(query);
-        PageUtils pageUtil = new PageUtils(sysUserList, total);
-        return pageUtil;
+        return new PageUtils(sysUserList, total);
     }
 
     @RequiresPermissions("sys:user:add")
@@ -157,12 +155,11 @@ public class UserController extends BaseController {
     R resetPwd(UserVO userVO) {
         try {
             userService.resetPwd(userVO, getUser());
-            return R.ok("密码修改成功！");
         }
         catch (Exception e) {
             return R.error(1, e.getMessage());
         }
-
+        return R.ok("密码修改成功");
     }
 
     @RequiresPermissions("sys:user:resetPwd")
@@ -172,12 +169,11 @@ public class UserController extends BaseController {
     R adminResetPwd(UserVO userVO) {
         try {
             userService.adminResetPwd(userVO);
-            return R.ok("重置密码成功！");
         }
         catch (Exception e) {
             return R.error(1, e.getMessage());
         }
-
+        return R.ok("重置密码成功");
     }
 
     @GetMapping("/tree")
@@ -191,7 +187,7 @@ public class UserController extends BaseController {
     @GetMapping("/spaceManagerTree/{managerIds}")
     @ResponseBody
     public Tree<DeptDO> spaceManagerTree(@PathVariable("managerIds") String managerIds) {
-        if(managerIds == "" || managerIds == null) {
+        if(StringUtils.isEmpty(managerIds)) {
             return this.tree();
         } else {
             String[] strIds = managerIds.split(",");
@@ -202,10 +198,8 @@ public class UserController extends BaseController {
                     ids.add(theStr);
                 }
             }
-            Tree<DeptDO> tree = new Tree<DeptDO>();
-            tree = userService.getTree();
-            Tree<DeptDO> newTree = setCheckTree(tree, ids);
-            return newTree;
+            Tree<DeptDO> tree = userService.getTree();
+            return setCheckTree(tree, ids);
         }
     }
 

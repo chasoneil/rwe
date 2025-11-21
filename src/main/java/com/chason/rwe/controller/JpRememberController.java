@@ -53,17 +53,21 @@ public class JpRememberController extends BaseController {
     @ResponseBody
     @PostMapping("/rem/load/words")
     R doRem(@RequestParam("lessonId") Integer lessonId) {
-        JpLessonDO jpLessonDO = jpLessonService.get(lessonId);
-
-        Map<String, Object> param = new HashMap<>();
-        param.put("lessonId", lessonId);
-        List<JpWordDO> jpWords = jpWordService.list(param);
-        for (JpWordDO jpWord : jpWords) {
-            if (jpWord.getLearned() == 2) {
-                jpWords.remove(jpWord);
+        String res = null;
+        try {
+            Map<String, Object> param = new HashMap<>();
+            param.put("lessonId", lessonId);
+            List<JpWordDO> jpWords = jpWordService.list(param);
+            for (JpWordDO jpWord : jpWords) {
+                if (jpWord.getLearned() == 2) {
+                    jpWords.remove(jpWord);
+                }
             }
+            res = JSON.toJSONString(jpWords);
+        } catch (Exception e) {
+            log.warn("get words data caught error:{}", e.getMessage());
+            return R.error();
         }
-        String res = JSON.toJSONString(jpWords);
         return R.ok(res);
     }
 
@@ -72,9 +76,9 @@ public class JpRememberController extends BaseController {
     R learn(@RequestParam("data") String data) {
         try {
             jpWordService.updateRem(data);
-            log.info("success to get lesson words.");
+            log.info("success to update learn lesson words.");
         } catch (Exception e) {
-            log.warn("failed to get lesson words:{}", e.getMessage());
+            log.warn("failed to update learn lesson words:{}", e.getMessage());
             return R.error(e.getMessage());
         }
         return R.ok();

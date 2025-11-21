@@ -37,7 +37,7 @@
                                 <i class="fa fa-map-book"></i> 已学会单词: <span th:text="${lesson.passed}"></span>
                             </p>
                             <address>
-                                上次学习：<span>2025-11-07 12:30:31</span>
+                                上次学习：<span th:text="${lesson.lastLearnTime}">2025-11-07 12:30:31</span>
                             </address>
                         </div>
                         <div class="clearfix"></div>
