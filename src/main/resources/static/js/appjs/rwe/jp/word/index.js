@@ -100,9 +100,25 @@ function edit(id) {
 
 function refreshPage() {
     $('#lesson').val('-1');
-    $('#searchWord').val();
+    resetSelect();
+    $('#searchWord').val('');
     reload();
     layer.msg("刷新成功");
+}
+
+function resetSelect() {
+    const selectElements = document.querySelectorAll("select");
+    selectElements.forEach(select => {
+        const selectedValue = '-1';
+        if (selectedValue) {
+            Array.from(select.options).forEach(option => {
+                if (option.value === selectedValue) {
+                    option.selected = true;
+                    $(select).trigger("chosen:updated");
+                }
+            });
+        }
+    });
 }
 
 function reload() {

@@ -37,7 +37,9 @@ public class JpRememberController extends BaseController {
 
     @GetMapping("")
     String index(Model model) {
-        List<JpLessonDO> jpLessonDOS = jpLessonService.list(new HashMap<>());
+        Map<String, Object> params = new HashMap<>();
+        params.putIfAbsent("userId", getUserId());
+        List<JpLessonDO> jpLessonDOS = jpLessonService.list(params);
         model.addAttribute("lessons", jpLessonDOS);
         return PREFIX + "/index";
     }

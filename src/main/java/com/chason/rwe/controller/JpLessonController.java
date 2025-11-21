@@ -1,5 +1,6 @@
 package com.chason.rwe.controller;
 
+import com.chason.common.config.Constant;
 import com.chason.common.controller.BaseController;
 import com.chason.common.utils.PageUtils;
 import com.chason.common.utils.Query;
@@ -46,10 +47,9 @@ public class JpLessonController extends BaseController {
     @ResponseBody
     PageUtils list(@RequestParam Map<String, Object> params) {
 
-        params.putIfAbsent("offset", 0);
-        params.putIfAbsent("limit", 10);
+        params.putIfAbsent("offset", Constant.OFFSET);
+        params.putIfAbsent("limit", Constant.LIMIT);
         params.putIfAbsent("userId", getUserId());
-
         Query query = new Query(params);
         List<JpLessonDO> lessons = jpLessonService.list(query);
         int total = jpLessonService.count(query);

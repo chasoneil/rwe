@@ -16,7 +16,7 @@
         <where>
 			<if test="passed != null and passed != ''"> and passed = #{passed} </if>
 			<if test="lesson != null and lesson != ''"> and lesson = #{lesson} </if>
-            and user_id in (#{userId}, 1)
+            <if test="userId != null and userId != ''"> and user_id in (#{userId}, 1) </if>
 		</where>
         <choose>
 	        <when test="sort != null and sort.trim() != ''">

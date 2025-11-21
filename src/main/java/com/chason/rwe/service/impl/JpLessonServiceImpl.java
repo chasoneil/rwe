@@ -8,6 +8,7 @@ import com.chason.rwe.service.JpLessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,11 +33,32 @@ public class JpLessonServiceImpl implements JpLessonService {
 
     @Override
     public List<JpLessonDO> list(Map<String, Object> map) {
+
+        if (map.get("userId") == null) {
+            return new ArrayList<>();
+        }
+
+        long userId = (long) map.get("userId");
+        // admin
+        if (userId == 1) {
+            map.remove("userId");
+        }
+
         return jpLessonDao.list(map);
     }
 
     @Override
     public int count(Map<String, Object> map) {
+
+        if (map.get("userId") == null) {
+            return 0;
+        }
+
+        long userId = (long) map.get("userId");
+        if (userId == 1) {
+            map.remove("userId");
+        }
+
         return jpLessonDao.count(map);
     }
 

@@ -38,22 +38,6 @@ function doRem(id) {
         area: ['800px', '520px'],
         content: prefix + '/rem/' + id,
     });
-    /*layer.confirm('开始背单词？', {
-        btn: ['确定', '取消']
-    }, function () {
-        $.ajax({
-            url: prefix + "/rem/" + id,
-            type: "get",
-            success: function (response) {
-                let element = document.getElementById('rem-content');
-                element.innerHTML = response;
-                layer.msg('开始背单词');
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX请求失败：', error);
-            }
-        });
-    })*/
 }
 
 

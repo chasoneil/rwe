@@ -14,4 +14,8 @@ public class Constant {
     //部门根节点id
     public static Long DEPT_ROOT_ID = 0l;
 
+    // 默认分页参数
+    public static int OFFSET = 0;
+    public static int LIMIT = 10;
+
 }
