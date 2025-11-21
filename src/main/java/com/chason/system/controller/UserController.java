@@ -102,7 +102,7 @@ public class UserController extends BaseController {
     @Log("更新用户")
     @PostMapping("/updatePeronal")
     @ResponseBody
-    R updatePeronal(UserDO user) {
+    R updatePersonal(UserDO user) {
         if (userService.updatePersonal(user) > 0) {
             return R.ok();
         }
