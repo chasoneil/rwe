@@ -1,30 +1,18 @@
 package com.chason.common.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author chen
- * @date 2017/9/4
- *       <p>
- *       Email 122741482@qq.com
- *       <p>
- *       Describe:
- */
 @Component
-public class ApplicationContextRegister implements ApplicationContextAware
-{
-    private static Logger logger = LoggerFactory.getLogger(ApplicationContextRegister.class);
+@Slf4j
+public class ApplicationContextRegister implements ApplicationContextAware {
     private static ApplicationContext APPLICATION_CONTEXT;
 
     /**
      * 设置spring上下文
-     *
      * @param applicationContext
      *            spring上下文
      * @throws BeansException
@@ -33,7 +21,7 @@ public class ApplicationContextRegister implements ApplicationContextAware
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException
     {
-        logger.debug("ApplicationContext registed-->{}", applicationContext);
+        log.debug("ApplicationContext registered -->{}", applicationContext);
         APPLICATION_CONTEXT = applicationContext;
     }
 

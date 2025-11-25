@@ -22,8 +22,7 @@ import com.chason.system.dao.UserDao;
 import com.chason.system.domain.UserDO;
 import com.chason.system.service.MenuService;
 
-public class UserRealm extends AuthorizingRealm
-{
+public class UserRealm extends AuthorizingRealm {
     /*
      * @Autowired UserDao userMapper;
      *
@@ -31,8 +30,7 @@ public class UserRealm extends AuthorizingRealm
      */
 
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0)
-    {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
         Long userId = ShiroUtils.getUserId();
         MenuService menuService = ApplicationContextRegister
                 .getBean(MenuService.class);
@@ -44,8 +42,7 @@ public class UserRealm extends AuthorizingRealm
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(
-            AuthenticationToken token) throws AuthenticationException
-    {
+            AuthenticationToken token) throws AuthenticationException {
         String username = (String) token.getPrincipal();
         Map<String, Object> map = new HashMap<>(16);
         map.put("username", username);
@@ -57,20 +54,17 @@ public class UserRealm extends AuthorizingRealm
         UserDO user = userMapper.list(map).get(0);
 
         // 账号不存在
-        if (user == null)
-        {
+        if (user == null) {
             throw new UnknownAccountException("账号或密码不正确");
         }
 
         // 密码错误
-        if (!password.equals(user.getPassword()))
-        {
+        if (!password.equals(user.getPassword())) {
             throw new IncorrectCredentialsException("账号或密码不正确");
         }
 
         // 账号锁定
-        if (user.getStatus() == 0)
-        {
+        if (user.getStatus() == 0) {
             throw new LockedAccountException("账号已被锁定,请联系管理员");
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.chason.common.config.RtmdoConfig;
+import com.chason.common.config.RweConfig;
 import com.chason.common.domain.FileDO;
 import com.chason.common.service.FileService;
 import com.chason.common.utils.*;
@@ -29,7 +29,7 @@ public class FileController extends BaseController
     private FileService sysFileService;
 
     @Autowired
-    private RtmdoConfig rtmdoConfig;
+    private RweConfig rtmdoConfig;
 
     @GetMapping()
     @RequiresPermissions("common:sysFile:sysFile")

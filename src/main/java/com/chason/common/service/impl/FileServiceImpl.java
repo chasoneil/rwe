@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
-import com.chason.common.config.RtmdoConfig;
+import com.chason.common.config.RweConfig;
 import com.chason.common.dao.FileDao;
 import com.chason.common.domain.FileDO;
 import com.chason.common.service.FileService;
@@ -21,7 +21,7 @@ public class FileServiceImpl implements FileService {
 	private FileDao sysFileMapper;
 
 	@Autowired
-	private RtmdoConfig rtmdoConfig;
+	private RweConfig rtmdoConfig;
 	@Override
 	public FileDO get(Long id){
 		return sysFileMapper.get(id);

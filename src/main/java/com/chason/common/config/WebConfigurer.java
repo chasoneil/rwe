@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Component
 class WebConfigurer extends WebMvcConfigurerAdapter {
 	@Autowired
-	RtmdoConfig rtmdoConfig;
+    RweConfig rweConfig;
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/files/**").addResourceLocations("file:///"+rtmdoConfig.getUploadPath());
+		registry.addResourceHandler("/files/**").addResourceLocations("file:///" + rweConfig.getUploadPath());
 	}
 
 }

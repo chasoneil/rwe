@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "rtmdo")
-public class RtmdoConfig
+@ConfigurationProperties(prefix = "rwe")
+public class RweConfig
 {
     // 上传路径
     private String uploadPath;

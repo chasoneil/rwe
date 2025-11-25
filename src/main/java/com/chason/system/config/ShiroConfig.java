@@ -25,34 +25,29 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 @Configuration
-public class ShiroConfig
-{
+public class ShiroConfig {
     @Bean
-    public EhCacheManager getEhCacheManager()
-    {
+    public EhCacheManager getEhCacheManager() {
         EhCacheManager em = new EhCacheManager();
         em.setCacheManagerConfigFile("classpath:config/ehcache.xml");
         return em;
     }
 
     @Bean
-    UserRealm userRealm(EhCacheManager cacheManager)
-    {
+    UserRealm userRealm(EhCacheManager cacheManager) {
         UserRealm userRealm = new UserRealm();
         userRealm.setCacheManager(cacheManager);
         return userRealm;
     }
 
     @Bean
-    SessionDAO sessionDAO()
-    {
+    SessionDAO sessionDAO() {
         MemorySessionDAO sessionDAO = new MemorySessionDAO();
         return sessionDAO;
     }
 
     @Bean
-    public SessionManager sessionManager()
-    {
+    public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         Collection<SessionListener> listeners = new ArrayList<SessionListener>();
         listeners.add(new BDSessionListener());
@@ -62,8 +57,7 @@ public class ShiroConfig
     }
 
     @Bean
-    SecurityManager securityManager(UserRealm userRealm)
-    {
+    SecurityManager securityManager(UserRealm userRealm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(userRealm);
         manager.setCacheManager(getEhCacheManager());
@@ -73,8 +67,7 @@ public class ShiroConfig
 
     @Bean
     ShiroFilterFactoryBean shiroFilterFactoryBean(
-            SecurityManager securityManager)
-    {
+            SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -82,6 +75,7 @@ public class ShiroConfig
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
@@ -109,8 +103,7 @@ public class ShiroConfig
     }
 
     @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator()
-    {
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
         proxyCreator.setProxyTargetClass(true);
         return proxyCreator;

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chason.common.annotation.Log;
-import com.chason.common.config.RtmdoConfig;
+import com.chason.common.config.RweConfig;
 
 import com.chason.common.utils.CompressUtils;
 import com.chason.rwe.value.RandomFlagValue;
@@ -32,7 +32,7 @@ public class JobBackupDb implements Job
 //    String _dbRepoPath;
 
     @Autowired
-    private RtmdoConfig _rtmdoConfig;
+    private RweConfig _rtmdoConfig;
 
     @Log("数据库备份任务")
     @Override

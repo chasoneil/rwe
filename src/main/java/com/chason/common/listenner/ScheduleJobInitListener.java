@@ -1,5 +1,6 @@
 package com.chason.common.listenner;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -10,6 +11,7 @@ import com.chason.common.service.JobService;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class ScheduleJobInitListener implements CommandLineRunner {
 
 	@Autowired
@@ -23,9 +25,8 @@ public class ScheduleJobInitListener implements CommandLineRunner {
 		try {
 			scheduleJobService.initSchedule();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("schedule job caught exception:{}", e.getMessage());
 		}
 
 	}
-
 }

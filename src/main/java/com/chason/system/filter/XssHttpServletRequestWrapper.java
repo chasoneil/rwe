@@ -85,5 +85,4 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         return req;
     }
-
 }

@@ -1,5 +1,6 @@
 package com.chason.common.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -9,12 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author gaoyuzhe
- * @date 2017/12/14.
  * 过滤器,表单提交的date数据都会通过过滤器进行过滤
  */
 @Configuration
-public class DateConverConfig {
+@Slf4j
+public class DateConvertConfig {
     @Bean
     public Converter<String, Date> stringDateConvert() {
         return new Converter<String, Date>() {
@@ -23,18 +23,17 @@ public class DateConverConfig {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = null;
                 try {
-                    date = sdf.parse((String) source);
+                    date = sdf.parse(source);
                 } catch (Exception e) {
                     SimpleDateFormat sdfday = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                        date = sdfday.parse((String) source);
+                        date = sdfday.parse(source);
                     } catch (ParseException e1) {
-                        e1.printStackTrace();
+                        log.warn("parse date exception:{}", e.getMessage());
                     }
                 }
                 return date;
             }
         };
     }
-
 }

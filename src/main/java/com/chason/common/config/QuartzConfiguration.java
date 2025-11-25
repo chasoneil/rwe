@@ -3,6 +3,7 @@ package com.chason.common.config;
 import java.io.IOException;
 import java.util.Properties;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -14,7 +15,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import com.chason.common.quartz.factory.JobFactory;
 
 @Configuration
-public class QuartzConfigration {
+@Slf4j
+public class QuartzConfiguration {
 
 	@Autowired
 	JobFactory jobFactory;
@@ -27,7 +29,7 @@ public class QuartzConfigration {
 			schedulerFactoryBean.setQuartzProperties(quartzProperties());
 			schedulerFactoryBean.setJobFactory(jobFactory);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.warn("quartz config caught exception:{}", e.getMessage());
 		}
 		return schedulerFactoryBean;
 	}

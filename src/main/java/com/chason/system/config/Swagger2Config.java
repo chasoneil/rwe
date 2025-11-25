@@ -12,9 +12,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * ${DESCRIPTION}
- *
- * @author edison
  * @create 2017-01-02 23:53
  */
 @EnableSwagger2
@@ -38,7 +35,7 @@ public class Swagger2Config {
                 //页面标题
                 .title("功能测试")
                 //创建人
-                .contact(new Contact("Edison", "xxx@qq.com", "xxx@qq.com"))
+                .contact(new Contact("Chason", "chason001@126.com", "chason001@126.com"))
                 //版本号
                 .version("1.0")
                 //描述

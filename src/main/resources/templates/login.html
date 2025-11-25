@@ -45,6 +45,9 @@
                 <input type="password" name="password"
                        class="form-control pword m-b"/>
                 <button class="btn btn-login btn-block">登录</button>
+                <p class="text-muted text-center" style="margin-top:10px;">
+                    <a onclick="forgotPwd()"><small>忘记密码了？</small></a> | <a href="/register">注册一个新账号</a>
+                </p>
             </form>
         </div>
     </div>
@@ -66,11 +69,8 @@
 <script src="/js/plugins/validate/messages_zh.min.js"></script>
 <script src="/js/plugins/layer/layer.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-
-        console.log(ctx);
+    $(document).ready(function() {
         validateRule();
-
     });
 
     $.validator.setDefaults({
@@ -78,6 +78,10 @@
             login();
         }
     });
+
+    function forgotPwd() {
+        layer.msg("请联系管理员重置密码");
+    }
 
     function login() {
         $.ajax({

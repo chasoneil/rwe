@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.chason.common.config.RtmdoConfig;
+import com.chason.common.config.RweConfig;
 import com.chason.common.domain.FileDO;
 import com.chason.common.domain.Tree;
 import com.chason.common.service.FileService;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private FileService sysFileService;
 	@Autowired
-	private RtmdoConfig rtmdoConfig;
+	private RweConfig rtmdoConfig;
 	@SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
