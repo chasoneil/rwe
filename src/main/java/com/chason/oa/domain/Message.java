@@ -1,9 +1,8 @@
 package com.chason.oa.domain;
 
-public class Message {
-	private String name;
+import lombok.Getter;
 
-	public String getName() {
-		return name;
-	}
+public class Message {
+    @Getter
+	private String name;
 }

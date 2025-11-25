@@ -3,6 +3,7 @@ package com.chason.system.filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import com.chason.common.utils.xss.JsoupUtil;
@@ -13,7 +14,13 @@ import com.chason.common.utils.xss.JsoupUtil;
  * @author win7
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
+    /**
+     * -- GETTER --
+     *  获取最原始的request
+     */
+    @Getter
     HttpServletRequest orgRequest = null;
+
     private boolean isIncludeRichText = false;
 
     public XssHttpServletRequestWrapper(HttpServletRequest request, boolean isIncludeRichText) {
@@ -29,7 +36,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     */
     @Override
     public String getParameter(String name) {
-        Boolean flag = ("content".equals(name) || name.endsWith("WithHtml"));
+        boolean flag = ("content".equals(name) || name.endsWith("WithHtml"));
         if( flag && !isIncludeRichText){
             return super.getParameter(name);
         }
@@ -69,18 +76,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-    * 获取最原始的request
-    *
-    * @return
-    */
-    public HttpServletRequest getOrgRequest() {
-        return orgRequest;
-    }
-
-    /**
     * 获取最原始的request的静态方法
-    *
-    * @return
     */
     public static HttpServletRequest getOrgRequest(HttpServletRequest req) {
         if (req instanceof XssHttpServletRequestWrapper) {

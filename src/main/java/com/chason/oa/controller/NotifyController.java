@@ -26,9 +26,6 @@ import java.util.Map;
 
 /**
  * 通知通告
- *
- * @author chglee
- * @email 1992lcg@163.com
  * @date 2017-10-05 17:11:16
  */
 
@@ -50,9 +47,7 @@ public class NotifyController extends BaseController
 
     @GetMapping()
     @RequiresPermissions("oa:notify:notify")
-    String oaNotify()
-    {
-    	System.out.println("notify()---->");
+    String oaNotify() {
         return "oa/notify/notify";
     }
 
@@ -62,8 +57,7 @@ public class NotifyController extends BaseController
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("oa:notify:notify")
-    public PageUtils list(@RequestParam Map<String, Object> params)
-    {
+    public PageUtils list(@RequestParam Map<String, Object> params) {
         // 查询列表数据
         Query query = new Query(params);
         List<NotifyDO> notifyList = notifyService.list(query);
@@ -87,8 +81,7 @@ public class NotifyController extends BaseController
      */
     @GetMapping("/edit/{id}")
     @RequiresPermissions("oa:notify:edit")
-    String edit(@PathVariable("id") Long id, Model model)
-    {
+    String edit(@PathVariable("id") Long id, Model model) {
         NotifyDO notify = notifyService.get(id);
         model.addAttribute("notify", notify);
 
@@ -96,10 +89,8 @@ public class NotifyController extends BaseController
         // 获取所有的通知公告类型
         String type = notify.getType();
         List<DictDO> dictDOS = dictService.listByType("oa_notify_type");
-        for (DictDO dictDO : dictDOS)
-        {
-            if (type.equals(dictDO.getName()))
-            {
+        for (DictDO dictDO : dictDOS) {
+            if (type.equals(dictDO.getName())) {
                 dictDO.setRemarks("checked"); // 利用remarks字段保存选中的信息，供页面调用
             }
         }
@@ -113,12 +104,10 @@ public class NotifyController extends BaseController
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("oa:notify:add")
-    public R save(NotifyDO notify)
-    {
+    public R save(NotifyDO notify) {
         notify.setUpdateBy(super.getUsername());
         notify.setCreateBy(super.getUserId());
-        if (notifyService.save(notify) > 0)
-        {
+        if (notifyService.save(notify) > 0) {
             this._msgNotifyService.sendMsgToReceiver(notify.getUserIds(), "新消息：" + notify.getTitle());
             return R.ok();
         }
@@ -131,8 +120,7 @@ public class NotifyController extends BaseController
     @ResponseBody
     @RequestMapping("/update")
     @RequiresPermissions("oa:notify:edit")
-    public R update(NotifyDO notify)
-    {
+    public R update(NotifyDO notify) {
         notify.setUpdateBy(super.getUsername());
         notifyService.update(notify);
         return R.ok();
@@ -144,10 +132,8 @@ public class NotifyController extends BaseController
     @PostMapping("/remove")
     @ResponseBody
     @RequiresPermissions("oa:notify:remove")
-    public R remove(@RequestParam("id") Long id)
-    {
-        if (notifyService.remove(id) > 0)
-        {
+    public R remove(@RequestParam("id") Long id) {
+        if (notifyService.remove(id) > 0) {
             return R.ok();
         }
         return R.error();
@@ -159,16 +145,14 @@ public class NotifyController extends BaseController
     @PostMapping("/batchRemove")
     @ResponseBody
     @RequiresPermissions("oa:notify:batchRemove")
-    public R remove(@RequestParam("ids[]") Long[] ids)
-    {
+    public R remove(@RequestParam("ids[]") Long[] ids) {
         notifyService.batchRemove(ids);
         return R.ok();
     }
 
     @ResponseBody
     @GetMapping("/message")
-    PageUtils message()
-    {
+    PageUtils message() {
         Map<String, Object> params = new HashMap<>(16);
         params.put("offset", 0);
         params.put("limit", 3);
@@ -189,8 +173,7 @@ public class NotifyController extends BaseController
      */
     @ResponseBody
     @GetMapping("/selfList")
-    PageUtils selfList(@RequestParam Map<String, Object> params)
-    {
+    PageUtils selfList(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
         query.put("userId", getUserId());
 
@@ -202,8 +185,7 @@ public class NotifyController extends BaseController
      */
     @GetMapping("/read/{id}")
     @RequiresPermissions("oa:notify:notify")
-    String read(@PathVariable("id") Long id, Model model)
-    {
+    String read(@PathVariable("id") Long id, Model model) {
         NotifyDO notify = notifyService.get(id);
         // 更改阅读状态
         NotifyRecordDO notifyRecordDO = new NotifyRecordDO();
