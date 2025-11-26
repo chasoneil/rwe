@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +29,12 @@ import com.chason.system.vo.UserVO;
 
 import javax.imageio.ImageIO;
 
+@Slf4j
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
+
+
 	@Autowired
 	UserDao userMapper;
 	@Autowired
@@ -41,8 +45,6 @@ public class UserServiceImpl implements UserService {
 	private FileService sysFileService;
 	@Autowired
 	private RweConfig rtmdoConfig;
-	@SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Override
 	public UserDO get(Long id) {
@@ -56,7 +58,12 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@Override
+    @Override
+    public UserDO getByName(String username) {
+        return userMapper.getByName(username);
+    }
+
+    @Override
 	public List<UserDO> list(Map<String, Object> map) {
 		return userMapper.list(map);
 	}
@@ -83,7 +90,7 @@ public class UserServiceImpl implements UserService {
 	            list.add(ur);
 	        }
 		}
-		if (list.size() > 0) {
+		if (!list.isEmpty()) {
 			userRoleMapper.batchSave(list);
 		}
 		return count;
@@ -102,7 +109,7 @@ public class UserServiceImpl implements UserService {
 			ur.setRoleId(roleId);
 			list.add(ur);
 		}
-		if (list.size() > 0) {
+		if (!list.isEmpty()) {
 			userRoleMapper.batchSave(list);
 		}
 		return r;
@@ -117,7 +124,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean exit(Map<String, Object> params) {
 		boolean exit;
-		exit = userMapper.list(params).size() > 0;
+		exit = !userMapper.list(params).isEmpty();
 		return exit;
 	}
 
@@ -128,17 +135,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int resetPwd(UserVO userVO,UserDO userDO) throws Exception {
-		if(Objects.equals(userVO.getUserDO().getUserId(),userDO.getUserId())){
-			if(Objects.equals(MD5Utils.encrypt(userDO.getUsername(),userVO.getPwdOld()),userDO.getPassword())){
+		if(Objects.equals(userVO.getUserDO().getUserId(),userDO.getUserId())) {
+			if(Objects.equals(MD5Utils.encrypt(userDO.getUsername(),userVO.getPwdOld()),userDO.getPassword())) {
 				userDO.setPassword(MD5Utils.encrypt(userDO.getUsername(),userVO.getPwdNew()));
 				return userMapper.update(userDO);
-			}else{
-				throw new Exception("输入的旧密码有误！");
+			} else {
+				throw new Exception("旧密码错误");
 			}
-		}else{
-			throw new Exception("你修改的不是你登录的账号！");
+		} else {
+			throw new Exception("非法操作");
 		}
 	}
+
 	@Override
 	public int adminResetPwd(UserVO userVO) throws Exception {
 		UserDO userDO =get(userVO.getUserDO().getUserId());
@@ -162,7 +170,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Tree<DeptDO> getTree() {
 		List<Tree<DeptDO>> trees = new ArrayList<Tree<DeptDO>>();
-		List<DeptDO> depts = deptMapper.list(new HashMap<String, Object>(16));
+		List<DeptDO> depts = deptMapper.list(new HashMap<>(16));
 		Long[] pDepts = deptMapper.listParentDept();
 		Long[] uDepts = userMapper.listAllDept();
 		Long[] allDepts = (Long[]) ArrayUtils.addAll(pDepts, uDepts);
@@ -193,8 +201,7 @@ public class UserServiceImpl implements UserService {
 			trees.add(tree);
 		}
 		// 默认顶级菜单为０，根据数据库实际情况调整
-		Tree<DeptDO> t = BuildTree.build(trees);
-		return t;
+		return BuildTree.build(trees);
 	}
 
 	@Override

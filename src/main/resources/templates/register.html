@@ -7,16 +7,20 @@
     <meta name="keywords" content="个人助手注册用户">
     <meta name="description" content="个人助手注册用户页面">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-    <link href="/css/login.css">
-    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <script>
+        if(window.top !== window.self){ 
+            window.top.location = window.location;
+        }
+    </script>
 </head>
 
-<body class="signin">
+<body class="signin" style="background-image: url('/img/backg01.jpg');">
 
     <div class="middle-box text-center loginscreen   animated fadeInDown">
         <div>
@@ -25,23 +29,26 @@
             </div>
             <h3>欢迎注册 个人助手</h3>
             <p>创建一个助手新账户</p>
-            <form class="m-t" role="form" id="signupForm">
+            <form class="m-t" id="signupForm">
                 <div class="form-group">
-                    <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名" required="">
+                    <input type="text" id="username" name="username" class="form-control" 
+                    autocomplete="username" placeholder="请输入用户名" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="pwd" name="pwd" class="form-control" placeholder="请输入密码" required="">
+                    <input type="password" id="pwd" name="pwd" class="form-control" 
+                    autocomplete="new-password" placeholder="请输入密码" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="confirmPwd" name="confirmPwd" class="form-control" placeholder="请再次输入密码" required="">
+                    <input type="password" id="confirmPwd" name="confirmPwd" class="form-control" 
+                    autocomplete="new-password" placeholder="请再次输入密码" required>
                 </div>
                 <div class="form-group text-left">
                     <div class="checkbox i-checks">
                         <label class="no-padding">
-                            <input name="agreement" value="1" type="checkbox"><i></i> 我同意注册协议</label>
+                            <input name="agreement" value="1" type="checkbox" id="agreement"><i></i> 我同意注册协议</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
+                <button class="btn btn-primary block full-width m-b">注 册</button>
 
                 <p class="text-muted text-center"><small>已经有账户了？</small><a onclick="">点此登录</a>
                 </p>
@@ -51,11 +58,19 @@
     </div>
 
     <!-- 全局js -->
-    <script src="/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+
+    <script src="/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/js/plugins/validate/messages_zh.min.js"></script>
+    <script src="/js/plugins/layer/layer.js"></script>
+
     <!-- iCheck -->
     <script src="/js/plugins/iCheck/icheck.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('.i-checks').iCheck({
@@ -74,11 +89,21 @@
 
         function register() {
 
+            if (!$('#agreement').is(':checked')) {
+                layer.msg('请先同意用户协议');
+                return;
+            }
+
             let pwd = $('#pwd').val();
             let confirmPwd = $('#confirmPwd').val();
 
             if (pwd !== confirmPwd) {
                 layer.msg('两次输入的密码不一致');
+                return;
+            }
+
+            if (!checkPasswordStrength) {
+                layer.msg('密码长度必须大于等于6位，且包含大小写字母和数字三种字符');
                 return;
             }
 
@@ -88,13 +113,25 @@
                 data: $('#signupForm').serialize(),
                 success: function (r) {
                     if (r.code === 0) {
-                        parent.location.href = '/login';
-                        layer.msg('注册成功');
+                        layer.msg('注册成功,即将跳转登录页...');
+                        setTimeout(function() {
+                            parent.location.href = '/login';     
+                        }, 3000);
+                                        
                     } else {
                         layer.msg('注册失败:' + r.msg);
                     }
                 }
             });
+        }
+
+        function checkPasswordStrength(password) {
+            let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+            if (passwordPattern.test(password)) {
+                return true; 
+            } else {
+                return false;
+            }
         }
 
         function validateRule() {

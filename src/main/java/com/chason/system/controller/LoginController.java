@@ -1,5 +1,9 @@
 package com.chason.system.controller;
 
+import com.chason.common.utils.StringUtils;
+import com.chason.system.domain.UserDO;
+import com.chason.system.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -22,8 +26,11 @@ import com.chason.common.utils.ShiroUtils;
 import com.chason.system.domain.MenuDO;
 import com.chason.system.service.MenuService;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class LoginController extends BaseController {
 
@@ -32,6 +39,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping({ "/", "" })
     String welcome(Model model) {
@@ -90,6 +100,60 @@ public class LoginController extends BaseController {
     @GetMapping("/register")
     String reg() {
         return "register";
+    }
+
+    @Log("注册")
+    @PostMapping("/register/doRegister")
+    @ResponseBody
+    R ajaxReg(String username, String pwd, String confirmPwd) {
+
+        if (StringUtils.isEmpty(username)) {
+            return R.error("用户名不能为空");
+        }
+
+        if (StringUtils.isEmpty(pwd)) {
+            return R.error("密码不能为空");
+        }
+
+        if (!pwd.equals(confirmPwd)) {
+            return R.error("两次密码输入不一致");
+        }
+
+        if (!checkPwdStrength(pwd)) {
+            return R.error("密码长度必须大于等于6位，且包含大小写字母和数字三种字符");
+        }
+
+        UserDO user = userService.getByName(username);
+        if (user != null) {
+            return R.error("用户名已存在");
+        }
+
+        try {
+            UserDO userDO = new UserDO();
+            userDO.setUsername(username);
+            userDO.setName(username);
+            userDO.setPassword(MD5Utils.encrypt(username, pwd));
+            userDO.setDeptId(20L);
+            userDO.setStatus(1);
+            userDO.setDeptName("注册用户");
+            List<Long> roleIds = new ArrayList<>();
+            roleIds.add(52L);
+            userDO.setRoleIds(roleIds);
+            userDO.setGmtCreate(new Date());
+            userService.save(userDO);
+            log.info("register user:{} success", username);
+        } catch (Exception e) {
+            log.warn("register user:{} fail", username);
+            log.warn(e.getMessage());
+            return R.error("注册失败");
+        }
+        return R.ok();
+    }
+
+    private boolean checkPwdStrength(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$";
+        // 使用正则表达式规范密码强度
+        return password.matches(passwordPattern);
     }
 
     @Log("登录")

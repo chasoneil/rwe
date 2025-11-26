@@ -32,16 +32,15 @@ public class UserController extends BaseController {
     private static final String PREFIX = "system/user";
 
     @Autowired
-    UserService    userService;
+    private UserService userService;
     @Autowired
-    RoleService    roleService;
+    private RoleService roleService;
     @Autowired
-    DictService    dictService;
+    private DictService dictService;
 
     @RequiresPermissions("sys:user:user")
     @GetMapping("")
-    String user(Model model)
-    {
+    String user() {
         return PREFIX + "/user";
     }
 
@@ -179,9 +178,7 @@ public class UserController extends BaseController {
     @GetMapping("/tree")
     @ResponseBody
     public Tree<DeptDO> tree() {
-        Tree<DeptDO> tree = new Tree<DeptDO>();
-        tree = userService.getTree();
-        return tree;
+        return userService.getTree();
     }
 
     @GetMapping("/spaceManagerTree/{managerIds}")
