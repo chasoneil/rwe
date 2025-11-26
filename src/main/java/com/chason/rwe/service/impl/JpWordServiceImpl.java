@@ -84,6 +84,13 @@ public class JpWordServiceImpl implements JpWordService {
     }
 
     @Override
+    public int pass(JpWordDO word) {
+        word.setLearned(2);
+        word.setLastReviewTime(new Date());
+        return update(word);
+    }
+
+    @Override
     @Transactional
     public int remove(Integer id) {
         JpWordDO jpWordDO = jpWordDao.get(id);

@@ -71,7 +71,7 @@ function setText(jpword, testType) {
     }
 }
 
-function next() {
+function next(passed) {
 
     // 已经是本课最后一个单词
     if (index + 1 === length) {
@@ -90,8 +90,6 @@ function next() {
             success : function(data) {
                 if (data.code == 0) {
                     parent.layer.msg("操作成功");
-                    let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-                    parent.layer.close(index);
                 } else {
                     parent.layer.msg("更新单词数据失败");
                 }
@@ -100,7 +98,9 @@ function next() {
         return;
     }
 
-    checkExercise();
+    if (passed !== 'passed') {
+        checkExercise();
+    }
     let testType = Math.floor(Math.random() * 3) + 1;
     let jpword = wordsArray[++index];
     setText(jpword, testType);
@@ -109,9 +109,6 @@ function next() {
 function checkExercise() {
     let testType = $('#testType').val();
     let jpword = wordsArray[index];
-    console.log('check---->');
-    console.log(jpword);
-    console.log(testType);
     if (jpword.learned === 0) {
         jpword.learned = 1;
     }
@@ -182,7 +179,30 @@ function prev() {
 function passed() {
     let jpword = wordsArray[index];
     jpword.learned = 2;
-    next();
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url : prefix + "/learn/pass",
+        async: false,
+        data : {
+            "data": JSON.stringify(jpword)
+        },
+        error : function(request) {
+            parent.layer.alert("更新单词数据失败");
+        },
+        success : function(data) {
+            if (data.code == 0) {
+                parent.layer.msg("操作成功");
+                let index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            } else {
+                parent.layer.msg("更新单词数据失败");
+            }
+        }
+    });
+
+    next('passed');
 }
 
 function remWord() {

@@ -21,6 +21,8 @@ public interface JpWordService {
 
     int update(JpWordDO word);
 
+    int pass(JpWordDO word);
+
     int remove(Integer id);
 
     int batchRemove(Integer[] ids);

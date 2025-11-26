@@ -69,6 +69,10 @@
             <if test="wordCn != null">`word_cn` = #{wordCn}, </if>
             <if test="wordType != null">`word_type` = #{wordType}, </if>
             <if test="wordVoice != null">`word_voice` = #{wordVoice}, </if>
+            <if test="learnTime != null">`learn_time` = #{learnTime}, </if>
+            <if test="learned != null">`learned` = #{learned}, </if>
+            <if test="lastReviewTime != null">`last_review_time` = #{lastReviewTime}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}, </if>
             <if test="zhMean != null"> `zh_mean` = #{zhMean} </if>
         </set>
         where id = #{id}

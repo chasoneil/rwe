@@ -65,6 +65,7 @@ public class JpRememberController extends BaseController {
             }
             res = JSON.toJSONString(jpWords);
         } catch (Exception e) {
+            e.printStackTrace();
             log.warn("get words data caught error:{}", e.getMessage());
             return R.error();
         }
@@ -80,6 +81,19 @@ public class JpRememberController extends BaseController {
         } catch (Exception e) {
             log.warn("failed to update learn lesson words:{}", e.getMessage());
             return R.error(e.getMessage());
+        }
+        return R.ok();
+    }
+
+    @ResponseBody
+    @PostMapping("/learn/pass")
+    R pass(@RequestParam("data") String data) {
+        try {
+            JpWordDO word = JSON.parseObject(data, JpWordDO.class);
+            jpWordService.pass(word);
+        } catch (Exception e) {
+            log.warn("pass jp word error:{}", e.getMessage());
+            return R.error("更新单词数据失败");
         }
         return R.ok();
     }
