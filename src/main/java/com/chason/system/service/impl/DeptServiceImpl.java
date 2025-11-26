@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 
-
 @Service
 public class DeptServiceImpl implements DeptService {
+
 	@Autowired
 	private DeptDao sysDeptMapper;
 
@@ -73,8 +73,7 @@ public class DeptServiceImpl implements DeptService {
 			trees.add(tree);
 		}
 		// 默认顶级菜单为０，根据数据库实际情况调整
-		Tree<DeptDO> t = BuildTree.build(trees);
-		return t;
+		return BuildTree.build(trees);
 	}
 
 	@Override
@@ -103,7 +102,5 @@ public class DeptServiceImpl implements DeptService {
 				}
 			}
 		}
-
 	}
-
 }

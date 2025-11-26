@@ -106,7 +106,7 @@ public class RoleServiceImpl implements RoleService {
             rmDo.setMenuId(menuId);
             rms.add(rmDo);
         }
-        if (rms.size() > 0) {
+        if (!rms.isEmpty()) {
             roleMenuMapper.batchSave(rms);
         }
         return r;

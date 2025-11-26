@@ -6,8 +6,6 @@ import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,17 +32,20 @@ import javax.imageio.ImageIO;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	private UserDao userMapper;
 
 	@Autowired
-	UserDao userMapper;
+	private UserRoleDao userRoleMapper;
+
 	@Autowired
-	UserRoleDao userRoleMapper;
-	@Autowired
-	DeptDao deptMapper;
+	private DeptDao deptMapper;
+
 	@Autowired
 	private FileService sysFileService;
+
 	@Autowired
-	private RweConfig rtmdoConfig;
+	private RweConfig rweConfig;
 
 	@Override
 	public UserDO get(Long id) {
@@ -155,8 +156,6 @@ public class UserServiceImpl implements UserService {
 		}
 		userDO.setPassword(MD5Utils.encrypt(userDO.getUsername(), userVO.getPwdNew()));
 		return userMapper.update(userDO);
-
-
 	}
 
 	@Transactional
@@ -235,7 +234,7 @@ public class UserServiceImpl implements UserService {
             boolean flag = ImageIO.write(rotateImage, prefix, out);
 			//转换后存入数据库
 			byte[] b = out.toByteArray();
-			FileUtils.uploadFile(b, rtmdoConfig.getUploadPath(), fileName);
+			FileUtils.uploadFile(b, rweConfig.getUploadPath(), fileName);
 		} catch (Exception e) {
 			throw  new Exception("图片裁剪错误！！");
 		}
