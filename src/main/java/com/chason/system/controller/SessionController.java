@@ -3,6 +3,7 @@ package com.chason.system.controller;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,13 @@ import com.chason.common.utils.R;
 import com.chason.system.domain.UserOnline;
 import com.chason.system.service.SessionService;
 
+@Slf4j
 @RequestMapping("/sys/online")
 @Controller
 public class SessionController {
+
 	@Autowired
-	SessionService sessionService;
+	private SessionService sessionService;
 
 	@GetMapping()
 	public String online() {
@@ -38,12 +41,11 @@ public class SessionController {
 	public R forceLogout(@PathVariable("sessionId") String sessionId, RedirectAttributes redirectAttributes) {
 		try {
 			sessionService.forceLogout(sessionId);
-			return R.ok();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("force logout error:{}", e.getMessage());
 			return R.error();
 		}
-
+        return R.ok();
 	}
 
 	@ResponseBody
@@ -51,6 +53,4 @@ public class SessionController {
 	public Collection<Session> sessionList() {
 		return sessionService.sessionList();
 	}
-
-
 }

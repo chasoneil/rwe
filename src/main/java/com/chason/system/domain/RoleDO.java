@@ -1,10 +1,13 @@
 package com.chason.system.domain;
 
-import java.sql.Timestamp;
+import lombok.Data;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class RoleDO {
+@Data
+public class RoleDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,82 +19,4 @@ public class RoleDO {
 	private Date gmtCreate;
 	private Date gmtModified;
 	private List<Long> menuIds;
-
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public String getRoleSign() {
-		return roleSign;
-	}
-
-	public void setRoleSign(String roleSign) {
-		this.roleSign = roleSign;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public Long getUserIdCreate() {
-		return userIdCreate;
-	}
-
-	public void setUserIdCreate(Long userIdCreate) {
-		this.userIdCreate = userIdCreate;
-	}
-
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
-
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
-
-	public Date getGmtModified() {
-		return gmtModified;
-	}
-
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
-
-	public List<Long> getMenuIds() {
-		return menuIds;
-	}
-
-	public void setMenuIds(List<Long> menuIds) {
-		this.menuIds = menuIds;
-	}
-
-	@Override
-	public String toString() {
-		return "RoleDO{" +
-				"roleId=" + roleId +
-				", roleName='" + roleName + '\'' +
-				", roleSign='" + roleSign + '\'' +
-				", remark='" + remark + '\'' +
-				", userIdCreate=" + userIdCreate +
-				", gmtCreate=" + gmtCreate +
-				", gmtModified=" + gmtModified +
-				", menuIds=" + menuIds +
-				'}';
-	}
 }

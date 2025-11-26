@@ -60,11 +60,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public int save(MenuDO menu) {
+        menu.setGmtCreate(new Date());
         return menuMapper.save(menu);
     }
 
     @Override
     public int update(MenuDO menu) {
+        menu.setGmtModified(new Date());
         return menuMapper.update(menu);
     }
 
@@ -149,5 +151,4 @@ public class MenuServiceImpl implements MenuService {
         // 默认顶级菜单为０，根据数据库实际情况调整
         return BuildTree.buildList(trees, "0");
     }
-
 }

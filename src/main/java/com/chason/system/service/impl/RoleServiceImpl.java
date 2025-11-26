@@ -57,9 +57,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public int save(RoleDO role) {
-        if (role.getGmtCreate() == null) {
-            role.setGmtCreate(new Date());
-        }
+        role.setGmtCreate(new Date());
         int count = roleMapper.save(role);
         List<Long> menuIds = role.getMenuIds();
         Long roleId = role.getRoleId();
@@ -89,12 +87,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDO get(Long id) {
-        RoleDO roleDO = roleMapper.get(id);
-        return roleDO;
+        return roleMapper.get(id);
+    }
+
+    @Transactional
+    @Override
+    public int batchremove(Long[] ids) {
+        return roleMapper.batchRemove(ids);
     }
 
     @Override
     public int update(RoleDO role) {
+        role.setGmtModified(new Date());
         int r = roleMapper.update(role);
         List<Long> menuIds = role.getMenuIds();
         Long roleId = role.getRoleId();
@@ -109,12 +113,6 @@ public class RoleServiceImpl implements RoleService {
         if (!rms.isEmpty()) {
             roleMenuMapper.batchSave(rms);
         }
-        return r;
-    }
-
-    @Override
-    public int batchremove(Long[] ids) {
-        int r = roleMapper.batchRemove(ids);
         return r;
     }
 

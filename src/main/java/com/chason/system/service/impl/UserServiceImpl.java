@@ -51,8 +51,7 @@ public class UserServiceImpl implements UserService {
 	public UserDO get(Long id) {
 		List<Long> roleIds = userRoleMapper.listRoleId(id);
 		UserDO user = userMapper.get(id);
-		if(user != null)
-		{
+		if(user != null) {
 		    user.setDeptName(deptMapper.get(user.getDeptId()).getName());
 	        user.setRoleIds(roleIds);
 		}
@@ -77,13 +76,13 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public int save(UserDO user) {
+        user.setGmtCreate(new Date());
 		int count = userMapper.save(user);
 		Long userId = user.getUserId();
 		List<Long> roles = user.getRoleIds();
 		userRoleMapper.removeByUserId(userId);
 		List<UserRoleDO> list = new ArrayList<>();
-		if(roles != null)
-		{
+		if(roles != null) {
 		    for (Long roleId : roles) {
 	            UserRoleDO ur = new UserRoleDO();
 	            ur.setUserId(userId);
@@ -99,6 +98,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int update(UserDO user) {
+        user.setGmtModified(new Date());
 		int r = userMapper.update(user);
 		Long userId = user.getUserId();
 		List<Long> roles = user.getRoleIds();
