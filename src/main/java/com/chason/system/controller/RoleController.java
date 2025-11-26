@@ -26,29 +26,28 @@ public class RoleController extends BaseController {
 
 	@RequiresPermissions("sys:role:role")
 	@GetMapping()
-	public String role() {
+    String role() {
 		return PREFIX + "/role";
 	}
 
 	@RequiresPermissions("sys:role:role")
 	@GetMapping("/list")
 	@ResponseBody()
-	public List<RoleDO> list() {
-		List<RoleDO> roles = roleService.list();
-		return roles;
+    List<RoleDO> list() {
+		return roleService.list();
 	}
 
 	@Log("添加角色")
 	@RequiresPermissions("sys:role:add")
 	@GetMapping("/add")
-	public String add() {
+	String add() {
 		return PREFIX + "/add";
 	}
 
 	@Log("编辑角色")
 	@RequiresPermissions("sys:role:edit")
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable("id") Long id, Model model) {
+	String edit(@PathVariable("id") Long id, Model model) {
 		RoleDO roleDO = roleService.get(id);
 		model.addAttribute("role", roleDO);
 		return PREFIX + "/edit";
@@ -58,7 +57,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:add")
 	@PostMapping("/save")
 	@ResponseBody()
-	public R save(RoleDO role) {
+	R save(RoleDO role) {
 		if (roleService.save(role) > 0) {
 			return R.ok();
 		} else {
@@ -70,7 +69,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:edit")
 	@PostMapping("/update")
 	@ResponseBody()
-	public R update(RoleDO role) {
+	R update(RoleDO role) {
 		if (roleService.update(role) > 0) {
 			return R.ok();
 		} else {
@@ -82,7 +81,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:remove")
 	@PostMapping("/remove")
 	@ResponseBody()
-	public R save(Long id) {
+	R save(Long id) {
 		if (roleService.remove(id) > 0) {
 			return R.ok();
 		} else {
@@ -94,7 +93,7 @@ public class RoleController extends BaseController {
 	@Log("批量删除角色")
 	@PostMapping("/batchRemove")
 	@ResponseBody
-	public R batchRemove(@RequestParam("ids[]") Long[] ids) {
+	R batchRemove(@RequestParam("ids[]") Long[] ids) {
 		int r = roleService.batchremove(ids);
 		if (r > 0) {
 			return R.ok();

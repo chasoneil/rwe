@@ -1,17 +1,20 @@
 package com.chason.system.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class RoleDO {
+
+    private static final long serialVersionUID = 1L;
 
 	private Long roleId;
 	private String roleName;
 	private String roleSign;
 	private String remark;
 	private Long userIdCreate;
-	private Timestamp gmtCreate;
-	private Timestamp gmtModified;
+	private Date gmtCreate;
+	private Date gmtModified;
 	private List<Long> menuIds;
 
 	public Long getRoleId() {
@@ -54,19 +57,19 @@ public class RoleDO {
 		this.userIdCreate = userIdCreate;
 	}
 
-	public Timestamp getGmtCreate() {
+	public Date getGmtCreate() {
 		return gmtCreate;
 	}
 
-	public void setGmtCreate(Timestamp gmtCreate) {
+	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
 
-	public Timestamp getGmtModified() {
+	public Date getGmtModified() {
 		return gmtModified;
 	}
 
-	public void setGmtModified(Timestamp gmtModified) {
+	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
 

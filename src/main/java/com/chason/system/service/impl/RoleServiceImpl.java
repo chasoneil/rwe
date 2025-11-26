@@ -1,9 +1,6 @@
 package com.chason.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,20 +23,21 @@ public class RoleServiceImpl implements RoleService {
     public static final String DEMO_CACHE_NAME = "role";
 
     @Autowired
-    RoleDao roleMapper;
+    private RoleDao roleMapper;
+
     @Autowired
-    RoleMenuDao roleMenuMapper;
+    private RoleMenuDao roleMenuMapper;
+
     @Autowired
-    UserDao userMapper;
+    private UserDao userMapper;
+
     @Autowired
     UserRoleDao userRoleMapper;
 
     @Override
     public List<RoleDO> list() {
-        List<RoleDO> roles = roleMapper.list(new HashMap<>(16));
-        return roles;
+        return roleMapper.list(new HashMap<>(16));
     }
-
 
     @Override
     public List<RoleDO> list(Long userId) {
@@ -59,12 +57,14 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public int save(RoleDO role) {
+        if (role.getGmtCreate() == null) {
+            role.setGmtCreate(new Date());
+        }
         int count = roleMapper.save(role);
         List<Long> menuIds = role.getMenuIds();
         Long roleId = role.getRoleId();
         List<RoleMenuDO> rms = new ArrayList<>();
-        if(menuIds != null)
-        {
+        if(menuIds != null) {
             for (Long menuId : menuIds) {
                 RoleMenuDO rmDo = new RoleMenuDO();
                 rmDo.setRoleId(roleId);
@@ -73,7 +73,7 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         roleMenuMapper.removeByRoleId(roleId);
-        if (rms.size() > 0) {
+        if (!rms.isEmpty()) {
             roleMenuMapper.batchSave(rms);
         }
         return count;
