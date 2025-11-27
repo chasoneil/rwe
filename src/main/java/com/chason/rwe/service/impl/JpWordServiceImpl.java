@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class JpWordServiceImpl implements JpWordService {
@@ -38,6 +35,19 @@ public class JpWordServiceImpl implements JpWordService {
     @Override
     public List<JpWordDO> list(Map<String, Object> map) {
         return jpWordDao.list(map);
+    }
+
+    @Override
+    public List<JpWordDO> listNoLearned(Map<String, Object> map) {
+        List<JpWordDO> list = list(map);
+        Iterator<JpWordDO> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            JpWordDO wordDO = iterator.next();
+            if (wordDO.getLearned() == 2) {
+                iterator.remove();
+            }
+        }
+        return list;
     }
 
     @Override
@@ -84,9 +94,16 @@ public class JpWordServiceImpl implements JpWordService {
     }
 
     @Override
+    @Transactional
     public int pass(JpWordDO word) {
         word.setLearned(2);
-        word.setLastReviewTime(new Date());
+        Date time = new Date();
+        word.setLastReviewTime(time);
+        JpLessonDO lessonDO = jpLessonService.get(word.getLessonId());
+        int passed = lessonDO.getPassed();
+        lessonDO.setLastLearnTime(time);
+        lessonDO.setPassed(++passed);
+        jpLessonService.update(lessonDO);
         return update(word);
     }
 
@@ -116,20 +133,9 @@ public class JpWordServiceImpl implements JpWordService {
             jpWordDao.update(jpWordDO);
         }
 
-        JpLessonDO lessonDO;
         if (!words.isEmpty()) {
-            lessonDO = jpLessonService.get(words.get(0).getLessonId());
+            JpLessonDO lessonDO = jpLessonService.get(words.get(0).getLessonId());
             lessonDO.setLastLearnTime(d);
-            Map<String, Object> param = new HashMap<>();
-            param.put("lessonId", words.get(0).getLessonId());
-            List<JpWordDO> allWords = jpWordDao.list(param);
-            int passed = 0;
-            for (JpWordDO wordDO : allWords) {
-                if (wordDO.getLearned() == 2) {
-                    passed++;
-                }
-            }
-            lessonDO.setPassed(passed);
             jpLessonService.update(lessonDO);
         }
     }

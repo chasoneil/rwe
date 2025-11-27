@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,23 +54,16 @@ public class JpRememberController extends BaseController {
     @ResponseBody
     @PostMapping("/rem/load/words")
     R doRem(@RequestParam("lessonId") Integer lessonId) {
-        String res = null;
         try {
             Map<String, Object> param = new HashMap<>();
             param.put("lessonId", lessonId);
-            List<JpWordDO> jpWords = jpWordService.list(param);
-            for (JpWordDO jpWord : jpWords) {
-                if (jpWord.getLearned() == 2) {
-                    jpWords.remove(jpWord);
-                }
-            }
-            res = JSON.toJSONString(jpWords);
+            List<JpWordDO> jpWords = jpWordService.listNoLearned(param);
+            String res = JSON.toJSONString(jpWords);
+            return R.ok(res);
         } catch (Exception e) {
-            e.printStackTrace();
             log.warn("get words data caught error:{}", e.getMessage());
-            return R.error();
+            return R.error("获取单词数据失败");
         }
-        return R.ok(res);
     }
 
     @ResponseBody
@@ -80,13 +74,14 @@ public class JpRememberController extends BaseController {
             log.info("success to update learn lesson words.");
         } catch (Exception e) {
             log.warn("failed to update learn lesson words:{}", e.getMessage());
-            return R.error(e.getMessage());
+            return R.error("更新单词数据失败");
         }
         return R.ok();
     }
 
     @ResponseBody
     @PostMapping("/learn/pass")
+    @Transactional
     R pass(@RequestParam("data") String data) {
         try {
             JpWordDO word = JSON.parseObject(data, JpWordDO.class);

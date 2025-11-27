@@ -1,6 +1,7 @@
 package com.chason.rwe.domain;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class JpLessonDO {
     private int passed;
 
     // 本课的上次学习时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastLearnTime;
 
 }

@@ -89,7 +89,9 @@ function next(passed) {
             },
             success : function(data) {
                 if (data.code == 0) {
-                    parent.layer.msg("操作成功");
+                    parent.layer.msg("本课单词已学完");
+                    let index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
                 } else {
                     parent.layer.msg("更新单词数据失败");
                 }
@@ -193,9 +195,7 @@ function passed() {
         },
         success : function(data) {
             if (data.code == 0) {
-                parent.layer.msg("操作成功");
-                let index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
+                parent.layer.msg("已学会该单词");
             } else {
                 parent.layer.msg("更新单词数据失败");
             }

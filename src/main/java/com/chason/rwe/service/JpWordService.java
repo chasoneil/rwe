@@ -13,6 +13,8 @@ public interface JpWordService {
 
     List<JpWordDO> list(Map<String, Object> map);
 
+    List<JpWordDO> listNoLearned(Map<String, Object> map);
+
     boolean checkExist(String word, String wordVoice);
 
     int count(Map<String, Object> map);
