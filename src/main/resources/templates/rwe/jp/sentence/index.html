@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+<div id="rem-content">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="col-sm-12">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button type="button" class="btn btn-success" onclick="refreshPage()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3" th:each="lesson, index: ${lessons}">
+                <div class="contact-box">
+                    <a th:onclick="|doPractice('${lesson}')|">
+                        <div class="col-sm-4">
+                            <div class="text-center">
+                                <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/jp.jpeg">
+                                <div class="m-t-xs font-bold">日本语</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <h3><strong th:text="${lesson}"></strong></h3>
+                            <p>
+                                <i class="fa fa-book"></i> 句子对话练习
+                            </p>    
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <div th:include="include :: footer"></div>
+    <script type="text/javascript" src="/js/appjs/rwe/jp/sentence/index.js"></script>
+    </body>
+</html>

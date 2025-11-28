@@ -1,31 +1,28 @@
-const prefix = "/rwe/jp/rem";
+const prefix = "/rwe/jp/sentence";
 
 $(function () {
     $('.contact-box').css({
-        transition: 'transform 0.5s ease-in-out' // 延长动画时间为1.5秒
+        transition: 'transform 0.5s ease-in-out'
     });
 
     $('.contact-box').hover(
         function () {
-            // 鼠标进入时放大元素
             $(this).css('transform', 'scale(1.1)');
         },
         function () {
-            // 鼠标离开时恢复原始大小
             $(this).css('transform', 'scale(1)');
         }
     );
 });
 
-function doRem(id) {
-
+function doPractice(lessonName) {
     layer.open({
         type: 2,
-        title: '背单词',
+        title: '日语句子练习',
         maxmin: true,
         shadeClose: false,
         area: ['800px', '520px'],
-        content: prefix + '/rem/' + id,
+        content: prefix + '/index/' + lessonName,
     });
 }
 

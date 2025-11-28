@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.chason.common.domain.Tree;
 import com.chason.common.utils.BuildTree;
@@ -16,7 +15,6 @@ import com.chason.system.service.MenuService;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
