@@ -15,14 +15,14 @@ $(function () {
     );
 });
 
-function doPractice(lessonName) {
+function practice(lessonName) {
     layer.open({
         type: 2,
         title: '日语句子练习',
         maxmin: true,
         shadeClose: false,
         area: ['800px', '520px'],
-        content: prefix + '/index/' + lessonName,
+        content: prefix + '/practice/' + lessonName,
     });
 }
 

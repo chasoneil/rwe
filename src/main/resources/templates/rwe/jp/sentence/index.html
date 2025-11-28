@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-sm-3" th:each="lesson, index: ${lessons}">
                 <div class="contact-box">
-                    <a th:onclick="|doPractice('${lesson}')|">
+                    <a th:onclick="|practice('${lesson}')|">
                         <div class="col-sm-4">
                             <div class="text-center">
                                 <img alt="image" class="img-circle m-t-xs img-responsive" src="/img/jp.jpeg">

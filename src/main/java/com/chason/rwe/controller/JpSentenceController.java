@@ -29,7 +29,7 @@ public class JpSentenceController {
 
     private static List<String> cache = new ArrayList<>();
 
-    @GetMapping("/index")
+    @GetMapping("")
     String index(Model model) {
         // 获取所有的练习文件名
         List<String> lessons = new ArrayList<>();
@@ -50,9 +50,15 @@ public class JpSentenceController {
         return PREFIX + "/index";
     }
 
-    @PostMapping("/practice")
+    @GetMapping("/practice/${lessonName}")
+    String practice(@PathVariable("lessonName") String lessonName) {
+
+    }
+
+
+    @PostMapping("/data")
     @ResponseBody
-    R practice (@RequestParam String lessonName) {
+    R getData (@RequestParam String lessonName) {
 
         if (StringUtils.isEmpty(lessonName)) {
             log.warn("get lesson error {}", lessonName);
