@@ -50,9 +50,10 @@ public class JpSentenceController {
         return PREFIX + "/index";
     }
 
-    @GetMapping("/practice/${lessonName}")
-    String practice(@PathVariable("lessonName") String lessonName) {
-
+    @GetMapping("/practice/{lessonName}")
+    String practice(@PathVariable("lessonName") String lessonName, Model model) {
+        model.addAttribute("lessonName", lessonName);
+        return PREFIX + "/sentence";
     }
 
 
@@ -66,7 +67,7 @@ public class JpSentenceController {
         }
 
         String fileName = lessonName + ".txt";
-        String filePath = JpSentenceController.class.getResource("/").getPath() + "/notes" + "/" + fileName;
+        String filePath = JpSentenceController.class.getResource("/").getPath().replaceFirst("^/", "") + File.separator + "notes" + File.separator + fileName;
 
         try {
             JpSentenceDO jpSentenceDO = init(filePath);
