@@ -14,6 +14,7 @@ import com.chason.rwe.service.JpWordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -178,9 +179,9 @@ public class JpWordsController extends BaseController {
         int rowCount = 0;
         String encoding = "UTF-8";
 
+        String line = null;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), encoding))) {
 
-            String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (StringUtils.isEmpty(line)) {
@@ -214,6 +215,7 @@ public class JpWordsController extends BaseController {
             }
 
         } catch (Exception e) {
+            log.error("line error: {}", line);
             throw new RuntimeException(e.getMessage());
         }
 
