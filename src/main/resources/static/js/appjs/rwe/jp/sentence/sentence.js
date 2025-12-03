@@ -52,7 +52,7 @@ function initSingle(singles) {
         let split = content.split("-");
         let cn = split[0];
         let jp = split[1];
-        setSingle(cn, jp, index)
+        setSingle(title, cn, jp, index)
     }
 }
 
@@ -60,24 +60,43 @@ function initDialog(dialogs) {
     let title = "";
     for (let index = 0; index < dialogs.length; index++) {
         let dialog = dialogs[index];
-        console.log(dialog);
         title = dialog.title;
-        // let content = dialog.content;
-        // let split = content.split("-");
-        // let cn = split[0];
-        // let jp = split[1];
-        // setSingle(cn, jp, index)
+        let contents = dialog.content;
+        for (let j=0; j<contents.length; j++) {
+            let content = contents[j];
+            let split = content.split("-");
+            let cn = split[0];
+            let jp = split[1];
+            setDialog(title, cn, jp, index, j);
+        }
+        setHr();
     }
 }
 
-function setSingle(cn, jp, index) {
+function setDialog(title ,cn, jp, i, j) {
+    let elements = `
+        <h3>${cn}</h3>
+        <p>${title}</p>
+        <div class="input-group" style="display: flex; align-items: center;">
+            <input type="hidden" class="form-control" value="${jp}" id="jpa-${i}-${j}">
+            <input type="text" class="form-control" placeholder="请将对话的内容翻译成日语" id="jpu-${i}-${j}">
+            <button type="button" class="btn btn-sm btn-success" onclick="checkDialog('${i}','${j}')" style="margin-left:5px;margin-top:3px;">
+                <i class="fa fa-check" aria-hidden="true"></i> 检查
+            </button>
+        </div>    
+    `;
+    $('#content').append(elements);
+}
+
+function setSingle(title ,cn, jp, index) {
 
     let elements = `
         <h3>${cn}</h3>
+        <p>${title}</p>
         <div class="input-group" style="display: flex; align-items: center;">
             <input type="hidden" class="form-control" value="${jp}" id="jpa-${index}">
             <input type="text" class="form-control" placeholder="请将上面的中文翻译成日语" id="jpu-${index}">
-            <button type="button" class="btn btn-sm btn-success" onclick="check('${index}')" style="margin-left:5px;margin-top:2px;">
+            <button type="button" class="btn btn-sm btn-success" onclick="checkSingle('${index}')" style="margin-left:5px;margin-top:3px;">
                 <i class="fa fa-check" aria-hidden="true"></i> 检查
             </button>
         </div>    
@@ -85,10 +104,14 @@ function setSingle(cn, jp, index) {
     `;
 
     $('#content').append(elements);
-
 }
 
-function check(index) {
+function setHr() {
+    let element = `<hr>`;
+    $('#content').append(element);
+}
+
+function checkSingle(index) {
     
     let resId = 'jpu-' + index;
     let ansId = 'jpa-' + index;
@@ -96,11 +119,18 @@ function check(index) {
     let Q = $('#' + resId).val();
     let A = $('#' + ansId).val();
 
+    // 将获取的内容去掉所有的空格
+    A = removeSpace(A);
+
     if (Q === A) {
         layer.msg('回答正确');
     } else {
         layer.alert('回答错误，正确答案:' + A);
     }
+}
+
+function removeSpace(str) {
+    return str.replace(/\s+/g, '');
 }
 
 
