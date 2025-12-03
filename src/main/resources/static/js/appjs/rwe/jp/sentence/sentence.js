@@ -129,6 +129,22 @@ function checkSingle(index) {
     }
 }
 
+function checkDialog(i, j) {
+    let resId = 'jpu-' + i + '-' + j;
+    let ansId = 'jpa-' + i + '-' + j;
+    let Q = $('#' + resId).val();
+    let A = $('#' + ansId).val();
+
+    // 将获取的内容去掉所有的空格
+    A = removeSpace(A);
+
+    if (Q === A) {
+        layer.msg('回答正确');
+    } else {
+        layer.alert('回答错误，正确答案:' + A);
+    }
+}
+
 function removeSpace(str) {
     return str.replace(/\s+/g, '');
 }

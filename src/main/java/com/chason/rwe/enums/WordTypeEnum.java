@@ -7,7 +7,9 @@ public enum WordTypeEnum {
     N("n", "名词"),
     V("v", "动词"),
     ADJ("adj", "形容词"),
-    AUX("aux", "助词");
+    ADV("adv", "副词"),
+    AUX("aux", "助词"),
+    SPE("spe", "专用词");
 
     @Getter
     private String sign;
