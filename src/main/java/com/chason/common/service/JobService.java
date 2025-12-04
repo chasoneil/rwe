@@ -32,6 +32,8 @@ public interface JobService {
 
 	void initSchedule();
 
+    void startJobNow(Long jobId);
+
 	void changeStatus(Long jobId, String cmd) throws SchedulerException;
 
 	void updateCron(Long jobId) throws SchedulerException;

@@ -121,7 +121,10 @@ function load() {
                             var d = '<a class="btn btn-warning btn-sm" href="#" title="删除"  mce_href="#" onclick="singleRemove(\''
                                 + row.id
                                 + '\')"><i class="fa fa-remove"></i></a> ';
-                            return e + d;
+                            var f = '<a class="btn btn-primary btn-sm" href="#" title="立即执行"  mce_href="#" onclick="startJob(\''
+                                + row.id
+                                + '\')"><i class="fa fa-play"></i></a> ';
+                            return e + f + d;
                         }
                     }]
             });
@@ -161,6 +164,28 @@ function edit(id, status) {
         area: ['800px', '520px'],
         content: prefix + '/edit/' + id
     });
+}
+
+function startJob(id) {
+    layer.confirm('确定要立即执行一次定时任务?', {
+        btn: ['确定', '取消']
+    }, function () {
+        $.ajax({
+            url: prefix + "/do/job",
+            type: "post",
+            data: {
+                'id': id
+            },
+            success: function (r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reload();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
 }
 
 function singleRemove(id) {
