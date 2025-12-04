@@ -64,7 +64,7 @@ public class JobController extends BaseController{
 
 	@ResponseBody
 	@PostMapping("/save")
-	public R save(TaskDO taskScheduleJob) {
+    R save(TaskDO taskScheduleJob) {
 		if (taskScheduleJobService.save(taskScheduleJob) > 0) {
 			return R.ok();
 		}

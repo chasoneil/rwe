@@ -23,60 +23,53 @@ import java.util.Map;
 
 @RequestMapping("/common/generator")
 @Controller
-public class GeneratorController
-{
-    String           prefix = "common/generator";
+public class GeneratorController {
+
+    private static final String PREFIX = "common/generator";
+
     @Autowired
-    GeneratorService generatorService;
+    private GeneratorService generatorService;
 
     @GetMapping()
-    String generator()
-    {
-        return prefix + "/list";
+    String generator() {
+        return PREFIX + "/list";
     }
 
     @ResponseBody
     @GetMapping("/list")
-    List<Map<String, Object>> list()
-    {
-        List<Map<String, Object>> list = generatorService.list();
-        return list;
+    List<Map<String, Object>> list() {
+        return generatorService.list();
     };
 
     @RequestMapping("/code/{tableName}")
-    public void code(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("tableName") String tableName) throws IOException
-    {
+    void code(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("tableName") String tableName) throws IOException {
         String[] tableNames = new String[] { tableName };
         byte[] data = generatorService.generatorCode(tableNames);
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment; filename=\"rtmdo.zip\"");
+                "attachment; filename=\"rwe.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-
         IOUtils.write(data, response.getOutputStream());
     }
 
     @RequestMapping("/batchCode")
-    public void batchCode(HttpServletRequest request,
-            HttpServletResponse response, String tables) throws IOException
-    {
+    void batchCode(HttpServletRequest request,
+            HttpServletResponse response, String tables) throws IOException {
         String[] tableNames = new String[] {};
         tableNames = JSON.parseArray(tables).toArray(tableNames);
         byte[] data = generatorService.generatorCode(tableNames);
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment; filename=\"rtmdo.zip\"");
+                "attachment; filename=\"rwe.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-
         IOUtils.write(data, response.getOutputStream());
     }
 
     @GetMapping("/edit")
-    public String edit(Model model)
-    {
+    String edit(Model model) {
         Configuration conf = GenUtils.getConfig();
         Map<String, Object> property = new HashMap<>(16);
         property.put("author", conf.getProperty("author"));
@@ -85,15 +78,13 @@ public class GeneratorController
         property.put("autoRemovePre", conf.getProperty("autoRemovePre"));
         property.put("tablePrefix", conf.getProperty("tablePrefix"));
         model.addAttribute("property", property);
-        return prefix + "/edit";
+        return PREFIX + "/edit";
     }
 
     @ResponseBody
     @PostMapping("/update")
-    R update(@RequestParam Map<String, Object> map)
-    {
-        try
-        {
+    R update(@RequestParam Map<String, Object> map) {
+        try {
             PropertiesConfiguration conf = new PropertiesConfiguration(
                     "generator.properties");
             conf.setProperty("author", map.get("author"));
@@ -102,9 +93,7 @@ public class GeneratorController
             conf.setProperty("autoRemovePre", map.get("autoRemovePre"));
             conf.setProperty("tablePrefix", map.get("tablePrefix"));
             conf.save();
-        }
-        catch (ConfigurationException e)
-        {
+        } catch (ConfigurationException e) {
             return R.error("保存配置文件出错");
         }
         return R.ok();

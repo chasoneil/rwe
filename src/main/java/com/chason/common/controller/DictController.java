@@ -17,130 +17,92 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 字典表
- */
 @Controller
 @RequestMapping("/common/sysDict")
-public class DictController extends BaseController
-{
+public class DictController extends BaseController {
+
     @Autowired
     private DictService sysDictService;
 
     @GetMapping()
     @RequiresPermissions("common:sysDict:sysDict")
-    String sysDict()
-    {
+    String sysDict() {
         return "common/sysDict/sysDict";
     }
 
-    /**
-     * 查询列表数据
-     * */
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("common:sysDict:sysDict")
-    public PageUtils list(@RequestParam Map<String, Object> params)
-    {
+    PageUtils list(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
         List<DictDO> sysDictList = sysDictService.list(query);
         int total = sysDictService.count(query);
-        PageUtils pageUtils = new PageUtils(sysDictList, total);
-        return pageUtils;
+        return new PageUtils(sysDictList, total);
     }
 
-    /**
-     * 添加页
-     * */
     @GetMapping("/add")
     @RequiresPermissions("common:sysDict:add")
-    String add()
-    {
+    String add() {
         return "common/sysDict/add";
     }
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("common:sysDict:edit")
-    String edit(@PathVariable("id") Long id, Model model)
-    {
+    String edit(@PathVariable("id") Long id, Model model) {
         DictDO sysDict = sysDictService.get(id);
         model.addAttribute("sysDict", sysDict);
         return "common/sysDict/edit";
     }
 
-    /**
-     * 保存
-     */
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("common:sysDict:add")
-    public R save(DictDO sysDict)
-    {
-        if (sysDictService.save(sysDict) > 0)
-        {
+    R save(DictDO sysDict) {
+        if (sysDictService.save(sysDict) > 0) {
             return R.ok();
         }
         return R.error();
     }
 
-    /**
-     * 修改
-     */
     @ResponseBody
     @RequestMapping("/update")
     @RequiresPermissions("common:sysDict:edit")
-    public R update(DictDO sysDict)
-    {
+    R update(DictDO sysDict) {
         sysDictService.update(sysDict);
         return R.ok();
     }
 
-    /**
-     * 删除
-     */
     @PostMapping("/remove")
     @ResponseBody
     @RequiresPermissions("common:sysDict:remove")
-    public R remove(Long id)
-    {
-        if (sysDictService.remove(id) > 0)
-        {
+    R remove(Long id) {
+        if (sysDictService.remove(id) > 0) {
             return R.ok();
         }
         return R.error();
     }
 
-    /**
-     * 批量删除
-     */
-    @PostMapping("/batchRemove")
     @ResponseBody
+    @PostMapping("/batchRemove")
     @RequiresPermissions("common:sysDict:batchRemove")
-    public R batchRemove(@RequestParam("ids[]") Long[] ids)
-    {
+    R batchRemove(@RequestParam("ids[]") Long[] ids) {
         sysDictService.batchRemove(ids);
         return R.ok();
     }
 
-    /**
-     * 列出所有分类
-     * @return json或xml
-     * */
-    @GetMapping("/type")
     @ResponseBody
-    public List<DictDO> listType()
-    {
+    @GetMapping("/type")
+    List<DictDO> listType() {
         return sysDictService.listType();
     };
 
     // 类别已经指定增加
     @GetMapping("/add/{type}/{description}")
     @RequiresPermissions("common:sysDict:add")
-    String addD(
+    String addType(
             Model model,
             @PathVariable("type") String type,
-            @PathVariable("description") String description)
-    {
+            @PathVariable("description") String description) {
         model.addAttribute("type", type);
         model.addAttribute("description", description);
         return "common/sysDict/add";
@@ -148,50 +110,27 @@ public class DictController extends BaseController
 
     @ResponseBody
     @GetMapping("/list/{type}")
-    public List<DictDO> listByType(@PathVariable("type") String type)
-    {
-        // 查询列表数据
+    List<DictDO> listByType(@PathVariable("type") String type) {
         Map<String, Object> map = new HashMap<>(16);
         map.put("type", type);
-        List<DictDO> dictList = sysDictService.list(map);
-        return dictList;
+        return sysDictService.list(map);
     }
 
-    /**
-     * 获取指定类型的树形结构
-     * @param type
-     */
-    @GetMapping("/tree")
     @ResponseBody
-    public Tree<DictDO> tree(@RequestParam("type") String type)
-    {
-    	Tree<DictDO> tree = new Tree<DictDO>();
-        tree = sysDictService.getTree(type);
-        return tree;
+    @GetMapping("/tree")
+    Tree<DictDO> tree(@RequestParam("type") String type) {
+        return sysDictService.getTree(type);
     }
 
-    /**
-     * 获取设备分组树形结构
-     * @param type
-     */
     @GetMapping("/deviceGroupTree")
     @ResponseBody
-    public Tree<DictDO> deviceGroupTree(@RequestParam("type") String type)
-    {
-        Tree<DictDO> tree = new Tree<DictDO>();
-        tree = sysDictService.getDeviceGroupTree(type);
-        return tree;
+    Tree<DictDO> deviceGroupTree(@RequestParam("type") String type) {
+        return sysDictService.getDeviceGroupTree(type);
     }
 
-    /**
-     * 获得数据字典中指定的name，用于页面中显示
-     * @param type
-     * @param value
-     * */
     @GetMapping("/detail")
     @ResponseBody
-    public DictDO detail(@RequestParam("type") String type, @RequestParam("value") String value)
-    {
+    DictDO detail(@RequestParam("type") String type, @RequestParam("value") String value) {
         return sysDictService.getDictDoByTypeAndValue(type, value);
-    };
+    }
 }
