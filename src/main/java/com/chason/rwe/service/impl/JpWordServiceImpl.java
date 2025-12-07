@@ -95,14 +95,15 @@ public class JpWordServiceImpl implements JpWordService {
 
     @Override
     @Transactional
-    public int pass(JpWordDO word) {
-        word.setLearned(2);
+    public int learnWord(JpWordDO word) {
         Date time = new Date();
         word.setLastReviewTime(time);
         JpLessonDO lessonDO = jpLessonService.get(word.getLessonId());
-        int passed = lessonDO.getPassed();
+        if (word.getLearned() == 2) {
+            int passed = lessonDO.getPassed();
+            lessonDO.setPassed(++passed);
+        }
         lessonDO.setLastLearnTime(time);
-        lessonDO.setPassed(++passed);
         jpLessonService.update(lessonDO);
         return update(word);
     }

@@ -80,15 +80,15 @@ public class JpRememberController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("/learn/pass")
+    @PostMapping("/learn/word")
     @Transactional
-    R pass(@RequestParam("data") String data) {
+    public R doLearn(@RequestParam("data") String data) {
         try {
             JpWordDO word = JSON.parseObject(data, JpWordDO.class);
-            jpWordService.pass(word);
+            jpWordService.learnWord(word);
         } catch (Exception e) {
             log.warn("pass jp word error:{}", e.getMessage());
-            return R.error("更新单词数据失败");
+            return R.error();
         }
         return R.ok();
     }

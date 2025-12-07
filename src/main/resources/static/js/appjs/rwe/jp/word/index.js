@@ -66,9 +66,9 @@ function load() {
                         formatter: function (value, row, index) {
                             if (row.learned === 0) {
                                 return '<span class="btn btn-danger btn-xs btn-outline" style="cursor: default;">未学习</span>';
-                            } else if(row.tradeStatus === 1) {
+                            } else if(row.learned === 1) {
                                 return '<span class="btn btn-default btn-xs btn-outline" style="cursor: default;">学习中</span>';
-                            } else if(row.tradeStatus === 2) {
+                            } else if(row.learned === 2) {
                                 return '<span class="btn btn-primary btn-xs btn-outline" style="cursor: default;">已掌握</span> ';
                             }
                         }

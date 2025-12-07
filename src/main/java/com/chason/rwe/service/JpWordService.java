@@ -23,7 +23,7 @@ public interface JpWordService {
 
     int update(JpWordDO word);
 
-    int pass(JpWordDO word);
+    int learnWord(JpWordDO word);
 
     int remove(Integer id);
 

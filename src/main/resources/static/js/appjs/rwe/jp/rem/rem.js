@@ -8,9 +8,6 @@ $(function () {
     loadData();
 });
 
-/*
-加载本课所有的单词
-*/
 function loadData() {
 
     let id = $('#lessonId').val();
@@ -30,6 +27,7 @@ function loadData() {
             if (data.code == 0) {
                 wordsArray = JSON.parse(data.msg);
                 length = wordsArray.length;
+                wordsArray.sort(() => Math.random() - 0.5);
                 exercise();
             } else {
                 parent.layer.msg("加载单词数据失败");
@@ -41,79 +39,77 @@ function loadData() {
 
 /*
  *  产生随机数表示练习的类型
- *  1. 根据日文写出中文含义
- *  2. 根据日文汉字写出假名
- *  3. 根据假名写出日语的中文
+ *  1. 写出中文翻译
+ *  2. 写出假名
+ *  3. 日语单词
  */
-function exercise() {
-    let testType = Math.floor(Math.random() * 3) + 1;
+function exercise() { 
+    // 默认练习： 写出中文翻译
     let jpword = wordsArray[index];   
-    setText(jpword, testType);
+    setText(jpword, 1);
 }
 
-function setText(jpword, testType) {
-    $('#testType').val(testType);
-    $('#word_voice').text(jpword.wordVoice);
-    $('#word_type').text(jpword.wordType);
-    
-    if (testType === 1) {
-        $('#word_jia').text(jpword.word);
-        $('#word_cn').text(jpword.wordCn);
-        $('#word_mean').html("<div style='display: flex; justify-content: center;'><input id='mean' class='form-control' autocomplete='off' type='text' placeholder='请输入中文含义' style='width: 30%;'></div>");
-    } else if (testType === 2) {
-        $('#word_jia').html("<div style='display: flex; justify-content: center;'><input id='jia' class='form-control' autocomplete='off' type='text' placeholder='请输入日文假名' style='width: 30%;'></div>");
-        $('#word_cn').text(jpword.wordCn);
-        $('#word_mean').text(jpword.zhMean);
-    } else if (testType === 3) {
-        $('#word_jia').text(jpword.word);
-        $('#word_cn').html("<div style='display: flex; justify-content: center;'><input id='cn' class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
-        $('#word_mean').text(jpword.zhMean);
+function getPracticeType () {
+    let form =  $('#selectForm');
+    let practiceType = 4;
+    let selectedRadio = form.find('input[name="practiceType"]:checked');
+    if (selectedRadio.length > 0) {
+        practiceType = selectedRadio.val();
     }
+    return practiceType;
 }
 
 function next(passed) {
 
-    // 已经是本课最后一个单词
     if (index + 1 === length) {
-        parent.layer.msg("本课学习完成");
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url : prefix + "/learn",
-            async: false,
-            data : {
-                "data": JSON.stringify(wordsArray)
-            },
-            error : function(request) {
-                parent.layer.alert("更新单词数据失败");
-            },
-            success : function(data) {
-                if (data.code == 0) {
-                    parent.layer.msg("本课单词已学完");
-                    let index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
-                } else {
-                    parent.layer.msg("更新单词数据失败");
-                }
-            }
-        });
+        parent.layer.msg("已经是最后一个单词");
         return;
     }
 
-    if (passed !== 'passed') {
-        checkExercise();
+    checkExercise();
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url : prefix + "/learn/word",
+        async: false,
+        data : {
+            "data": JSON.stringify(wordsArray[index])
+        },
+        error : function(request) {
+            parent.layer.alert("更新单词数据失败");
+        },
+        success : function(data) {
+            if (data.code === 0) {
+                // parent.layer.msg("本课单词已学完");
+                // let index = parent.layer.getFrameIndex(window.name);
+                // parent.layer.close(index);
+            } else {
+                parent.layer.msg("更新单词数据失败");
+            }
+        }
+    });
+
+    let testType = $('#testType').val();
+    let practiceType = getPracticeType();
+    if (practiceType === 4) {
+        testType = Math.floor(Math.random() * 3) + 1;
+    } else {
+        testType = practiceType;
     }
-    let testType = Math.floor(Math.random() * 3) + 1;
     let jpword = wordsArray[++index];
     setText(jpword, testType);
 }
 
 function checkExercise() {
+
     let testType = $('#testType').val();
+
     let jpword = wordsArray[index];
     if (jpword.learned === 0) {
         jpword.learned = 1;
     }
+
     jpword.learnTime = jpword.learnTime + 1;
     if (testType === '1') {
         let means = jpword.zhMean;
@@ -167,6 +163,26 @@ function checkExercise() {
     }
 }
 
+function setText(jpword, testType) {
+    $('#testType').val(testType);
+    $('#word_voice').text(jpword.wordVoice);
+    $('#word_type').text(jpword.wordType);
+    
+    if (testType === '1') {
+        $('#word_jia').text(jpword.word);
+        $('#word_cn').text(jpword.wordCn);
+        $('#word_mean').html("<div style='display: flex; justify-content: center;'><input id='mean' class='form-control' autocomplete='off' type='text' placeholder='请输入中文含义' style='width: 30%;'></div>");
+    } else if (testType === '2') {
+        $('#word_jia').html("<div style='display: flex; justify-content: center;'><input id='jia' class='form-control' autocomplete='off' type='text' placeholder='请输入日文假名' style='width: 30%;'></div>");
+        $('#word_cn').text(jpword.wordCn);
+        $('#word_mean').text(jpword.zhMean);
+    } else if (testType === '3') {
+        $('#word_jia').text(jpword.word);
+        $('#word_cn').html("<div style='display: flex; justify-content: center;'><input id='cn' class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
+        $('#word_mean').text(jpword.zhMean);
+    }
+}
+
 function prev() {
     if (index === 0) {
         parent.layer.msg("已经是最前一个单词啦");
@@ -185,7 +201,7 @@ function passed() {
     $.ajax({
         cache: false,
         type: "POST",
-        url : prefix + "/learn/pass",
+        url : prefix + "/learn/word",
         async: false,
         data : {
             "data": JSON.stringify(jpword)
