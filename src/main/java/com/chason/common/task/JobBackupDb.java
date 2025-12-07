@@ -32,7 +32,7 @@ public class JobBackupDb implements Job
 //    String _dbRepoPath;
 
     @Autowired
-    private RweConfig _rtmdoConfig;
+    private RweConfig rweConfig;
 
     @Log("数据库备份任务")
     @Override
@@ -41,8 +41,8 @@ public class JobBackupDb implements Job
         RandomFlagValue value = RandomFlagValue.getInstance();
         value.getActiveFlag().clear();
 
-        String fPath    = this._rtmdoConfig.getDbRepoPath() + "/rwe.sql";
-        String destPath = this._rtmdoConfig.getDbRepoPath() + "/rwe_" + new Date().getTime()+".zip";
+        String fPath    = this.rweConfig.getDbRepoPath() + "/rwe.sql";
+        String destPath = this.rweConfig.getDbRepoPath() + "/rwe_" + new Date().getTime()+".zip";
         dumpFile(fPath);
         CompressUtils.zip(fPath, destPath, false, "rwe");
     }

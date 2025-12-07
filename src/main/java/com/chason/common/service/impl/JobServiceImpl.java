@@ -1,5 +1,6 @@
 package com.chason.common.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class JobServiceImpl implements JobService {
 
@@ -69,7 +71,7 @@ public class JobServiceImpl implements JobService {
 				TaskDO scheduleJob = get(id);
 				quartzManager.deleteJob(ScheduleJobUtils.entityToData(scheduleJob));
 			} catch (SchedulerException e) {
-				e.printStackTrace();
+				log.warn("批量删除 error:{}", e.getMessage());
                 return 0;
             }
         }
@@ -107,6 +109,17 @@ public class JobServiceImpl implements JobService {
 		}
 		update(scheduleJob);
 	}
+
+    @Override
+    public void startJobNow(Long jobId) {
+        try {
+            TaskDO scheduleJob = get(jobId);
+            quartzManager.runAJobNow(ScheduleJobUtils.entityToData(scheduleJob));
+            log.info("手动触发Job:{}", scheduleJob.getBeanClass());
+        } catch (SchedulerException e) {
+            log.warn("手动触发Job error:{}", e.getMessage());
+        }
+    }
 
 	@Override
 	public void updateCron(Long jobId) throws SchedulerException {

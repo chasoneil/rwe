@@ -19,22 +19,22 @@ import com.chason.common.utils.R;
 @RequestMapping("/common/log")
 @Controller
 public class LogController {
+
+    private static final String PREFIX = "common/log";
+
 	@Autowired
 	LogService logService;
-	String prefix = "common/log";
 
 	@GetMapping()
 	String log() {
-		return prefix + "/log";
+		return PREFIX + "/log";
 	}
 
 	@ResponseBody
 	@GetMapping("/list")
-	PageDO<LogDO> list(@RequestParam Map<String, Object> params)
-	{
+	PageDO<LogDO> list(@RequestParam Map<String, Object> params) {
 		Query query = new Query(params);
-		PageDO<LogDO> page = logService.queryList(query);
-		return page;
+		return logService.queryList(query);
 	}
 
 	@ResponseBody

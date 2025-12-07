@@ -7,6 +7,7 @@ import com.chason.system.domain.UserDO;
 
 @Controller
 public class BaseController {
+
 	public UserDO getUser() {
 		return ShiroUtils.getUser();
 	}

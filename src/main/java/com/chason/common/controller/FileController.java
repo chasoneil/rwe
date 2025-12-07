@@ -22,123 +22,89 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/common/sysFile")
-public class FileController extends BaseController
-{
+public class FileController extends BaseController {
 
     @Autowired
     private FileService sysFileService;
 
     @Autowired
-    private RweConfig rtmdoConfig;
+    private RweConfig rweConfig;
 
     @GetMapping()
     @RequiresPermissions("common:sysFile:sysFile")
-    String sysFile(Model model)
-    {
-        // Map<String, Object> params = new HashMap<>(16);
+    String sysFile(Model model) {
         return "common/file/file";
     }
 
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("common:sysFile:sysFile")
-    public PageUtils list(@RequestParam Map<String, Object> params)
-    {
-        // 查询列表数据
+    PageUtils list(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
         List<FileDO> sysFileList = sysFileService.list(query);
         int total = sysFileService.count(query);
-        PageUtils pageUtils = new PageUtils(sysFileList, total);
-        return pageUtils;
+        return new PageUtils(sysFileList, total);
     }
 
     @GetMapping("/add")
     // @RequiresPermissions("common:bComments")
-    String add()
-    {
+    String add() {
         return "common/sysFile/add";
     }
 
     @GetMapping("/edit")
     // @RequiresPermissions("common:bComments")
-    String edit(Long id, Model model)
-    {
+    String edit(Long id, Model model) {
         FileDO sysFile = sysFileService.get(id);
         model.addAttribute("sysFile", sysFile);
         return "common/sysFile/edit";
     }
 
-    /**
-     * 信息
-     */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("common:info")
-    public R info(@PathVariable("id") Long id)
-    {
+    R info(@PathVariable("id") Long id) {
         FileDO sysFile = sysFileService.get(id);
         return R.ok().put("sysFile", sysFile);
     }
 
-    /**
-     * 保存
-     */
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("common:save")
-    public R save(FileDO sysFile)
-    {
-        if (sysFileService.save(sysFile) > 0)
-        {
+    R save(FileDO sysFile) {
+        if (sysFileService.save(sysFile) > 0) {
             return R.ok();
         }
         return R.error();
     }
 
-    /**
-     * 修改
-     */
     @RequestMapping("/update")
     @RequiresPermissions("common:update")
-    public R update(@RequestBody FileDO sysFile)
-    {
+    R update(@RequestBody FileDO sysFile) {
         sysFileService.update(sysFile);
-
         return R.ok();
     }
 
-    /**
-     * 删除
-     */
-    @PostMapping("/remove")
     @ResponseBody
-    // @RequiresPermissions("common:remove")
-    public R remove(Long id, HttpServletRequest request)
-    {
-        String fileName = rtmdoConfig.getUploadPath()
+    @PostMapping("/remove")
+    @RequiresPermissions("common:remove")
+    R remove(Long id, HttpServletRequest request) {
+        String fileName = rweConfig.getUploadPath()
                 + sysFileService.get(id).getUrl().replace("/files/", "");
-        if (sysFileService.remove(id) > 0)
-        {
+        if (sysFileService.remove(id) > 0) {
             boolean b = FileUtils.deleteFile(fileName);
-            if (!b)
-            {
+            if (!b) {
                 return R.error("数据库记录删除成功，文件删除失败");
             }
             return R.ok();
-        }
-        else
-        {
+        } else {
             return R.error();
         }
     }
 
-    /**
-     * 删除
-     */
-    @PostMapping("/batchRemove")
     @ResponseBody
+    @PostMapping("/batchRemove")
     @RequiresPermissions("common:remove")
-    public R remove(@RequestParam("ids[]") Long[] ids)
-    {
+    R remove(@RequestParam("ids[]") Long[] ids) {
         sysFileService.batchRemove(ids);
         return R.ok();
     }
@@ -146,24 +112,19 @@ public class FileController extends BaseController
     @ResponseBody
     @PostMapping("/upload")
     R upload(@RequestParam("file") MultipartFile file,
-            HttpServletRequest request)
-    {
+            HttpServletRequest request) {
         String fileName = file.getOriginalFilename();
         fileName = FileUtils.renameToUUID(fileName);
         FileDO sysFile = new FileDO(FileType.fileType(fileName),
                 "/files/" + fileName, file.getOriginalFilename(), new Date());
-        try
-        {
-            FileUtils.uploadFile(file.getBytes(), rtmdoConfig.getUploadPath(),
+        try {
+            FileUtils.uploadFile(file.getBytes(), rweConfig.getUploadPath(),
                     fileName);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return R.error();
         }
 
-        if (sysFileService.save(sysFile) > 0)
-        {
+        if (sysFileService.save(sysFile) > 0) {
             return R.ok().put("fileName", file.getOriginalFilename()).put("url",
                     sysFile.getUrl());
         }
@@ -171,8 +132,7 @@ public class FileController extends BaseController
     }
 
     @GetMapping("/attachment")
-    String attachment()
-    {
+    String attachment() {
         return "utils/uploader";
     }
 }
