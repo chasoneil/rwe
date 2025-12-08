@@ -46,7 +46,7 @@ function loadData() {
 function exercise() { 
     // 默认练习： 写出中文翻译
     let jpword = wordsArray[index];   
-    setText(jpword, 1);
+    setText(jpword, '1');
 }
 
 function getPracticeType () {

@@ -22,19 +22,23 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <form class="form-horizontal m-t" id="selectForm">
-                    <div class="form-group">
-                        <span class="col-sm-3">
-                            中译日(假名)<input type="radio" name="practiceType" value="2">
-                        </span>
-                        <span class="col-sm-3">
-                            中译日(单词)<input type="radio" name="practiceType" value="3">
-                        </span>
-                        <span class="col-sm-3">
-                            日译中<input type="radio" name="practiceType" value="1">
-                        </span>
-                        <span class="col-sm-3">
-                            随机<input type="radio" name="practiceType" value="4">
-                        </span>
+                    <div class="form-group" style="text-align: center;">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="inlineRadio1" value="2" name="practiceType">
+                            <label for="inlineRadio1"> 中译日(假名) </label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="inlineRadio2" value="1" name="practiceType" checked="checked">
+                            <label for="inlineRadio2"> 日译中 </label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="inlineRadio2" value="3" name="practiceType">
+                            <label for="inlineRadio2"> 中译日(单词) </label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="inlineRadio2" value="4" name="practiceType">
+                            <label for="inlineRadio2">  随机 </label>
+                        </div>
                     </div>
                 </form>
             </div>
