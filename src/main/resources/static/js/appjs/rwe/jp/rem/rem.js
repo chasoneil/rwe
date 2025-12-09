@@ -186,7 +186,8 @@ function setText(jpword, testType) {
 
 function doBlur(testType) {
     if (testType === '1') {
-        $('#word_jia').addClass('blurred-span');
+        // $('#word_jia').addClass('blurred-span');
+        $('#word_cn').addClass('blurred-span');
     } else if (testType === '2') {
         $('#word_cn').addClass('blurred-span');
     } else if (testType === '3') {
