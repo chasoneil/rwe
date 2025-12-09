@@ -81,9 +81,7 @@ function next(passed) {
         },
         success : function(data) {
             if (data.code === 0) {
-                // parent.layer.msg("本课单词已学完");
-                // let index = parent.layer.getFrameIndex(window.name);
-                // parent.layer.close(index);
+                // do nothing
             } else {
                 parent.layer.msg("更新单词数据失败");
             }
@@ -164,6 +162,7 @@ function checkExercise() {
 }
 
 function setText(jpword, testType) {
+
     $('#testType').val(testType);
     $('#word_voice').text(jpword.wordVoice);
     $('#word_type').text(jpword.wordType);
@@ -180,6 +179,18 @@ function setText(jpword, testType) {
         $('#word_jia').text(jpword.word);
         $('#word_cn').html("<div style='display: flex; justify-content: center;'><input id='cn' class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
         $('#word_mean').text(jpword.zhMean);
+    }
+
+    doBlur(testType);
+}
+
+function doBlur(testType) {
+    if (testType === '1') {
+        $('#word_jia').addClass('blurred-span');
+    } else if (testType === '2') {
+        $('#word_cn').addClass('blurred-span');
+    } else if (testType === '3') {
+        $('#word_jia').addClass('blurred-span');
     }
 }
 
