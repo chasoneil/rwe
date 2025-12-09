@@ -10,6 +10,7 @@ public enum WordTypeEnum {
     ADV("adv", "副词"),
     AUX("aux", "助词"),
     LNK("lnk", "连词"),
+    T("t", "叹词"),
     SPE("spe", "专用词");
 
     @Getter

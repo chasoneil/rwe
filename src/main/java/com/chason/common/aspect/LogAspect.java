@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +25,9 @@ import com.chason.system.domain.UserDO;
 
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
+
 	@Autowired
 	LogDao logMapper;
 
@@ -41,7 +44,6 @@ public class LogAspect {
 		long time = System.currentTimeMillis() - beginTime;
 		//异步保存日志
 		saveLog(point, time);
-
 		return result;
 	}
 
@@ -64,14 +66,13 @@ public class LogAspect {
 			String params = JSONUtils.beanToJson(args[0]).substring(0, 4999);
 			sysLog.setParams(params);
 		} catch (Exception e) {
-
+            log.warn("save log error {}", e.getMessage());
 		}
-		// 获取request
+
 		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-		// 设置IP地址
 		sysLog.setIp(IPUtils.getIpAddr(request));
-		// 用户名
 		UserDO currUser = ShiroUtils.getUser();
+
 		if (null == currUser) {
 			if (null != sysLog.getParams()) {
 				sysLog.setUserId(-1L);
@@ -85,10 +86,7 @@ public class LogAspect {
 			sysLog.setUsername(ShiroUtils.getUser().getUsername());
 		}
 		sysLog.setTime((int) time);
-		// 系统当前时间
-		Date date = new Date();
-		sysLog.setGmtCreate(date);
-		// 保存系统日志
+		sysLog.setGmtCreate(new Date());
 		logMapper.save(sysLog);
 	}
 }
