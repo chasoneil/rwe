@@ -6,6 +6,14 @@ let length = 0;
 
 $(function () {
     loadData();
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.code === 'Enter' || event.keyCode === 13) {
+            // 防止表单默认的提交行为
+            event.preventDefault(); 
+            next();
+        }
+    });
 });
 
 function loadData() {
@@ -115,8 +123,7 @@ function checkExercise() {
         let means = jpword.zhMean;
         let res = 0;
         let ans = $('#mean').val();
-        if (ans === 'undefined') {
-            parent.layer.msg("回答错误");
+        if (ans === 'undefined' || ans === '') {
             return;
         }
         means.split(';').forEach(item=>{
@@ -125,7 +132,7 @@ function checkExercise() {
             }
         });
         if (res === 0) {
-            parent.layer.msg("回答错误");
+            parent.layer.alert("回答错误,正确答案:" + means);
             return;
         } else if (res === 1) {
             parent.layer.msg("回答正确");
@@ -135,29 +142,27 @@ function checkExercise() {
     } else if (testType === '2') {
         let jia = jpword.word;
         let ans = $('#jia').val();
-        if (ans === 'undefined') {
-            parent.layer.msg("回答错误");
+        if (ans === 'undefined' || ans === '') {
             return;
         }
         if (jia === ans) {
             parent.layer.msg("回答正确");
             return;
         } else {
-            parent.layer.msg("回答错误");
+            parent.layer.alert("回答错误,正确答案:" + jia);
             return;
         }
     } else if (testType === '3') {
         let cn = jpword.wordCn;
         let ans = $('#cn').val();
-        if (ans === 'undefined') {
-            parent.layer.msg("回答错误");
+        if (ans === 'undefined' || ans === '') {
             return;
         }
         if (cn === ans) {
             parent.layer.msg("回答正确");
             return;
         } else {
-            parent.layer.msg("回答错误");
+            parent.layer.alert("回答错误,正确答案:" + cn);
             return;
         }
     }
