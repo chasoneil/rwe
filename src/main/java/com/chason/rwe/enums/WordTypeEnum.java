@@ -11,6 +11,7 @@ public enum WordTypeEnum {
     AUX("aux", "助词"),
     LNK("lnk", "连词"),
     T("t", "叹词"),
+    Q("q", "疑问词"),
     SPE("spe", "专用词");
 
     @Getter
