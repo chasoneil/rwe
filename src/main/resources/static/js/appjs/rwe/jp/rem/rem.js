@@ -178,7 +178,7 @@ function setText(jpword, testType) {
     $('#testType').val(testType);
     $('#word_voice').text(jpword.wordVoice);
     $('#word_type').text(jpword.wordType);
-    
+
     if (testType === '1') {
         $('#word_jia').text(jpword.word);
         $('#word_cn').text(jpword.wordCn);
@@ -192,7 +192,7 @@ function setText(jpword, testType) {
         $('#word_cn').html("<div style='display: flex; justify-content: center;'><input id='cn' class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
         $('#word_mean').text(jpword.zhMean);
     }
-
+    
     doBlur(testType);
 }
 
@@ -200,17 +200,17 @@ function doBlur(testType) {
     if (testType === '1') {
         $('#word_jia').removeClass('blurred-span');
         $('#word_cn').removeClass('blurred-span');
-        $('#mean').removeClass('blurred-span');
+        $('#word_mean').removeClass('blurred-span');
         $('#mean').focus();
     } else if (testType === '2') {
         $('#word_jia').removeClass('blurred-span');
         $('#word_cn').addClass('blurred-span');
-        $('#mean').removeClass('blurred-span');
+        $('#word_mean').removeClass('blurred-span');
         $('#jia').focus();
     } else if (testType === '3') {
         $('#word_jia').addClass('blurred-span');
         $('#word_cn').removeClass('blurred-span');
-        $('#mean').removeClass('blurred-span');
+        $('#word_mean').removeClass('blurred-span');
         $('#cn').focus(); 
     }
 }
