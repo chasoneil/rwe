@@ -27,20 +27,20 @@
                 <form class="form-horizontal m-t" id="selectForm">
                     <div class="form-group" style="text-align: center;">
                         <div class="radio radio-info radio-inline">
-                            <input type="radio" id="inlineRadio1" value="2" name="practiceType">
+                            <input type="radio" id="inlineRadio1" value="2" name="practiceType" onclick="changePType('2')">
                             <label for="inlineRadio1"> 中译日(假名) </label>
                         </div>
                         <div class="radio radio-info radio-inline">
-                            <input type="radio" id="inlineRadio2" value="1" name="practiceType" checked="checked">
+                            <input type="radio" id="inlineRadio2" value="1" name="practiceType" onclick="changePType('1')" checked="checked">
                             <label for="inlineRadio2"> 日译中 </label>
                         </div>
                         <div class="radio radio-info radio-inline">
-                            <input type="radio" id="inlineRadio2" value="3" name="practiceType">
-                            <label for="inlineRadio2"> 中译日(单词) </label>
+                            <input type="radio" id="inlineRadio3" value="3" name="practiceType" onclick="changePType('3')">
+                            <label for="inlineRadio3"> 中译日(单词) </label>
                         </div>
                         <div class="radio radio-info radio-inline">
-                            <input type="radio" id="inlineRadio2" value="4" name="practiceType">
-                            <label for="inlineRadio2">  随机 </label>
+                            <input type="radio" id="inlineRadio4" value="4" name="practiceType" onclick="changePType('4')">
+                            <label for="inlineRadio4">  随机 </label>
                         </div>
                     </div>
                 </form>

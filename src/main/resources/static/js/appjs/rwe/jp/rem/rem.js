@@ -168,6 +168,11 @@ function checkExercise() {
     }
 }
 
+function changePType(type) {
+    let jpword = wordsArray[index];
+    setText(jpword, type);
+}
+
 function setText(jpword, testType) {
 
     $('#testType').val(testType);
@@ -193,14 +198,19 @@ function setText(jpword, testType) {
 
 function doBlur(testType) {
     if (testType === '1') {
-        //$('#word_jia').addClass('blurred-span');
-        //$('#word_cn').addClass('blurred-span');
+        $('#word_jia').removeClass('blurred-span');
+        $('#word_cn').removeClass('blurred-span');
+        $('#mean').removeClass('blurred-span');
         $('#mean').focus();
     } else if (testType === '2') {
+        $('#word_jia').removeClass('blurred-span');
         $('#word_cn').addClass('blurred-span');
+        $('#mean').removeClass('blurred-span');
         $('#jia').focus();
     } else if (testType === '3') {
         $('#word_jia').addClass('blurred-span');
+        $('#word_cn').removeClass('blurred-span');
+        $('#mean').removeClass('blurred-span');
         $('#cn').focus(); 
     }
 }
