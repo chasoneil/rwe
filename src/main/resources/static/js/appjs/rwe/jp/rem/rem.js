@@ -69,7 +69,7 @@ function getPracticeType () {
 
 function next(passed) {
 
-    if (index + 1 === length) {
+    if (index === length) {
         parent.layer.msg("已经是最后一个单词");
         return;
     }
@@ -194,7 +194,7 @@ function setText(jpword, testType) {
 function doBlur(testType) {
     if (testType === '1') {
         //$('#word_jia').addClass('blurred-span');
-        // $('#word_cn').addClass('blurred-span');
+        //$('#word_cn').addClass('blurred-span');
         $('#mean').focus();
     } else if (testType === '2') {
         $('#word_cn').addClass('blurred-span');

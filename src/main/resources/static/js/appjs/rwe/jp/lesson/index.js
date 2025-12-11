@@ -20,22 +20,24 @@ function load() {
                 pageSize: 10,
                 pageNumber: 1,
                 showColumns: false,
+                sortName : 'lesson',
+                sortOrder: 'asc',
                 sidePagination: "server",
                 queryParams: function (params) {
                     return {
                         limit: params.limit,
                         offset: params.offset,
+                        sort: params.sort,
+                        order: params.order,
                         lesson:$('#searchName').val()
                     };
                 },
                 columns: [
                     {
-                        checkbox: true
-                    },
-                    {
                         field: 'lesson',
                         title: '课程名',
-                        align: 'center'
+                        align: 'center',
+                        sortable : true
                     },
                     {
                         field: 'count',
@@ -47,7 +49,6 @@ function load() {
                         title: '已学习',
                         align : 'center'
                     },
-
                     {
                         field: 'lastLearnTime',
                         title: '上次学习时间',

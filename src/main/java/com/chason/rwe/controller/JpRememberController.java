@@ -40,6 +40,7 @@ public class JpRememberController extends BaseController {
     String index(Model model) {
         Map<String, Object> params = new HashMap<>();
         params.putIfAbsent("userId", getUserId());
+        params.putIfAbsent("sort", "lesson");
         List<JpLessonDO> jpLessonDOS = jpLessonService.list(params);
         model.addAttribute("lessons", jpLessonDOS);
         return PREFIX + "/index";
