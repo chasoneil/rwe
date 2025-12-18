@@ -54,7 +54,8 @@ function loadData() {
 function exercise() { 
     // 默认练习： 写出中文翻译
     let jpword = wordsArray[index];   
-    setText(jpword, '1');
+    let testType = getPracticeType();
+    setText(jpword, testType);
 }
 
 function getPracticeType () {
@@ -100,7 +101,8 @@ function next(passed) {
 
     let testType = $('#testType').val();
     let practiceType = getPracticeType();
-    if (practiceType === 4) {
+
+    if (practiceType === '4') {
         testType = Math.floor(Math.random() * 3) + 1;
     } else {
         testType = practiceType;
@@ -184,12 +186,12 @@ function setText(jpword, testType) {
         $('#word_cn').text(jpword.wordCn);
         $('#word_mean').html("<div style='display: flex; justify-content: center;'><input id='mean' class='form-control' autocomplete='off' type='text' placeholder='请输入中文含义' style='width: 30%;'></div>");
     } else if (testType === '2') {
-        $('#word_jia').html("<div style='display: flex; justify-content: center;'><input id='jia' class='form-control' autocomplete='off' type='text' placeholder='请输入日文假名' style='width: 30%;'></div>");
+        $('#word_jia').html("<div style='display:  flex; justify-content: center;'><input id='jia'  class='form-control' autocomplete='off' type='text' placeholder='请输入日文假名' style='width: 30%;' value=''></div>");
         $('#word_cn').text(jpword.wordCn);
         $('#word_mean').text(jpword.zhMean);
     } else if (testType === '3') {
         $('#word_jia').text(jpword.word);
-        $('#word_cn').html("<div style='display: flex; justify-content: center;'><input id='cn' class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
+        $('#word_cn').html("<div style='display:   flex; justify-content: center;'><input id='cn'   class='form-control' autocomplete='off' type='text' placeholder='请输入日语单词(非假名)' style='width: 30%;'></div>");
         $('#word_mean').text(jpword.zhMean);
     }
     
