@@ -52,7 +52,7 @@ function initSingle(singles) {
         let split = content.split("-");
         let cn = split[0];
         let jp = split[1];
-        setSingle(title, cn, jp, index)
+        setSingle(title, cn, jp, index);
     }
 }
 
@@ -67,7 +67,8 @@ function initDialog(dialogs) {
             let split = content.split("-");
             let cn = split[0];
             let jp = split[1];
-            setDialog(title, cn, jp, index, j);
+           
+            
         }
         setHr();
     }
@@ -120,9 +121,8 @@ function checkSingle(index) {
     let A = $('#' + ansId).val();
 
     // 将获取的内容去掉所有的空格
-    A = removeSpace(A);
-
-    if (Q === A) {
+    Q = removeSpace(Q);
+    if (A === Q) {
         layer.msg('回答正确');
     } else {
         layer.alert('回答错误，正确答案:' + A);
@@ -136,7 +136,7 @@ function checkDialog(i, j) {
     let A = $('#' + ansId).val();
 
     // 将获取的内容去掉所有的空格
-    A = removeSpace(A);
+    Q = removeSpace(Q);
 
     if (Q === A) {
         layer.msg('回答正确');
@@ -146,7 +146,7 @@ function checkDialog(i, j) {
 }
 
 function removeSpace(str) {
-    return str.replace(/\s+/g, '');
+    return str.replace(/\s/g, '');
 }
 
 
