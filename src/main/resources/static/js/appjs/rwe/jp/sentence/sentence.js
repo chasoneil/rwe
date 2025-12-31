@@ -42,8 +42,7 @@ function loadData() {
 }
 
 
-function initSingle(singles) {
-    
+function initSingle(singles) {    
     let title = "";
     for (let index = 0; index < singles.length; index++) {
         let single = singles[index];
@@ -67,18 +66,22 @@ function initDialog(dialogs) {
             let split = content.split("-");
             let cn = split[0];
             let jp = split[1];
-           
-            
+            setDialog(title, cn, jp, index, j);
         }
         setHr();
     }
 }
 
-function setDialog(title ,cn, jp, i, j) {
+function setDialog(title, cn, jp, i, j) {
     let elements = `
-        <h3>${cn}</h3>
-        <p>${title}</p>
-        <div class="input-group" style="display: flex; align-items: center;">
+        <h3>${cn}</h3>`;
+
+        if (j === 0) {
+            elements += `<p>${title}</p>`;
+        }
+        
+        elements += 
+        `<div class="input-group" style="display: flex; align-items: center;">
             <input type="hidden" class="form-control" value="${jp}" id="jpa-${i}-${j}">
             <input type="text" class="form-control" placeholder="请将对话的内容翻译成日语" id="jpu-${i}-${j}">
             <button type="button" class="btn btn-sm btn-success" onclick="checkDialog('${i}','${j}')" style="margin-left:5px;margin-top:3px;">

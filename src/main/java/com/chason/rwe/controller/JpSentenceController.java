@@ -118,6 +118,8 @@ public class JpSentenceController {
                 // 能到这里说明 当前肯定是对话且不为空行
                 cache.add(line);
             }
+            // 最后需要检查一下缓存
+            flushDialog(key, jpSentenceDO);
         } catch (IOException e) {
             log.error("init sentence error : {}", e.getMessage());
             throw new RuntimeException("初始化数据异常");
